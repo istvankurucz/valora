@@ -1,0 +1,104 @@
+import Underlay from "@/src/components/ui/Underlay/Underlay";
+import { BORDER_RADIUS } from "@/src/constants/borderRadius";
+import { SegmentedControlOption } from "@/src/types/uiTypes";
+import { StyleSheet, ViewProps } from "react-native";
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import ThemedText from "../ui/ThemedText";
+import ThemedView from "../ui/ThemedView";
+
+type Props<T> = ViewProps & {
+	value?: T;
+	onValueChange?: (newValue: T) => void;
+	options: SegmentedControlOption<T>[];
+};
+
+const SegmentedControl = <T,>({ value, onValueChange, options, style, ...rest }: Props<T>) => {
+	// #region Constants
+	const valueLabel = options.find((option) => option.value === value)?.label;
+	//#endregion
+
+	// #region Hooks
+	const left = useSharedValue(getLeftValue(value));
+	const animatedSelectedStyle = useAnimatedStyle(() => {
+		return { left: left.value };
+	}, []);
+	//#endregion
+
+	// #region Functions
+	function getLeftValue(value?: T): `${number}%` {
+		const valueIndex = options.findIndex((option) => option.value === value);
+		return `${(valueIndex * 100) / options.length}%`;
+	}
+
+	function handleOptionPress(value: T) {
+		// Animate selected component
+		left.value = withTiming(getLeftValue(value));
+
+		// Run event handler
+		onValueChange?.(value);
+	}
+	//#endregion
+
+	return (
+		<ThemedView shade={100} style={[styles.container, style]} {...rest}>
+			{options.map((option, i) => (
+				<Underlay
+					key={i}
+					style={styles.optionContainer}
+					onPress={() => handleOptionPress(option.value)}
+				>
+					<ThemedView shade={100} style={styles.option}>
+						<ThemedText shade={600}>{option.label}</ThemedText>
+					</ThemedView>
+				</Underlay>
+			))}
+
+			<Animated.View
+				style={[
+					styles.selectedContainer,
+					{
+						width: `${100 / options.length}%`,
+					},
+					animatedSelectedStyle,
+				]}
+			>
+				<ThemedView shade={800} style={styles.selected}>
+					<ThemedText shade={100}>{valueLabel}</ThemedText>
+				</ThemedView>
+			</Animated.View>
+		</ThemedView>
+	);
+};
+
+// Styles
+const styles = StyleSheet.create({
+	container: {
+		flexDirection: "row",
+		borderRadius: BORDER_RADIUS[999],
+	},
+	optionContainer: {
+		flex: 1,
+		borderRadius: BORDER_RADIUS[999],
+		overflow: "hidden",
+	},
+	option: {
+		alignItems: "center",
+		paddingHorizontal: 8,
+		paddingVertical: 8,
+	},
+	selectedContainer: {
+		borderRadius: BORDER_RADIUS[999],
+		overflow: "hidden",
+		position: "absolute",
+		top: 0,
+		bottom: 0,
+		zIndex: 1,
+	},
+	selected: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+});
+
+export default SegmentedControl;

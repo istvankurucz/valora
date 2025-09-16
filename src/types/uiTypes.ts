@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export type FontFamily =
 	| "Poppins_100Thin"
 	| "Poppins_100Thin_Italic"
@@ -17,3 +19,13 @@ export type FontFamily =
 	| "Poppins_800ExtraBold_Italic"
 	| "Poppins_900Black"
 	| "Poppins_900Black_Italic";
+
+export type SelectOption<T = string> = {
+	value: T;
+	label: ReactNode;
+};
+
+export type SegmentedControlOption<T = string> = {
+	value: T;
+	label: string;
+};

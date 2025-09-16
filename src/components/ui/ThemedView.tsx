@@ -2,12 +2,18 @@ import { ColorShade, ColorVariant } from "@/src/constants/colors/colors";
 import useThemeColor from "@/src/hooks/useThemeColor";
 import { View, ViewProps } from "react-native";
 
-type Props = ViewProps & {
+export type ThemedViewProps = ViewProps & {
 	variant?: ColorVariant;
 	shade?: ColorShade;
 };
 
-const ThemedView = ({ variant = "neutral", shade = 200, style, children, ...rest }: Props) => {
+const ThemedView = ({
+	variant = "neutral",
+	shade = 200,
+	style,
+	children,
+	...rest
+}: ThemedViewProps) => {
 	// #region Hooks
 	const backgroundColor = useThemeColor({ variant, shade });
 	//#endregion

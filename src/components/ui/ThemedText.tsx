@@ -3,7 +3,7 @@ import useThemeColor from "@/src/hooks/useThemeColor";
 import { FontFamily } from "@/src/types/uiTypes";
 import { Text, TextProps } from "react-native";
 
-type Props = TextProps & {
+export type ThemedTextProps = TextProps & {
 	fontFamily?: FontFamily;
 	variant?: ColorVariant;
 	shade?: ColorShade;
@@ -16,7 +16,7 @@ const ThemedText = ({
 	style,
 	children,
 	...rest
-}: Props) => {
+}: ThemedTextProps) => {
 	// #region Hooks
 	const color = useThemeColor({ variant, shade });
 	//#endregion
