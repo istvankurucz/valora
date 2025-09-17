@@ -1,7 +1,8 @@
 import { TRANSACTION_TYPE_OPTIONS } from "@/src/features/transaction/constants/transactionTypeOptions";
 import { relations } from "drizzle-orm";
 import { sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { id } from "../schemaHelpers";
+import { id, UUID_LENGTH } from "../schemaHelpers";
+import { IconTable } from "./Icon";
 import { TransactionTable } from "./Transaction";
 
 // Schema
@@ -9,14 +10,18 @@ export const TransactionCategoryTable = sqliteTable("transaction_category", {
 	id,
 	type: text("type", { enum: TRANSACTION_TYPE_OPTIONS }).notNull(),
 	name: text("name").notNull(),
-	icon: text("icon").notNull(),
-	foregroundColor: text("foreground_color").notNull(),
-	backgroundColor: text("background_color").notNull(),
+	iconId: text("icon_id", { length: UUID_LENGTH })
+		.references(() => IconTable.id)
+		.notNull(),
 });
 
 // Relations
-export const TransactionCategoryRelations = relations(TransactionCategoryTable, ({ many }) => {
+export const TransactionCategoryRelations = relations(TransactionCategoryTable, ({ one, many }) => {
 	return {
+		icon: one(IconTable, {
+			fields: [TransactionCategoryTable.iconId],
+			references: [IconTable.id],
+		}),
 		transactions: many(TransactionTable),
 	};
 });

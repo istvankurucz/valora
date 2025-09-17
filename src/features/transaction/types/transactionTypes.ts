@@ -1,6 +1,10 @@
 import { TransactionTable } from "@/src/db/schemas/Transaction";
+import { AccountData } from "../../account/types/accountTypes";
+import { GroupData } from "../../group/types/groupTypes";
+import { TransactionCategory } from "../../transactionCategory/types/transactionCategoryTypes";
+import { UserData } from "../../user/types/userTypes";
 
-// #region DB types
+// #region Transaction DB types
 export type TransactionSelect = typeof TransactionTable.$inferSelect;
 export type TransactionInsert = typeof TransactionTable.$inferInsert;
 export type TransactionUpdate = Partial<
@@ -19,4 +23,16 @@ export type TransactionUpdate = Partial<
 		| "groupId"
 	>
 >;
+//#endregion
+
+// #region Transaction
+export type Transaction = Omit<
+	TransactionSelect,
+	"categoryId" | "userId" | "accountId" | "groupId"
+> & {
+	category: TransactionCategory;
+	user: UserData;
+	account: AccountData | null;
+	group: GroupData | null;
+};
 //#endregion

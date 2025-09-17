@@ -40,7 +40,7 @@ const Home = () => {
 	//#endregion
 
 	return (
-		<Screen>
+		<Screen hasHeader={false}>
 			<Screen.ScrollView>
 				<Text>Home</Text>
 

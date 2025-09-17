@@ -11,7 +11,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-na
 import ThemedText from "../../ui/ThemedText";
 import ThemedView from "../../ui/ThemedView";
 import IconUnderlay from "../../ui/Underlay/IconUnderlay";
-import Underlay from "../../ui/underlay/Underlay";
+import Underlay from "../../ui/Underlay/Underlay";
 
 export type SelectProps<T> = ViewProps & {
 	variant?: ColorVariant;

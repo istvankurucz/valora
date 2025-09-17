@@ -6,7 +6,7 @@ import CreateAccountWelcome from "../features/user/components/layout/CreateAccou
 
 const CreateAccount = () => {
 	return (
-		<Screen hasTabBar={false}>
+		<Screen hasHeader={false} hasTabBar={false}>
 			<Screen.KeyboardAwareScrollView contentContainerStyle={styles.container}>
 				<CreateAccountWelcome />
 

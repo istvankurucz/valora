@@ -3,6 +3,8 @@ import { ColorVariant } from "@/src/constants/colors/colors";
 import useInputColors from "@/src/hooks/useInputColors";
 import useThemeColor from "@/src/hooks/useThemeColor";
 import useUpdateInputColors from "@/src/hooks/useUpdateInputColors";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import Feather from "@expo/vector-icons/Feather";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { forwardRef, useState } from "react";
 import { FocusEvent, StyleSheet, TextInput, TextInputProps, View } from "react-native";
@@ -11,12 +13,14 @@ import IconUnderlay from "../../ui/Underlay/IconUnderlay";
 
 export type InputProps = TextInputProps & {
 	variant?: ColorVariant;
+	search?: boolean;
 };
 
 const Input = forwardRef<TextInput, InputProps>(
 	(
 		{
 			variant = "neutral",
+			search,
 			secureTextEntry,
 			placeholderTextColor,
 			style,
@@ -35,6 +39,8 @@ const Input = forwardRef<TextInput, InputProps>(
 		const placeholderColor = useThemeColor({ variant: "neutral", shade: 600 });
 		const color = useThemeColor({ variant: "neutral", shade: 800 });
 		const iconColor = useThemeColor({ variant: "neutral", shade: 600 });
+		const clearIconColor = useThemeColor({ variant: "neutral", shade: 600 });
+		const clearIconBackground = useThemeColor({ variant: "neutral", shade: 300 });
 
 		const defaultBorderWidth = 2;
 		const focusedBorderWidth = 3;
@@ -74,10 +80,16 @@ const Input = forwardRef<TextInput, InputProps>(
 		function handleIconPress() {
 			setSecure((secure) => !secure);
 		}
+
+		function handleClearPress() {
+			rest.onChangeText?.("");
+		}
 		//#endregion
 
 		return (
 			<Animated.View style={[styles.container, animatedViewStyle, { backgroundColor }]}>
+				{search && <Feather name="search" size={20} color={iconColor} />}
+
 				<TextInput
 					secureTextEntry={secureTextEntry ? secure : undefined}
 					placeholderTextColor={placeholderTextColor ?? placeholderColor}
@@ -93,6 +105,15 @@ const Input = forwardRef<TextInput, InputProps>(
 							{secure && <Ionicons name="eye" size={20} color={iconColor} />}
 							{!secure && <Ionicons name="eye-off" size={20} color={iconColor} />}
 						</View>
+					</IconUnderlay>
+				)}
+
+				{search && (
+					<IconUnderlay
+						style={[styles.clear, { backgroundColor: clearIconBackground }]}
+						onPress={handleClearPress}
+					>
+						<AntDesign name="close" size={10} color={clearIconColor} />
 					</IconUnderlay>
 				)}
 			</Animated.View>
@@ -121,6 +142,9 @@ const styles = StyleSheet.create({
 	},
 	icon: {
 		marginRight: -8,
+	},
+	clear: {
+		padding: 8,
 	},
 });
 

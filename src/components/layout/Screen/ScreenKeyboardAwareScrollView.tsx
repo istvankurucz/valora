@@ -15,6 +15,7 @@ const ScreenKeyboardAwareScrollView = ({
 	return (
 		<KeyboardAwareScrollView
 			keyboardShouldPersistTaps={keyboardShouldPersistTaps ?? "handled"}
+			bottomOffset={48}
 			contentContainerStyle={[styles.container, contentContainerStyle]}
 			{...rest}
 		>

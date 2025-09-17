@@ -8,6 +8,20 @@
       "when": 1757929822638,
       "tag": "0000_fair_pride",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1758096669542,
+      "tag": "0001_modern_frank_castle",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1758117457235,
+      "tag": "0002_new_inertia",
+      "breakpoints": true
     }
   ]
 }

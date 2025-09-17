@@ -1,6 +1,5 @@
-import ThemedView from "@/src/components/ui/ThemedView";
-import { BORDER_RADIUS } from "@/src/constants/borderRadius";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import SpecialTabBarIcon from "@/src/features/navigation/components/ui/SpecialTabBarIcon";
+import TabBarIcon from "@/src/features/navigation/components/ui/TabBarIcon";
 import { Tabs } from "expo-router";
 import { StyleSheet } from "react-native";
 
@@ -17,57 +16,31 @@ const TabsLayout = () => {
 			<Tabs.Screen
 				name="index"
 				options={{
-					tabBarIcon: ({ focused, color, size }) => (
-						<Ionicons name={`home${focused ? "" : "-outline"}`} color={color} size={size} />
-					),
+					tabBarIcon: ({ focused }) => <TabBarIcon name="home" focused={focused} />,
 				}}
 			/>
 			<Tabs.Screen
 				name="accounts"
 				options={{
-					tabBarIcon: ({ focused, color, size }) => (
-						<Ionicons name={`wallet${focused ? "" : "-outline"}`} color={color} size={size} />
-					),
+					tabBarIcon: ({ focused }) => <TabBarIcon name="wallet" focused={focused} />,
 				}}
 			/>
 			<Tabs.Screen
 				name="create-transaction"
 				options={{
-					tabBarIcon: ({ focused, size }) => (
-						<ThemedView
-							variant="neutral"
-							shade={focused ? 900 : 800}
-							style={{
-								width: 48,
-								height: 48,
-								justifyContent: "center",
-								alignItems: "center",
-								borderRadius: BORDER_RADIUS[500],
-							}}
-						>
-							<Ionicons name={"add"} color={"white"} size={size} />
-						</ThemedView>
-					),
+					tabBarIcon: ({ focused }) => <SpecialTabBarIcon focused={focused} />,
 				}}
 			/>
 			<Tabs.Screen
 				name="groups"
 				options={{
-					tabBarIcon: ({ focused, color, size }) => (
-						<Ionicons name={`people${focused ? "" : "-outline"}`} color={color} size={size} />
-					),
+					tabBarIcon: ({ focused }) => <TabBarIcon name="people" focused={focused} />,
 				}}
 			/>
 			<Tabs.Screen
 				name="settings"
 				options={{
-					tabBarIcon: ({ focused, color, size }) => (
-						<Ionicons
-							name={`settings${focused ? "" : "-outline"}`}
-							color={color}
-							size={size}
-						/>
-					),
+					tabBarIcon: ({ focused }) => <TabBarIcon name="settings" focused={focused} />,
 				}}
 			/>
 		</Tabs>
@@ -77,7 +50,8 @@ const TabsLayout = () => {
 // Styles
 const styles = StyleSheet.create({
 	tabBar: {
-		marginBottom: 8,
+		paddingTop: 8,
+		marginBottom: 16,
 	},
 });
 

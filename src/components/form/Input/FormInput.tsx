@@ -1,7 +1,8 @@
 import { useFormValidation } from "@/src/features/form/contexts/FormValidationContext";
 import { forwardRef } from "react";
-import { StyleSheet, TextInput, View } from "react-native";
+import { TextInput } from "react-native";
 import FieldError from "../FieldError";
+import InputContainer from "../InputContainer";
 import Label from "../Label";
 import Input, { InputProps } from "./Input";
 
@@ -20,29 +21,15 @@ const FormInput = forwardRef<TextInput, Props>(({ field, label, variant, style, 
 	//#endregion
 
 	return (
-		<View style={styles.container}>
-			{label && (
-				<Label error={error} style={styles.label}>
-					{label}
-				</Label>
-			)}
+		<InputContainer>
+			{label && <Label error={error}>{label}</Label>}
 			<Input variant={error ? "danger" : variant} {...rest} ref={ref} />
 			<FieldError>{error?.message ?? ""}</FieldError>
-		</View>
+		</InputContainer>
 	);
 });
 
 // Display name
 FormInput.displayName = "FormInput";
-
-// Styles
-const styles = StyleSheet.create({
-	container: {
-		gap: 4,
-	},
-	label: {
-		marginBottom: -2,
-	},
-});
 
 export default FormInput;

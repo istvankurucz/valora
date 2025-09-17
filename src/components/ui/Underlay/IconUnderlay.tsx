@@ -2,9 +2,9 @@ import { BORDER_RADIUS } from "@/src/constants/borderRadius";
 import { StyleSheet } from "react-native";
 import Underlay, { UnderlayProps } from "./Underlay";
 
-type Props = UnderlayProps;
+export type IconUnderlayProps = UnderlayProps;
 
-const IconUnderlay = ({ style, children, ...rest }: Props) => {
+const IconUnderlay = ({ style, children, ...rest }: IconUnderlayProps) => {
 	return (
 		<Underlay style={[styles.underlay, style]} {...rest}>
 			{children}

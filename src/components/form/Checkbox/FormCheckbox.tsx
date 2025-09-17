@@ -1,6 +1,7 @@
 import { useFormValidation } from "@/src/features/form/contexts/FormValidationContext";
 import { Pressable, StyleSheet, View } from "react-native";
 import FieldError from "../FieldError";
+import InputContainer from "../InputContainer";
 import Label from "../Label";
 import Checkbox, { CheckboxProps } from "./Checkbox";
 
@@ -25,27 +26,25 @@ const FormCheckbox = ({ variant, field, label, ...rest }: Props) => {
 	//#endregion
 
 	return (
-		<Pressable style={styles.container} onPress={handlePress}>
-			<View style={styles.main}>
-				<Checkbox variant={error ? "danger" : variant} {...rest} />
-				{label && (
-					<Label error={error} fontFamily="Poppins_400Regular">
-						{label}
-					</Label>
-				)}
-			</View>
+		<Pressable onPress={handlePress}>
+			<InputContainer>
+				<View style={styles.main}>
+					<Checkbox variant={error ? "danger" : variant} {...rest} />
+					{label && (
+						<Label error={error} fontFamily="Poppins_400Regular">
+							{label}
+						</Label>
+					)}
+				</View>
 
-			<FieldError>{error?.message ?? ""}</FieldError>
+				<FieldError>{error?.message ?? ""}</FieldError>
+			</InputContainer>
 		</Pressable>
 	);
 };
 
 // Styles
 const styles = StyleSheet.create({
-	container: {
-		alignSelf: "flex-start",
-		gap: 4,
-	},
 	main: {
 		flexDirection: "row",
 		gap: 8,
