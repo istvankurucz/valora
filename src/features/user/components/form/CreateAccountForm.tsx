@@ -1,7 +1,10 @@
 import FormCheckbox from "@/src/components/form/Checkbox/FormCheckbox";
 import FormInput from "@/src/components/form/Input/FormInput";
 import InputsContainer from "@/src/components/form/InputsContainer";
+import FormSelect from "@/src/components/form/Select/FormSelect";
 import Button from "@/src/components/ui/Button";
+import ThemedText from "@/src/components/ui/ThemedText";
+import { CURRENCIES } from "@/src/constants/currencies";
 import { DEFAULT_ACCOUNT_DATA } from "@/src/features/account/constants/defaultAccountData";
 import useCreateAccount from "@/src/features/account/hooks/useCreateAccount";
 import { useFormValidation } from "@/src/features/form/contexts/FormValidationContext";
@@ -10,6 +13,7 @@ import useCreateIcon from "@/src/features/icon/hooks/useCreateIcon";
 import { DEFAULT_TRANSACTION_CATEGORIES } from "@/src/features/transactionCategory/constants/defaultTransactionCategories";
 import useCreateTransactionCategory from "@/src/features/transactionCategory/hooks/useCreateTransactionCategory";
 import { useRouter } from "expo-router";
+import { useMemo } from "react";
 import { View } from "react-native";
 import { CREATE_ACCOUNT_FORM_DATA } from "../../constants/formData";
 import useCreateAdminUser from "../../hooks/useCreateAdminUser";
@@ -28,6 +32,15 @@ const CreateAccountForm = () => {
 	//#endregion
 
 	// #region Constants
+	const currencyOptions = useMemo(
+		() =>
+			CURRENCIES.map((currency) => ({
+				value: currency.code,
+				label: <ThemedText>{currency.code}</ThemedText>,
+			})),
+		[]
+	);
+
 	const loading =
 		loadingCreateAdmin ||
 		loadingCreateIcon ||
@@ -42,14 +55,14 @@ const CreateAccountForm = () => {
 
 		try {
 			// Validation
-			const { name } = validateCreateAccountData(data);
+			const { name, currency } = validateCreateAccountData(data);
 
 			// Create admin user
-			await createAdminUser({ name });
+			await createAdminUser({ name, currency });
 
 			// Create default account
 			const icon = await createIcon(DEFAULT_ACCOUNT_DATA.icon);
-			await createAccount({ name: DEFAULT_ACCOUNT_DATA.name, iconId: icon.id });
+			await createAccount({ name: DEFAULT_ACCOUNT_DATA.name, default: true, iconId: icon.id });
 
 			// Create default transaction categories
 			DEFAULT_TRANSACTION_CATEGORIES.forEach(async (category) => {
@@ -81,6 +94,13 @@ const CreateAccountForm = () => {
 					placeholder="Name"
 					value={data.name}
 					onChangeText={(name) => updateData({ name })}
+				/>
+				<FormSelect
+					field="currency"
+					label="Curency"
+					options={currencyOptions}
+					value={data.currency}
+					onValueChange={(currency) => updateData({ currency })}
 				/>
 				<FormCheckbox
 					field="policy"

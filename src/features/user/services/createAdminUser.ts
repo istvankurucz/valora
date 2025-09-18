@@ -1,9 +1,9 @@
 import { db } from "@/src/db/db";
 import { UserTable } from "@/src/db/schemas/User";
 import AppError from "../../error/classes/AppError";
-import { AdminUserInsert, UserSelect } from "../types/userTypes";
+import { AdminUser, AdminUserInsert } from "../types/userTypes";
 
-export default async function createAdminUser(data: AdminUserInsert): Promise<UserSelect> {
+export default async function createAdminUser(data: AdminUserInsert): Promise<AdminUser> {
 	// Create admin
 	const [admin] = await db
 		.insert(UserTable)
@@ -11,8 +11,8 @@ export default async function createAdminUser(data: AdminUserInsert): Promise<Us
 		.returning();
 
 	// Check admin
-	if (!admin) throw new AppError({ message: "Error creating account." });
+	if (!admin || !admin.currency) throw new AppError({ message: "Error creating account." });
 
 	// Return admin
-	return admin;
+	return admin as AdminUser;
 }

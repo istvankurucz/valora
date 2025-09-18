@@ -9,6 +9,7 @@ export const UserTable = sqliteTable("user", {
 	id,
 	name: text("name").notNull(),
 	admin: integer("admin", { mode: "boolean" }).notNull(),
+	currency: text("currency", { length: 3 }),
 	updatedAt,
 	createdAt,
 });

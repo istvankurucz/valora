@@ -6,6 +6,7 @@ export default async function getUser(id: string): Promise<UserData> {
 	// Get user
 	const user = await db.query.UserTable.findFirst({
 		columns: {
+			currency: false,
 			updatedAt: false,
 			createdAt: false,
 		},

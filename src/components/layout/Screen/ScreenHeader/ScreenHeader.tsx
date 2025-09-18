@@ -3,6 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import ThemedView, { ThemedViewProps } from "../../../ui/ThemedView";
 import ScreenHeaderBack from "./ScreenHeaderBack";
 import ScreenHeaderIconUnderlay from "./ScreenHeaderIconUnderlay";
+import ScreenHeaderNew from "./ScreenHeaderNew";
 import ScreenHeaderOptions from "./ScreenHeaderOptions";
 import ScreenHeaderPlaceholder from "./ScreenHeaderPlaceholder";
 import ScreenHeaderTitle from "./ScreenHeaderTitle";
@@ -48,6 +49,7 @@ ScreenHeader.Title = ScreenHeaderTitle;
 ScreenHeader.IconUnderlay = ScreenHeaderIconUnderlay;
 ScreenHeader.Back = ScreenHeaderBack;
 ScreenHeader.Options = ScreenHeaderOptions;
+ScreenHeader.New = ScreenHeaderNew;
 ScreenHeader.Placeholder = ScreenHeaderPlaceholder;
 
 export default ScreenHeader;

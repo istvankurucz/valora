@@ -22,6 +22,27 @@
       "when": 1758117457235,
       "tag": "0002_new_inertia",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1758176122291,
+      "tag": "0003_flowery_newton_destine",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1758223513820,
+      "tag": "0004_ancient_azazel",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1758223620280,
+      "tag": "0005_ambitious_spitfire",
+      "breakpoints": true
     }
   ]
 }

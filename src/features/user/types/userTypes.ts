@@ -3,10 +3,19 @@ import { UserTable } from "@/src/db/schemas/User";
 // #region User DB types
 export type UserSelect = typeof UserTable.$inferSelect;
 export type UserInsert = typeof UserTable.$inferInsert;
-export type AdminUserInsert = Omit<UserInsert, "admin">;
 export type UserUpdate = Partial<Pick<UserSelect, "name">>;
 //#endregion
 
+// #region Admin
+export type AdminUser = Omit<UserSelect, "currency"> & {
+	currency: string;
+};
+
+export type AdminUserInsert = Omit<UserInsert, "admin" | "currency"> & {
+	currency: string;
+};
+//#endregion
+
 // #region User data
-export type UserData = Omit<UserSelect, "updatedAt" | "createdAt">;
+export type UserData = Omit<UserSelect, "currency" | "updatedAt" | "createdAt">;
 //#endregion

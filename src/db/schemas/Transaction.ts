@@ -19,7 +19,6 @@ export const TransactionTable = sqliteTable("transaction", {
 		.notNull(),
 	timestamp: text("timestamp", { length: ISO_DATE_LENGTH }).notNull(),
 	amount: real("amount").notNull(),
-	currency: text("currency", { length: 3 }).notNull(),
 	recurring: text("recurring", { enum: TRANSACTION_RECURRING_OPTIONS }),
 	accountId: text("account_id", { length: UUID_LENGTH }).references(() => AccountTable.id),
 	userId: text("user_id", { length: UUID_LENGTH })

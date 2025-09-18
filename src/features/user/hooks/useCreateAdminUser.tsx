@@ -1,10 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useError } from "../../error/contexts/ErrorContext";
 import createAdminUser from "../services/createAdminUser";
-import { UserSelect } from "../types/userTypes";
+import { AdminUser } from "../types/userTypes";
 
 type CreateAdminUserVariables = {
 	name: string;
+	currency: string;
 };
 
 const useCreateAdminUser = () => {
@@ -14,7 +15,7 @@ const useCreateAdminUser = () => {
 	//#endregion
 
 	//#region Mutation
-	const { mutateAsync, isPending } = useMutation<UserSelect, unknown, CreateAdminUserVariables>({
+	const { mutateAsync, isPending } = useMutation<AdminUser, unknown, CreateAdminUserVariables>({
 		mutationFn: createAdminUser,
 		onSuccess: (admin) => {
 			// Update admin user query

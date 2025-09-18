@@ -20,6 +20,7 @@ const NewAccountPreview = () => {
 			foregroundColor: data.foregroundColor,
 			backgroundColor: data.backgroundColor,
 		},
+		default: false,
 		transactions: [],
 		updatedAt: new Date().toISOString(),
 		createdAt: new Date().toISOString(),

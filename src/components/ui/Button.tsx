@@ -43,8 +43,13 @@ const Button = ({
 	const borderColor = useSharedValue(
 		outlined ? buttonColors.backgroundColor.default : "transparent"
 	);
+	const scale = useSharedValue(1);
 	const buttonAnimatedStyle = useAnimatedStyle(() => {
-		return { backgroundColor: backgroundColor.value, borderColor: borderColor.value };
+		return {
+			backgroundColor: backgroundColor.value,
+			borderColor: borderColor.value,
+			transform: [{ scale: scale.value }],
+		};
 	}, []);
 	const buttonTitleAnimatedStyle = useAnimatedStyle(() => {
 		return { color: titleColor.value };
@@ -56,6 +61,7 @@ const Button = ({
 		// Set animated properties
 		backgroundColor.value = withTiming(buttonColors.backgroundColor.active);
 		borderColor.value = withTiming(buttonColors.backgroundColor.active);
+		scale.value = withTiming(0.95);
 		if (outlined) titleColor.value = withTiming(buttonColors.titleColor.default);
 
 		// Run event handler
@@ -65,6 +71,7 @@ const Button = ({
 	function handlePressOut(e: GestureResponderEvent) {
 		// Set animated properties
 		borderColor.value = withTiming(buttonColors.backgroundColor.default);
+		scale.value = withTiming(1);
 		if (outlined) {
 			titleColor.value = withTiming(buttonColors.backgroundColor.default);
 			backgroundColor.value = withTiming("transparent");

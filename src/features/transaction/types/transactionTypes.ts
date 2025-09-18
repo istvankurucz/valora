@@ -7,22 +7,7 @@ import { UserData } from "../../user/types/userTypes";
 // #region Transaction DB types
 export type TransactionSelect = typeof TransactionTable.$inferSelect;
 export type TransactionInsert = typeof TransactionTable.$inferInsert;
-export type TransactionUpdate = Partial<
-	Pick<
-		TransactionSelect,
-		| "type"
-		| "label"
-		| "note"
-		| "categoryId"
-		| "timestamp"
-		| "amount"
-		| "currency"
-		| "recurring"
-		| "accountId"
-		| "userId"
-		| "groupId"
-	>
->;
+export type TransactionUpdate = Partial<Omit<TransactionSelect, "id">>;
 //#endregion
 
 // #region Transaction

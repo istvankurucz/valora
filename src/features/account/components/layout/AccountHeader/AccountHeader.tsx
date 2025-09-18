@@ -1,28 +1,39 @@
 import Screen from "@/src/components/layout/Screen/Screen";
 import { ScreenHeaderProps } from "@/src/components/layout/Screen/ScreenHeader/ScreenHeader";
-import { usePathname } from "expo-router";
-import React from "react";
-import AccountHeaderNew from "./AccountHeaderNew";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useLocalSearchParams, usePathname } from "expo-router";
+import { RefObject } from "react";
 
 type Props = ScreenHeaderProps & {
 	title?: string;
+	mainModalRef: RefObject<BottomSheetModal | null>;
 };
 
-const AccountHeader = ({ title, ...rest }: Props) => {
+const AccountHeader = ({ title, mainModalRef, ...rest }: Props) => {
 	// #region Hooks
 	const pathname = usePathname();
+	const { accountId } = useLocalSearchParams<{ accountId?: string }>();
 	//#endregion
 
 	// #region Constants
-	const showBackButton = pathname !== "/accounts";
-	const showNewAccountButton = pathname === "/accounts";
+	const showOptionsButton = pathname === `/accounts/${accountId}`;
+	//#endregion
+
+	// #region Functions
+	function showMainModal() {
+		mainModalRef.current?.present();
+	}
 	//#endregion
 
 	return (
 		<Screen.Header {...rest}>
-			{showBackButton ? <Screen.Header.Back /> : <Screen.Header.Placeholder />}
+			<Screen.Header.Back />
 			<Screen.Header.Title>{title}</Screen.Header.Title>
-			{showNewAccountButton ? <AccountHeaderNew /> : <Screen.Header.Placeholder />}
+			{showOptionsButton ? (
+				<Screen.Header.Options onPress={showMainModal} />
+			) : (
+				<Screen.Header.Placeholder />
+			)}
 		</Screen.Header>
 	);
 };

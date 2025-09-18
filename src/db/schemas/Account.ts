@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createdAt, id, updatedAt, UUID_LENGTH } from "../schemaHelpers";
 import { IconTable } from "./Icon";
 import { TransactionTable } from "./Transaction";
@@ -11,6 +11,7 @@ export const AccountTable = sqliteTable("account", {
 	iconId: text("icon_id", { length: UUID_LENGTH })
 		.references(() => IconTable.id)
 		.notNull(),
+	default: integer("default", { mode: "boolean" }).notNull(),
 	updatedAt,
 	createdAt,
 });

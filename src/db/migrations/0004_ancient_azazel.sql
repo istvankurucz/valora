@@ -1,0 +1,1 @@
+ALTER TABLE `group_user` ADD `added_at` text(24);

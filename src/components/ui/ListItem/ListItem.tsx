@@ -1,6 +1,7 @@
 import { BORDER_RADIUS } from "@/src/constants/borderRadius";
 import useThemeColor from "@/src/hooks/useThemeColor";
-import { StyleSheet } from "react-native";
+import { GestureResponderEvent, StyleSheet } from "react-native";
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import ThemedView from "../ThemedView";
 import Underlay, { UnderlayProps } from "../Underlay/Underlay";
 import ListItemIcon from "./ListItemIcon";
@@ -11,21 +12,54 @@ import ListItemMore from "./ListItemMore";
 
 export type ListItemProps = UnderlayProps;
 
-const ListItem = ({ underlayColor, style, children, ...rest }: ListItemProps) => {
+const ListItem = ({
+	underlayColor,
+	style,
+	onPressIn,
+	onPressOut,
+	children,
+	...rest
+}: ListItemProps) => {
 	// #region Hooks
 	const defaultUnderlayColor = useThemeColor({ variant: "neutral", shade: 300 });
+
+	const scale = useSharedValue(1);
+	const containerAnimatedStyle = useAnimatedStyle(() => {
+		return { transform: [{ scale: scale.value }] };
+	}, []);
+	//#endregion
+
+	// #region Functions
+	function handlePressIn(e: GestureResponderEvent) {
+		// Set animated value
+		scale.value = withTiming(0.95);
+
+		// Run event handler
+		onPressIn?.(e);
+	}
+
+	function handlePressOut(e: GestureResponderEvent) {
+		// Set animated value
+		scale.value = withTiming(1);
+
+		// Run event handler
+		onPressOut?.(e);
+	}
 	//#endregion
 
 	return (
-		<Underlay
-			underlayColor={underlayColor ?? defaultUnderlayColor}
-			style={styles.container}
-			{...rest}
-		>
-			<ThemedView shade={100} style={[styles.inner, style]}>
-				{children}
-			</ThemedView>
-		</Underlay>
+		<Animated.View style={[styles.container, containerAnimatedStyle]}>
+			<Underlay
+				underlayColor={underlayColor ?? defaultUnderlayColor}
+				onPressIn={handlePressIn}
+				onPressOut={handlePressOut}
+				{...rest}
+			>
+				<ThemedView shade={100} style={[styles.inner, style]}>
+					{children}
+				</ThemedView>
+			</Underlay>
+		</Animated.View>
 	);
 };
 

@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
 import { primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { UUID_LENGTH } from "../schemaHelpers";
+import { ISO_DATE_LENGTH, UUID_LENGTH } from "../schemaHelpers";
 import { GroupTable } from "./Group";
 import { UserTable } from "./User";
 
@@ -14,6 +14,9 @@ export const GroupUserTable = sqliteTable(
 		userId: text("user_id", { length: UUID_LENGTH })
 			.references(() => UserTable.id, { onDelete: "cascade" })
 			.notNull(),
+		addedAt: text("added_at", { length: ISO_DATE_LENGTH })
+			.notNull()
+			.$default(() => new Date().toISOString()),
 	},
 	(table) => [primaryKey({ columns: [table.groupId, table.userId] })]
 );

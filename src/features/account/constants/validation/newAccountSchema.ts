@@ -13,5 +13,6 @@ export const newAccountSchema = z.object({
 		.trim()
 		.nonempty("Background color missing.")
 		.length(9, "Invalid hex color value."),
+	default: z.boolean(),
 });
 export type NewAccountData = z.infer<typeof newAccountSchema>;

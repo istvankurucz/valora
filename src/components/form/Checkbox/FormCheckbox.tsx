@@ -26,7 +26,7 @@ const FormCheckbox = ({ variant, field, label, ...rest }: Props) => {
 	//#endregion
 
 	return (
-		<Pressable onPress={handlePress}>
+		<Pressable disabled={rest.disabled} onPress={handlePress}>
 			<InputContainer>
 				<View style={styles.main}>
 					<Checkbox variant={error ? "danger" : variant} {...rest} />

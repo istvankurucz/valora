@@ -12,6 +12,7 @@ export default async function getAccounts(): Promise<Account[]> {
 		.select({
 			id: AccountTable.id,
 			name: AccountTable.name,
+			default: AccountTable.default,
 			updatedAt: AccountTable.updatedAt,
 			createdAt: AccountTable.createdAt,
 			icon: ICON_COLUMNS,

@@ -5,7 +5,9 @@ import { Transaction } from "../../transaction/types/transactionTypes";
 // #region Account DB types
 export type AccountSelect = typeof AccountTable.$inferSelect;
 export type AccountInsert = typeof AccountTable.$inferInsert;
-export type AccountUpdate = Partial<Pick<AccountSelect, "name">>;
+export type AccountUpdate = Partial<
+	Omit<AccountSelect, "id" | "iconId" | "updatedAt" | "createdAt">
+>;
 //#endregion
 
 // #region Account data

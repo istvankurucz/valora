@@ -30,6 +30,7 @@ const IconInput = ({ value, onIconChange, iconColor, backgroundColor }: IconInpu
 
 	// #region Hooks
 	const defaultIconColor = useThemeColor({ variant: "neutral", shade: 800 });
+	const selectedIconBackgroundColor = useThemeColor({ variant: "neutral", shade: 400 });
 	const defaultBackgroundColor = useThemeColor({ variant: "neutral", shade: 200 });
 
 	useEffect(() => {
@@ -93,7 +94,15 @@ const IconInput = ({ value, onIconChange, iconColor, backgroundColor }: IconInpu
 						data={filteredIcons}
 						keyExtractor={(icon) => icon}
 						renderItem={({ item }) => (
-							<Underlay style={styles.option} onPress={() => handleOptionPress(item)}>
+							<Underlay
+								style={[
+									styles.option,
+									item === value
+										? { backgroundColor: selectedIconBackgroundColor }
+										: undefined,
+								]}
+								onPress={() => handleOptionPress(item)}
+							>
 								<Ionicons name={item as any} size={32} color={iconColor} />
 							</Underlay>
 						)}

@@ -12,6 +12,7 @@ export default async function getAccountData(id: string): Promise<AccountData> {
 		.select({
 			id: AccountTable.id,
 			name: AccountTable.name,
+			default: AccountTable.default,
 			updatedAt: AccountTable.updatedAt,
 			createdAt: AccountTable.createdAt,
 			icon: ICON_COLUMNS,

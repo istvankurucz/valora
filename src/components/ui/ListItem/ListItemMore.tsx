@@ -1,6 +1,7 @@
 import useThemeColor from "@/src/hooks/useThemeColor";
 import Feather from "@expo/vector-icons/Feather";
 import { ReactNode } from "react";
+import { StyleSheet } from "react-native";
 import IconUnderlay, { IconUnderlayProps } from "../Underlay/IconUnderlay";
 
 type Props = IconUnderlayProps & {
@@ -14,10 +15,17 @@ const ListItemMore = ({ IconComponent, style, ...rest }: Props) => {
 	//#endregion
 
 	return (
-		<IconUnderlay style={[{ backgroundColor }, style]} {...rest}>
-			{IconComponent ?? <Feather name="arrow-right" size={20} color={iconColor} />}
+		<IconUnderlay style={[styles.underlay, { backgroundColor }, style]} {...rest}>
+			{IconComponent ?? <Feather name="arrow-right" size={16} color={iconColor} />}
 		</IconUnderlay>
 	);
 };
+
+// Sytles
+const styles = StyleSheet.create({
+	underlay: {
+		padding: 8,
+	},
+});
 
 export default ListItemMore;

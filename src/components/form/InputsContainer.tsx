@@ -1,9 +1,9 @@
 import { StyleSheet } from "react-native";
 import ThemedView, { ThemedViewProps } from "../ui/ThemedView";
 
-type Props = ThemedViewProps;
+export type InputsContainerProps = ThemedViewProps;
 
-const InputsContainer = ({ style, children, ...rest }: Props) => {
+const InputsContainer = ({ style, children, ...rest }: InputsContainerProps) => {
 	return (
 		<ThemedView style={[styles.container, style]} {...rest}>
 			{children}
