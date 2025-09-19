@@ -3,7 +3,6 @@ import { ColorVariant } from "@/src/constants/colors/colors";
 import useInputColors from "@/src/hooks/useInputColors";
 import useThemeColor from "@/src/hooks/useThemeColor";
 import useUpdateInputColors from "@/src/hooks/useUpdateInputColors";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { forwardRef, useState } from "react";
@@ -113,7 +112,7 @@ const Input = forwardRef<TextInput, InputProps>(
 						style={[styles.clear, { backgroundColor: clearIconBackground }]}
 						onPress={handleClearPress}
 					>
-						<AntDesign name="close" size={10} color={clearIconColor} />
+						<Ionicons name="close" size={10} color={clearIconColor} />
 					</IconUnderlay>
 				)}
 			</Animated.View>

@@ -1,5 +1,5 @@
 import ListContainer from "@/src/components/layout/ListContainer";
-import SectionTitle from "@/src/components/ui/SectionTitle";
+import Section from "@/src/components/ui/Section/Section";
 import ThemedView from "@/src/components/ui/ThemedView";
 import { Link } from "expo-router";
 import useGetGroups from "../../hooks/useGetGroups";
@@ -12,9 +12,10 @@ const GroupsList = () => {
 
 	return (
 		<ThemedView>
-			<SectionTitle>Groups</SectionTitle>
+			<Section.Title>Groups</Section.Title>
 
 			<ListContainer>
+				{groups.length === 0 && <Section.Empty icon="people-outline" text="No groups." />}
 				{groups.map((group) => (
 					<Link key={group.id} href={`/groups/${group.id}`} asChild>
 						<GroupListItem group={group} />

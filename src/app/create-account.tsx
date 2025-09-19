@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import Screen from "../components/layout/Screen/Screen";
 import { FormValidationProvider } from "../features/form/contexts/FormValidationContext";
-import CreateAccountForm from "../features/user/components/form/CreateAccountForm";
+import NewAccountForm from "../features/user/components/form/NewAccountForm";
 import CreateAccountWelcome from "../features/user/components/layout/CreateAccountWelcome";
 
 const CreateAccount = () => {
@@ -11,7 +11,7 @@ const CreateAccount = () => {
 				<CreateAccountWelcome />
 
 				<FormValidationProvider>
-					<CreateAccountForm />
+					<NewAccountForm />
 				</FormValidationProvider>
 			</Screen.KeyboardAwareScrollView>
 		</Screen>

@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useError } from "../../error/contexts/ErrorContext";
 import createTransactionCategory from "../services/createTransactionCategory";
 import {
@@ -10,6 +10,7 @@ type CreateTransactionCategoryVariables = TransactionCategoryInsert;
 
 const useCreateTransactionCategory = () => {
 	// #region Hooks
+	const queryClient = useQueryClient();
 	const { setError } = useError();
 	//#endregion
 
@@ -20,6 +21,10 @@ const useCreateTransactionCategory = () => {
 		CreateTransactionCategoryVariables
 	>({
 		mutationFn: createTransactionCategory,
+		onSuccess: () => {
+			// Invalidate transaction categories query
+			queryClient.invalidateQueries({ queryKey: ["transactionCategories"], exact: true });
+		},
 		onError: (err) => {
 			setError(err);
 		},

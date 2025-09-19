@@ -7,6 +7,7 @@ import {
 	useEffect,
 	useState,
 } from "react";
+import { useFeedback } from "../../feedback/contexts/FeedbackContext";
 import AppError from "../classes/AppError";
 
 // Context
@@ -27,6 +28,8 @@ export const ErrorProvider = ({ children }: Props) => {
 	//#endregion
 
 	// #region Hooks
+	const { setFeedback } = useFeedback();
+
 	useEffect(() => {
 		// No error
 		if (!error) return;
@@ -36,9 +39,13 @@ export const ErrorProvider = ({ children }: Props) => {
 
 		// App error
 		if (error instanceof AppError) {
-			// handle app error
+			setFeedback({
+				type: "error",
+				message: error.message,
+				details: error.details,
+			});
 		}
-	}, [error]);
+	}, [error, setFeedback]);
 	//#endregion
 
 	return <ErrorContext.Provider value={{ error, setError }}>{children}</ErrorContext.Provider>;

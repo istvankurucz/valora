@@ -132,7 +132,8 @@ const IconInput = ({ value, onIconChange, iconColor, backgroundColor }: IconInpu
 // Styles
 const styles = StyleSheet.create({
 	iconBox: {
-		padding: 12,
+		width: 56,
+		height: 56,
 	},
 	modal: {
 		flex: 1,

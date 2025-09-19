@@ -1,7 +1,7 @@
 import { TRANSACTION_TYPE_OPTIONS } from "@/src/features/transaction/constants/transactionTypeOptions";
 import { relations } from "drizzle-orm";
 import { sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { id, UUID_LENGTH } from "../schemaHelpers";
+import { createdAt, id, updatedAt, UUID_LENGTH } from "../schemaHelpers";
 import { IconTable } from "./Icon";
 import { TransactionTable } from "./Transaction";
 
@@ -13,6 +13,8 @@ export const TransactionCategoryTable = sqliteTable("transaction_category", {
 	iconId: text("icon_id", { length: UUID_LENGTH })
 		.references(() => IconTable.id)
 		.notNull(),
+	updatedAt,
+	createdAt,
 });
 
 // Relations

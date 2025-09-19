@@ -22,18 +22,6 @@ const useInitDB = () => {
 		if (!success) return;
 
 		console.log("Successful migration.");
-
-		// (async function () {
-		// 	try {
-		// 		const user = await db
-		// 			.insert(UserTable)
-		// 			.values({ name: "Test user", admin: true })
-		// 			.returning();
-		// 		console.log("Created user:", user);
-		// 	} catch (err) {
-		// 		console.log("Error creating user.", err);
-		// 	}
-		// })();
 	}, [success, error, setError]);
 
 	return { loading: !success };

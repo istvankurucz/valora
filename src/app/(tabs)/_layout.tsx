@@ -1,16 +1,28 @@
 import SpecialTabBarIcon from "@/src/features/navigation/components/ui/SpecialTabBarIcon";
 import TabBarIcon from "@/src/features/navigation/components/ui/TabBarIcon";
+import useThemeColor from "@/src/hooks/useThemeColor";
 import { Tabs } from "expo-router";
 import { StyleSheet } from "react-native";
 
 const TabsLayout = () => {
+	// #region Hooks
+	const backgroundColor = useThemeColor({ variant: "neutral", shade: 100 });
+	const shadowColor = useThemeColor({ variant: "neutral", shade: 300 });
+	//#endregion
+
 	return (
 		<Tabs
 			screenOptions={{
 				headerShown: false,
 				popToTopOnBlur: true,
 				tabBarShowLabel: false,
-				tabBarStyle: styles.tabBar,
+				tabBarStyle: [
+					styles.tabBar,
+					{
+						backgroundColor,
+						boxShadow: [{ offsetX: 0, offsetY: 0, color: shadowColor, blurRadius: 8 }],
+					},
+				],
 			}}
 		>
 			<Tabs.Screen

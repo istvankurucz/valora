@@ -4,7 +4,7 @@ import useInputColors from "@/src/hooks/useInputColors";
 import useThemeColor from "@/src/hooks/useThemeColor";
 import useUpdateInputColors from "@/src/hooks/useUpdateInputColors";
 import { SelectOption } from "@/src/types/uiTypes";
-import AntDesign from "@expo/vector-icons/AntDesign";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { Fragment, useState } from "react";
 import { Modal, Pressable, ScrollView, StyleSheet, ViewProps } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
@@ -87,7 +87,7 @@ const Select = <T,>({
 					<ThemedText style={styles.value}>{valueLabel}</ThemedText>
 
 					<IconUnderlay style={styles.icon} onPress={handleSelectPress}>
-						<AntDesign name="caret-down" size={16} color={iconColor} />
+						<Ionicons name="caret-down" size={16} color={iconColor} />
 					</IconUnderlay>
 				</Animated.View>
 			</Pressable>

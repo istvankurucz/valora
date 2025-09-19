@@ -23,7 +23,7 @@ const CreateAccountWelcome = () => {
 			</ThemedView>
 
 			<ThemedText fontFamily="Poppins_700Bold" style={styles.title}>
-				Expense tarcker
+				Expense tracker
 			</ThemedText>
 		</ThemedView>
 	);

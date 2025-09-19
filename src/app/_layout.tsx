@@ -7,6 +7,8 @@ import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import queryClient from "../config/queryClient";
 import { ErrorProvider } from "../features/error/contexts/ErrorContext";
+import Feedback from "../features/feedback/components/ui/Feedback";
+import { FeedbackProvider } from "../features/feedback/contexts/FeedbackContext";
 import RootNavigator from "../features/navigation/components/layout/RootNavigator";
 import SplashScreenController from "../features/navigation/components/layout/SplashScreenController";
 import { AdminUserProvider } from "../features/user/contexts/AdminUserContext";
@@ -19,19 +21,22 @@ export default function RootLayout() {
 		<QueryClientProvider client={queryClient}>
 			<GestureHandlerRootView>
 				<KeyboardProvider>
-					<BottomSheetModalProvider>
-						<ErrorProvider>
-							<AdminUserProvider>
-								<SafeAreaProvider>
-									<SplashScreenController />
+					<FeedbackProvider>
+						<BottomSheetModalProvider>
+							<ErrorProvider>
+								<AdminUserProvider>
+									<SafeAreaProvider>
+										<Feedback />
 
-									<RootNavigator />
+										<SplashScreenController />
+										<RootNavigator />
 
-									<StatusBar style="auto" />
-								</SafeAreaProvider>
-							</AdminUserProvider>
-						</ErrorProvider>
-					</BottomSheetModalProvider>
+										<StatusBar style="auto" />
+									</SafeAreaProvider>
+								</AdminUserProvider>
+							</ErrorProvider>
+						</BottomSheetModalProvider>
+					</FeedbackProvider>
 				</KeyboardProvider>
 			</GestureHandlerRootView>
 		</QueryClientProvider>

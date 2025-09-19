@@ -10,9 +10,12 @@ import ListItemLabel from "./ListItemLabel";
 import ListItemMain from "./ListItemMain";
 import ListItemMore from "./ListItemMore";
 
-export type ListItemProps = UnderlayProps;
+export type ListItemProps = UnderlayProps & {
+	disableScaleAnimation?: boolean;
+};
 
 const ListItem = ({
+	disableScaleAnimation,
 	underlayColor,
 	style,
 	onPressIn,
@@ -32,7 +35,7 @@ const ListItem = ({
 	// #region Functions
 	function handlePressIn(e: GestureResponderEvent) {
 		// Set animated value
-		scale.value = withTiming(0.95);
+		if (!disableScaleAnimation) scale.value = withTiming(0.95);
 
 		// Run event handler
 		onPressIn?.(e);
@@ -40,7 +43,7 @@ const ListItem = ({
 
 	function handlePressOut(e: GestureResponderEvent) {
 		// Set animated value
-		scale.value = withTiming(1);
+		if (!disableScaleAnimation) scale.value = withTiming(1);
 
 		// Run event handler
 		onPressOut?.(e);

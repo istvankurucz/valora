@@ -1,5 +1,5 @@
 import useThemeColor from "@/src/hooks/useThemeColor";
-import AntDesign from "@expo/vector-icons/AntDesign";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import Screen from "../Screen";
 import { ScreenHeaderIconUnderlayProps } from "./ScreenHeaderIconUnderlay";
 
@@ -18,7 +18,7 @@ const ScreenHeaderNew = ({ underlayColor, style, ...rest }: Props) => {
 			style={[{ backgroundColor }, style]}
 			{...rest}
 		>
-			<AntDesign name="plus" size={20} color={iconColor} />
+			<Ionicons name="add" size={20} color={iconColor} />
 		</Screen.Header.IconUnderlay>
 	);
 };

@@ -10,10 +10,10 @@ export type UserUpdate = Partial<Pick<UserSelect, "name">>;
 export type AdminUser = Omit<UserSelect, "currency"> & {
 	currency: string;
 };
-
 export type AdminUserInsert = Omit<UserInsert, "admin" | "currency"> & {
 	currency: string;
 };
+export type AdminUserUpdate = Partial<Pick<UserSelect, "name" | "currency">>;
 //#endregion
 
 // #region User data

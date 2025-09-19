@@ -1,20 +1,35 @@
 import Underlay from "@/src/components/ui/Underlay/Underlay";
 import { BORDER_RADIUS } from "@/src/constants/borderRadius";
 import { SegmentedControlOption } from "@/src/types/uiTypes";
-import { StyleSheet, ViewProps } from "react-native";
+import { useCallback, useEffect } from "react";
+import { StyleSheet } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
-import ThemedText from "../ui/ThemedText";
-import ThemedView from "../ui/ThemedView";
+import ThemedText from "../../ui/ThemedText";
+import ThemedView, { ThemedViewProps } from "../../ui/ThemedView";
 
-type Props<T> = ViewProps & {
+export type SegmentedControlProps<T> = ThemedViewProps & {
 	value?: T;
 	onValueChange?: (newValue: T) => void;
 	options: SegmentedControlOption<T>[];
 };
 
-const SegmentedControl = <T,>({ value, onValueChange, options, style, ...rest }: Props<T>) => {
+const SegmentedControl = <T,>({
+	value,
+	onValueChange,
+	options,
+	shade,
+	style,
+	...rest
+}: SegmentedControlProps<T>) => {
 	// #region Constants
 	const valueLabel = options.find((option) => option.value === value)?.label;
+	const getLeftValue = useCallback(
+		(value?: T): `${number}%` => {
+			const valueIndex = options.findIndex((option) => option.value === value);
+			return `${(valueIndex * 100) / options.length}%`;
+		},
+		[options]
+	);
 	//#endregion
 
 	// #region Hooks
@@ -22,32 +37,28 @@ const SegmentedControl = <T,>({ value, onValueChange, options, style, ...rest }:
 	const animatedSelectedStyle = useAnimatedStyle(() => {
 		return { left: left.value };
 	}, []);
+
+	useEffect(() => {
+		left.value = withTiming(getLeftValue(value));
+	}, [left, value, getLeftValue]);
 	//#endregion
 
 	// #region Functions
-	function getLeftValue(value?: T): `${number}%` {
-		const valueIndex = options.findIndex((option) => option.value === value);
-		return `${(valueIndex * 100) / options.length}%`;
-	}
-
 	function handleOptionPress(value: T) {
-		// Animate selected component
-		left.value = withTiming(getLeftValue(value));
-
 		// Run event handler
 		onValueChange?.(value);
 	}
 	//#endregion
 
 	return (
-		<ThemedView shade={100} style={[styles.container, style]} {...rest}>
+		<ThemedView shade={shade ?? 100} style={[styles.container, style]} {...rest}>
 			{options.map((option, i) => (
 				<Underlay
 					key={i}
 					style={styles.optionContainer}
 					onPress={() => handleOptionPress(option.value)}
 				>
-					<ThemedView shade={100} style={styles.option}>
+					<ThemedView shade={shade ?? 100} style={styles.option}>
 						<ThemedText shade={600}>{option.label}</ThemedText>
 					</ThemedView>
 				</Underlay>

@@ -3,7 +3,7 @@ import FormCheckbox from "@/src/components/form/Checkbox/FormCheckbox";
 import FormInput from "@/src/components/form/Input/FormInput";
 import Input from "@/src/components/form/Input/Input";
 import Label from "@/src/components/form/Label";
-import SegmentedControl from "@/src/components/form/SegmentedControl";
+import SegmentedControl from "@/src/components/form/SegmentedControl/SegmentedControl";
 import FormSelect from "@/src/components/form/Select/FormSelect";
 import Select from "@/src/components/form/Select/Select";
 import Screen from "@/src/components/layout/Screen/Screen";

@@ -16,7 +16,7 @@ const Screen = ({ hasHeader = true, hasTabBar = true, style, children, ...rest }
 			<ThemedView
 				style={[
 					styles.inner,
-					hasHeader ? { marginTop: -34, paddingTop: 16 } : undefined,
+					hasHeader ? { marginTop: -34, paddingTop: 0 } : undefined,
 					hasTabBar ? { marginBottom: -16 } : undefined,
 					style,
 				]}

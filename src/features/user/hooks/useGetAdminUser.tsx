@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import AppError from "../../error/classes/AppError";
 import { useError } from "../../error/contexts/ErrorContext";
 import getAdminUser from "../services/getAdminUser";
 
@@ -17,7 +18,11 @@ const useGetAdminUser = () => {
 
 	// #region Error handling
 	useEffect(() => {
-		if (error) setError(error);
+		if (error) {
+			if (error instanceof AppError && error.message === "Admin not found.") return;
+
+			setError(error);
+		}
 	}, [error, setError]);
 	//#endregion
 

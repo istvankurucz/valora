@@ -15,13 +15,13 @@ import useCreateTransactionCategory from "@/src/features/transactionCategory/hoo
 import { useRouter } from "expo-router";
 import { useMemo } from "react";
 import { View } from "react-native";
-import { CREATE_ACCOUNT_FORM_DATA } from "../../constants/formData";
+import { NEW_ACCOUNT_FORM_DATA } from "../../constants/formData";
 import useCreateAdminUser from "../../hooks/useCreateAdminUser";
-import validateCreateAccountData from "../../utils/validation/validateCreateAccountData";
+import validateNewAccountData from "../../utils/validation/validateNewAccountData";
 
-const CreateAccountForm = () => {
+const NewAccountForm = () => {
 	// #region Hooks
-	const { data, updateData } = useFormData(CREATE_ACCOUNT_FORM_DATA);
+	const { data, updateData } = useFormData(NEW_ACCOUNT_FORM_DATA);
 	const { createAdminUser, loading: loadingCreateAdmin } = useCreateAdminUser();
 	const { createIcon, loading: loadingCreateIcon } = useCreateIcon();
 	const { createAccount, loading: loadingCreateAccount } = useCreateAccount();
@@ -55,7 +55,7 @@ const CreateAccountForm = () => {
 
 		try {
 			// Validation
-			const { name, currency } = validateCreateAccountData(data);
+			const { name, currency } = validateNewAccountData(data);
 
 			// Create admin user
 			await createAdminUser({ name, currency });
@@ -87,7 +87,7 @@ const CreateAccountForm = () => {
 
 	return (
 		<View>
-			<InputsContainer>
+			<InputsContainer type="normal">
 				<FormInput
 					field="name"
 					label="Name"
@@ -115,4 +115,4 @@ const CreateAccountForm = () => {
 	);
 };
 
-export default CreateAccountForm;
+export default NewAccountForm;

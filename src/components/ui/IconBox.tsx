@@ -18,11 +18,12 @@ const IconBox = ({ icon, style, ...rest }: IconBoxProps) => {
 // Styles
 const styles = StyleSheet.create({
 	box: {
+		width: 64,
+		height: 64,
 		alignSelf: "flex-start",
 		justifyContent: "center",
 		alignItems: "center",
 		borderRadius: BORDER_RADIUS[500],
-		padding: 16,
 	},
 });
 
