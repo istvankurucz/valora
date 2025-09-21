@@ -21,3 +21,7 @@ export type Transaction = Omit<
 	group: GroupData | null;
 };
 //#endregion
+
+// #region Transactions sort
+export type TransactionSortProperty = "timestamp" | "amount";
+//#endregion

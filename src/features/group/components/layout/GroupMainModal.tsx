@@ -6,44 +6,52 @@ import useThemeColor from "@/src/hooks/useThemeColor";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Link } from "expo-router";
-import { forwardRef } from "react";
+import { forwardRef, RefObject } from "react";
 import { useGroup } from "../../contexts/GroupContext";
 
-type Props = BottomModalProps;
+type Props = BottomModalProps & {
+	deleteModalRef: RefObject<BottomSheetModal | null>;
+};
 
-const GroupMainModal = forwardRef<BottomSheetModal, Props>(({ modalRef, ...rest }, ref) => {
-	// #region Hooks
-	const { group } = useGroup();
+const GroupMainModal = forwardRef<BottomSheetModal, Props>(
+	({ modalRef, deleteModalRef, ...rest }, ref) => {
+		// #region Hooks
+		const { group } = useGroup();
 
-	const defaultIconColor = useThemeColor({ variant: "neutral", shade: 800 });
-	const deleteIconColor = useThemeColor({ variant: "danger", shade: 500 });
-	//#endregion
+		const defaultIconColor = useThemeColor({ variant: "neutral", shade: 800 });
+		const deleteIconColor = useThemeColor({ variant: "danger", shade: 500 });
+		//#endregion
 
-	// #region Functions
-	function handleEditPress() {
-		modalRef?.current?.close();
-	}
-	//#endregion
+		// #region Functions
+		function handleEditPress() {
+			modalRef?.current?.close();
+		}
 
-	return (
-		<BottomModal {...rest} ref={ref}>
-			<BottomModalTitle>Group options</BottomModalTitle>
+		function handleDeletePress() {
+			deleteModalRef.current?.present();
+		}
+		//#endregion
 
-			<Link href={`/groups/${group?.id}/edit`} onPress={handleEditPress} asChild>
-				<BottomModalListItem>
-					<Ionicons name="pencil" size={24} color={defaultIconColor} />
-					<ThemedText>Edit group</ThemedText>
+		return (
+			<BottomModal {...rest} ref={ref}>
+				<BottomModalTitle>Group options</BottomModalTitle>
+
+				<Link href={`/groups/${group?.id}/edit`} onPress={handleEditPress} asChild>
+					<BottomModalListItem>
+						<Ionicons name="pencil" size={24} color={defaultIconColor} />
+						<ThemedText>Edit group</ThemedText>
+					</BottomModalListItem>
+				</Link>
+				<BottomModalListItem onPress={handleDeletePress}>
+					<Ionicons name="trash" size={24} color={deleteIconColor} />
+					<ThemedText variant="danger" shade={500}>
+						Delete group
+					</ThemedText>
 				</BottomModalListItem>
-			</Link>
-			<BottomModalListItem>
-				<Ionicons name="trash" size={24} color={deleteIconColor} />
-				<ThemedText variant="danger" shade={500}>
-					Delete group
-				</ThemedText>
-			</BottomModalListItem>
-		</BottomModal>
-	);
-});
+			</BottomModal>
+		);
+	}
+);
 
 // Display name
 GroupMainModal.displayName = "GroupMainModal";

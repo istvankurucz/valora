@@ -3,11 +3,19 @@ import { Transaction } from "../types/transactionTypes";
 import getFullTransaction from "./getFullTransaction";
 
 export default async function getTransactionsByCategoryId(
-	categoryId: string
+	categoryId: string,
+	params: { adminId?: string }
 ): Promise<Transaction[]> {
+	// Get params
+	const { adminId } = params;
+
 	// Get transactions
 	const transactionSelects = await db.query.TransactionTable.findMany({
-		where: (transaction, { eq }) => eq(transaction.categoryId, categoryId),
+		where: (transaction, { eq, and }) =>
+			and(
+				eq(transaction.categoryId, categoryId),
+				adminId ? eq(transaction.userId, adminId) : undefined
+			),
 		orderBy: (transaction, { desc }) => desc(transaction.timestamp),
 	});
 

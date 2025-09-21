@@ -1,10 +1,10 @@
 import { createContext, PropsWithChildren, useContext } from "react";
 import useGetAdminUser from "../hooks/useGetAdminUser";
-import { UserSelect } from "../types/userTypes";
+import { AdminUser } from "../types/userTypes";
 
 // Context
 type AdminUserContextType = {
-	admin: UserSelect | null;
+	admin: AdminUser | null;
 	loading: boolean;
 };
 const AdminUserContext = createContext<AdminUserContextType>({

@@ -1,5 +1,5 @@
 import ListContainer from "@/src/components/layout/ListContainer";
-import SectionTitle from "@/src/components/ui/SectionTitle";
+import Section from "@/src/components/ui/Section/Section";
 import ThemedView from "@/src/components/ui/ThemedView";
 import { Link } from "expo-router";
 import useGetAccounts from "../../hooks/useGetAccounts";
@@ -12,7 +12,7 @@ const AccountsList = () => {
 
 	return (
 		<ThemedView>
-			<SectionTitle>Accounts</SectionTitle>
+			<Section.Title>Accounts</Section.Title>
 
 			<ListContainer>
 				{accounts.map((account) => (

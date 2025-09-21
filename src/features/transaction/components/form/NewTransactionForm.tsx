@@ -1,0 +1,167 @@
+import FormDateInput from "@/src/components/form/DateInput/FormDateInput";
+import FormInput from "@/src/components/form/Input/FormInput";
+import InputsContainer from "@/src/components/form/InputsContainer";
+import FormSegmentedControl from "@/src/components/form/SegmentedControl/FormSegmentedControl";
+import FormSelect from "@/src/components/form/Select/FormSelect";
+import Button from "@/src/components/ui/Button";
+import { useFormValidation } from "@/src/features/form/contexts/FormValidationContext";
+import { useAdminUser } from "@/src/features/user/contexts/AdminUserContext";
+import { useRouter } from "expo-router";
+import { View } from "react-native";
+import useCreateTransaction from "../../hooks/useCreateTransaction";
+import useNewTransactionData from "../../hooks/useNewTransactionData";
+import validateNewTransactionData from "../../utils/validation/validateNewTransactionData";
+
+const NewTransactionForm = () => {
+	// #region Hooks
+	const { admin } = useAdminUser();
+	const {
+		data,
+		updateData,
+		resetFormData,
+		TRANSACTION_CATEGORY_TYPE_OPTIONS,
+		CATEGORY_OPTIONS,
+		RECURRING_OPTIONS,
+		ACCOUNT_OPTIONS,
+		GROUP_OPTIONS,
+		MEMBER_OPTIONS,
+		lastPathname,
+	} = useNewTransactionData();
+	const { createTransaction, loading } = useCreateTransaction();
+	const { addError, removeErrors } = useFormValidation();
+	const router = useRouter();
+	//#endregion
+
+	// #region Functions
+	function handleMemberChange(memberId: string) {
+		// Update user ID
+		updateData({ userId: memberId });
+
+		// Member is not the admin
+		if (memberId !== admin?.id) updateData({ accountId: "" });
+	}
+
+	async function handleCreateTransactionPress() {
+		// Remove form errors
+		removeErrors();
+
+		try {
+			// Validation
+			const transactionData = validateNewTransactionData({
+				type: data.type,
+				label: data.label,
+				note: data.note || undefined,
+				categoryId: data.categoryId,
+				timestamp: data.timestamp.toISOString(),
+				amount: parseFloat(data.amount),
+				recurring: data.recurring || undefined,
+				accountId: data.accountId || undefined,
+				userId: data.userId,
+				groupId: data.groupId || undefined,
+			});
+
+			// Create transaction
+			await createTransaction(transactionData);
+
+			// Navigation
+			router.replace(lastPathname as any);
+
+			// Reset form data
+			resetFormData();
+		} catch (err) {
+			console.log(err);
+			addError(err);
+		}
+	}
+	//#endregion
+
+	return (
+		<View>
+			<InputsContainer>
+				<FormSegmentedControl
+					shade={200}
+					field="type"
+					label="Transaction type"
+					options={TRANSACTION_CATEGORY_TYPE_OPTIONS}
+					value={data.type}
+					onValueChange={(type) => updateData({ type })}
+				/>
+				<FormInput
+					field="label"
+					label="Label"
+					placeholder="Label"
+					value={data.label}
+					onChangeText={(label) => updateData({ label })}
+				/>
+				<FormInput
+					field="amount"
+					label="Amount"
+					placeholder="Amount"
+					keyboardType="decimal-pad"
+					value={data.amount}
+					onChangeText={(amount) => updateData({ amount })}
+				/>
+				<FormSelect
+					field="categoryId"
+					label="Category"
+					options={CATEGORY_OPTIONS}
+					value={CATEGORY_OPTIONS.find((option) => option.value === data.categoryId)?.value}
+					onValueChange={(categoryId) => updateData({ categoryId })}
+				/>
+				<FormDateInput
+					field="timestamp"
+					label="Date"
+					value={data.timestamp}
+					onValueChange={(timestamp) => updateData({ timestamp })}
+				/>
+				<FormSelect
+					field="accountId"
+					label="Account"
+					disabled={data.userId !== admin?.id}
+					options={ACCOUNT_OPTIONS}
+					value={data.accountId}
+					onValueChange={(accountId) => updateData({ accountId })}
+				/>
+				<FormSelect
+					field="groupId"
+					label="Group"
+					options={GROUP_OPTIONS}
+					value={data.groupId}
+					onValueChange={(groupId) => updateData({ groupId })}
+				/>
+				{data.groupId && (
+					<FormSelect
+						field="userId"
+						label="Member"
+						options={MEMBER_OPTIONS}
+						value={data.userId}
+						onValueChange={handleMemberChange}
+					/>
+				)}
+				<FormSelect
+					field="recurring"
+					label="Recurring transactions"
+					options={RECURRING_OPTIONS}
+					value={data.recurring}
+					onValueChange={(recurring) => updateData({ recurring })}
+				/>
+				<FormInput
+					field="note"
+					label="Note (optional)"
+					placeholder="Note"
+					multiline
+					value={data.note}
+					onChangeText={(note) => updateData({ note })}
+				/>
+			</InputsContainer>
+
+			<Button
+				title="Create transaction"
+				loading={loading}
+				onPress={handleCreateTransactionPress}
+			/>
+		</View>
+	);
+};
+
+export default NewTransactionForm;

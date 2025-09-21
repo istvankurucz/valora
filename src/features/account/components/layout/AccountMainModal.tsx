@@ -2,50 +2,74 @@ import BottomModal, { BottomModalProps } from "@/src/components/layout/BottomMod
 import BottomModalListItem from "@/src/components/layout/BottomModal/BottomModalListItem";
 import BottomModalTitle from "@/src/components/layout/BottomModal/BottomModalTitle";
 import ThemedText from "@/src/components/ui/ThemedText";
+import { FONT_SIZE } from "@/src/constants/fontSizes";
 import useThemeColor from "@/src/hooks/useThemeColor";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Link } from "expo-router";
-import { forwardRef } from "react";
+import { forwardRef, RefObject } from "react";
+import { StyleSheet, View } from "react-native";
 import { useAccount } from "../../contexts/AccountContext";
 
-type Props = BottomModalProps;
+type Props = BottomModalProps & {
+	deleteModalRef: RefObject<BottomSheetModal | null>;
+};
 
-const AccountMainModal = forwardRef<BottomSheetModal, Props>(({ modalRef, ...rest }, ref) => {
-	// #region Hooks
-	const { account } = useAccount();
+const AccountMainModal = forwardRef<BottomSheetModal, Props>(
+	({ modalRef, deleteModalRef, ...rest }, ref) => {
+		// #region Hooks
+		const { account } = useAccount();
 
-	const defaultIconColor = useThemeColor({ variant: "neutral", shade: 800 });
-	const deleteIconColor = useThemeColor({ variant: "danger", shade: 500 });
-	//#endregion
+		const defaultIconColor = useThemeColor({ variant: "neutral", shade: 800 });
+		const deleteIconColor = useThemeColor({ variant: "danger", shade: 500 });
+		//#endregion
 
-	// #region Functions
-	function handleEditPress() {
-		modalRef?.current?.close();
-	}
-	//#endregion
+		// #region Functions
+		function handleEditPress() {
+			modalRef?.current?.close();
+		}
 
-	return (
-		<BottomModal {...rest} ref={ref}>
-			<BottomModalTitle>Account options</BottomModalTitle>
+		function handleDeletePress() {
+			deleteModalRef.current?.present();
+		}
+		//#endregion
 
-			<Link href={`/accounts/${account?.id}/edit`} onPress={handleEditPress} asChild>
-				<BottomModalListItem>
-					<Ionicons name="pencil" size={24} color={defaultIconColor} />
-					<ThemedText>Edit account</ThemedText>
+		return (
+			<BottomModal {...rest} ref={ref}>
+				<BottomModalTitle>Account options</BottomModalTitle>
+
+				<Link href={`/accounts/${account?.id}/edit`} onPress={handleEditPress} asChild>
+					<BottomModalListItem>
+						<Ionicons name="pencil" size={24} color={defaultIconColor} />
+						<ThemedText>Edit account</ThemedText>
+					</BottomModalListItem>
+				</Link>
+				<BottomModalListItem disabled={account?.default} onPress={handleDeletePress}>
+					<Ionicons name="trash" size={24} color={deleteIconColor} />
+					<View>
+						<ThemedText variant="danger" shade={500}>
+							Delete account
+						</ThemedText>
+						{account?.default && (
+							<ThemedText variant="danger" shade={500} style={styles.deleteInfo}>
+								(Default account cannot be deleted.)
+							</ThemedText>
+						)}
+					</View>
 				</BottomModalListItem>
-			</Link>
-			<BottomModalListItem disabled={account?.default}>
-				<Ionicons name="trash" size={24} color={deleteIconColor} />
-				<ThemedText variant="danger" shade={500}>
-					Delete account
-				</ThemedText>
-			</BottomModalListItem>
-		</BottomModal>
-	);
-});
+			</BottomModal>
+		);
+	}
+);
 
 // Display name
 AccountMainModal.displayName = "AccountMainModal";
+
+// Styles
+const styles = StyleSheet.create({
+	deleteInfo: {
+		fontSize: FONT_SIZE[400],
+	},
+});
 
 export default AccountMainModal;

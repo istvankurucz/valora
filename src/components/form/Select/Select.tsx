@@ -15,13 +15,15 @@ import Underlay from "../../ui/Underlay/Underlay";
 
 export type SelectProps<T> = ViewProps & {
 	variant?: ColorVariant;
+	disabled?: boolean;
+	options: SelectOption<T>[];
 	value?: T;
 	onValueChange?: (newValue: T) => void;
-	options: SelectOption<T>[];
 };
 
 const Select = <T,>({
 	variant = "neutral",
+	disabled,
 	value,
 	onValueChange,
 	options,
@@ -82,7 +84,7 @@ const Select = <T,>({
 
 	return (
 		<Fragment>
-			<Pressable onPress={handleSelectPress}>
+			<Pressable disabled={disabled} onPress={handleSelectPress}>
 				<Animated.View style={[styles.container, animatedViewStyle, style]} {...rest}>
 					<ThemedText style={styles.value}>{valueLabel}</ThemedText>
 

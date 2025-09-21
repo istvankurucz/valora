@@ -1,5 +1,5 @@
 import Screen from "@/src/components/layout/Screen/Screen";
-import ThemedText from "@/src/components/ui/ThemedText";
+import AccountLatestTransactions from "@/src/features/account/components/layout/AccountLatestTransactions";
 import { useAccount } from "@/src/features/account/contexts/AccountContext";
 import { Stack } from "expo-router";
 
@@ -12,7 +12,9 @@ const Account = () => {
 		<Screen>
 			<Stack.Screen options={{ title: account?.name }} />
 
-			<ThemedText>Account</ThemedText>
+			<Screen.ScrollView>
+				<AccountLatestTransactions />
+			</Screen.ScrollView>
 		</Screen>
 	);
 };

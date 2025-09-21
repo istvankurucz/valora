@@ -11,6 +11,7 @@ import Feedback from "../features/feedback/components/ui/Feedback";
 import { FeedbackProvider } from "../features/feedback/contexts/FeedbackContext";
 import RootNavigator from "../features/navigation/components/layout/RootNavigator";
 import SplashScreenController from "../features/navigation/components/layout/SplashScreenController";
+import { LastPathnameProvider } from "../features/navigation/contexts/LastPathnameContext";
 import { AdminUserProvider } from "../features/user/contexts/AdminUserContext";
 
 // Prevent hiding splash screen
@@ -25,14 +26,16 @@ export default function RootLayout() {
 						<BottomSheetModalProvider>
 							<ErrorProvider>
 								<AdminUserProvider>
-									<SafeAreaProvider>
-										<Feedback />
+									<LastPathnameProvider>
+										<SafeAreaProvider>
+											<Feedback />
 
-										<SplashScreenController />
-										<RootNavigator />
+											<SplashScreenController />
+											<RootNavigator />
 
-										<StatusBar style="auto" />
-									</SafeAreaProvider>
+											<StatusBar style="auto" />
+										</SafeAreaProvider>
+									</LastPathnameProvider>
 								</AdminUserProvider>
 							</ErrorProvider>
 						</BottomSheetModalProvider>

@@ -1,3 +1,4 @@
+import { CurrencyCode } from "@/src/constants/currencies";
 import { UserTable } from "@/src/db/schemas/User";
 
 // #region User DB types
@@ -8,7 +9,7 @@ export type UserUpdate = Partial<Pick<UserSelect, "name">>;
 
 // #region Admin
 export type AdminUser = Omit<UserSelect, "currency"> & {
-	currency: string;
+	currency: CurrencyCode;
 };
 export type AdminUserInsert = Omit<UserInsert, "admin" | "currency"> & {
 	currency: string;

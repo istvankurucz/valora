@@ -50,6 +50,13 @@
       "when": 1758299796193,
       "tag": "0006_dear_darkhawk",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1758441464953,
+      "tag": "0007_curved_maggott",
+      "breakpoints": true
     }
   ]
 }

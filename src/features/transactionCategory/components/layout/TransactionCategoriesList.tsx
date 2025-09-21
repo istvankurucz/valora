@@ -26,7 +26,12 @@ const TransactionCategoriesList = () => {
 	return (
 		<ThemedView style={styles.container}>
 			<View>
-				<Section.Title>Income categories</Section.Title>
+				<Section.Header>
+					<Section.Title>Income categories</Section.Title>
+					<Link href="/settings/transaction-categories/reorder-categories?type=income">
+						<Section.Header.Link>Reorder</Section.Header.Link>
+					</Link>
+				</Section.Header>
 				<ListContainer>
 					{incomeCategories.map((category) => (
 						<Link
@@ -41,7 +46,12 @@ const TransactionCategoriesList = () => {
 			</View>
 
 			<View>
-				<Section.Title>Expense categories</Section.Title>
+				<Section.Header>
+					<Section.Title>Expense categories</Section.Title>
+					<Link href="/settings/transaction-categories/reorder-categories?type=expense">
+						<Section.Header.Link>Reorder</Section.Header.Link>
+					</Link>
+				</Section.Header>
 				<ListContainer>
 					{expenseCategories.map((category) => (
 						<Link

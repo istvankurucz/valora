@@ -13,8 +13,9 @@ export default async function getTransactionCategoryData(
 	const [category] = await db
 		.select({
 			id: TransactionCategoryTable.id,
-			name: TransactionCategoryTable.name,
 			type: TransactionCategoryTable.type,
+			name: TransactionCategoryTable.name,
+			order: TransactionCategoryTable.order,
 			updatedAt: TransactionCategoryTable.updatedAt,
 			createdAt: TransactionCategoryTable.createdAt,
 			icon: ICON_COLUMNS,

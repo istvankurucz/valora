@@ -4,7 +4,7 @@ type Props = ThemedTextProps;
 
 const ListItemInfo = ({ shade, children, ...rest }: Props) => {
 	return (
-		<ThemedText shade={shade ?? 600} {...rest}>
+		<ThemedText shade={shade ?? 500} {...rest}>
 			{children}
 		</ThemedText>
 	);

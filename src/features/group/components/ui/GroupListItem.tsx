@@ -1,6 +1,5 @@
+import Divider from "@/src/components/ui/Divider";
 import ListItem, { ListItemProps } from "@/src/components/ui/ListItem/ListItem";
-import ThemedView from "@/src/components/ui/ThemedView";
-import { BORDER_RADIUS } from "@/src/constants/borderRadius";
 import { StyleSheet, View } from "react-native";
 import { Group } from "../../types/groupTypes";
 
@@ -18,7 +17,7 @@ const GroupListItem = ({ group, ...rest }: GroupListItemProps) => {
 					<ListItem.Info>
 						{group.users.length} member{group.users.length > 1 ? "s" : ""}
 					</ListItem.Info>
-					<ThemedView shade={500} style={styles.divider}></ThemedView>
+					<Divider />
 					<ListItem.Info>
 						{group.transactions.length} transaction{group.transactions.length > 1 ? "s" : ""}
 					</ListItem.Info>
@@ -35,12 +34,6 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		gap: 8,
 		alignItems: "center",
-	},
-	divider: {
-		width: 4,
-		height: 4,
-		borderRadius: BORDER_RADIUS[999],
-		marginBottom: 4,
 	},
 });
 

@@ -3,11 +3,11 @@ import {
 	BottomSheetBackdrop,
 	BottomSheetModal,
 	BottomSheetModalProps,
-	BottomSheetView,
+	BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
 import { BottomSheetViewProps } from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheetView/types";
 import { forwardRef, RefObject } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 export type BottomModalProps = Omit<BottomSheetModalProps, "children"> & {
 	modalRef?: RefObject<BottomSheetModal | null>;
@@ -36,7 +36,9 @@ const BottomModal = forwardRef<BottomSheetModal, BottomModalProps>(
 				{...rest}
 				ref={ref}
 			>
-				<BottomSheetView style={[styles.container, style]}>{children}</BottomSheetView>
+				<BottomSheetScrollView>
+					<View style={[styles.container, style]}>{children}</View>
+				</BottomSheetScrollView>
 			</BottomSheetModal>
 		);
 	}

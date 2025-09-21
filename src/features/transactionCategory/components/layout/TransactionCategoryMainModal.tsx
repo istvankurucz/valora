@@ -6,13 +6,15 @@ import useThemeColor from "@/src/hooks/useThemeColor";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Link } from "expo-router";
-import React, { forwardRef } from "react";
+import React, { forwardRef, RefObject } from "react";
 import { useTransactionCategory } from "../../contexts/TransactionCategoryContext";
 
-type Props = BottomModalProps;
+type Props = BottomModalProps & {
+	deleteModalRef: RefObject<BottomSheetModal | null>;
+};
 
 const TransactionCategoryMainModal = forwardRef<BottomSheetModal, Props>(
-	({ modalRef, ...rest }, ref) => {
+	({ modalRef, deleteModalRef, ...rest }, ref) => {
 		// #region Hooks
 		const { transactionCategory } = useTransactionCategory();
 
@@ -23,6 +25,10 @@ const TransactionCategoryMainModal = forwardRef<BottomSheetModal, Props>(
 		// #region Functions
 		function handleEditPress() {
 			modalRef?.current?.close();
+		}
+
+		function handleDeletePress() {
+			deleteModalRef.current?.present();
 		}
 		//#endregion
 
@@ -40,7 +46,7 @@ const TransactionCategoryMainModal = forwardRef<BottomSheetModal, Props>(
 						<ThemedText>Edit category</ThemedText>
 					</BottomModalListItem>
 				</Link>
-				<BottomModalListItem disabled={(transactionCategory?.transactions.length ?? 0) > 0}>
+				<BottomModalListItem onPress={handleDeletePress}>
 					<Ionicons name="trash" size={24} color={deleteIconColor} />
 					<ThemedText variant="danger" shade={500}>
 						Delete category

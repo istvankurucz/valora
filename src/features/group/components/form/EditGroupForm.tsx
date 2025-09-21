@@ -2,7 +2,7 @@ import FullIconInput from "@/src/components/form/IconInput/FullIconInput";
 import FormInput from "@/src/components/form/Input/FormInput";
 import InputsContainer from "@/src/components/form/InputsContainer";
 import Button from "@/src/components/ui/Button";
-import SectionTitle from "@/src/components/ui/SectionTitle";
+import Section from "@/src/components/ui/Section/Section";
 import ThemedView from "@/src/components/ui/ThemedView";
 import { BORDER_RADIUS } from "@/src/constants/borderRadius";
 import { useFormValidation } from "@/src/features/form/contexts/FormValidationContext";
@@ -67,7 +67,7 @@ const EditGroupForm = () => {
 
 	return (
 		<ThemedView>
-			<SectionTitle>Group data</SectionTitle>
+			<Section.Title>Group data</Section.Title>
 
 			<InputsContainer shade={100} style={styles.inputs}>
 				<FullIconInput

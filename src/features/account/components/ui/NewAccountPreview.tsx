@@ -1,4 +1,4 @@
-import SectionTitle from "@/src/components/ui/SectionTitle";
+import Section from "@/src/components/ui/Section/Section";
 import ThemedView from "@/src/components/ui/ThemedView";
 import generateUUID from "@/src/utils/uuid/generateUUID";
 import { useNewAccount } from "../../contexts/NewAccountContext";
@@ -29,7 +29,7 @@ const NewAccountPreview = () => {
 
 	return (
 		<ThemedView>
-			<SectionTitle>Preview</SectionTitle>
+			<Section.Title>Preview</Section.Title>
 			<AccountListItem account={accountData} />
 		</ThemedView>
 	);

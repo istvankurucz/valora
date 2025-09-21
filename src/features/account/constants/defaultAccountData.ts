@@ -1,5 +1,5 @@
 export const DEFAULT_ACCOUNT_DATA = {
-	name: "Default",
+	name: "Default account",
 	icon: {
 		name: "wallet-outline",
 		foregroundColor: "#374047ff",

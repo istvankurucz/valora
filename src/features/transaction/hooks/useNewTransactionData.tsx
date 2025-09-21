@@ -1,0 +1,187 @@
+import ThemedText from "@/src/components/ui/ThemedText";
+import { SegmentedControlOption, SelectOption } from "@/src/types/uiTypes";
+import capitalizeString from "@/src/utils/string/capitalizeString";
+import { useEffect, useMemo } from "react";
+import AccountOption from "../../account/components/ui/AccountOption";
+import useGetAccounts from "../../account/hooks/useGetAccounts";
+import useFormData from "../../form/hooks/useFormData";
+import GroupOption from "../../group/components/ui/GroupOption";
+import useGetGroups from "../../group/hooks/useGetGroups";
+import { useLastPathname } from "../../navigation/contexts/LastPathnameContext";
+import TransactionCategoryOption from "../../transactionCategory/components/ui/TransactionCategoryOption";
+import useGetTransactionCategories from "../../transactionCategory/hooks/useGetTransactionCategories";
+import { useAdminUser } from "../../user/contexts/AdminUserContext";
+import { NEW_TRANSACTION_FORM_DATA } from "../constants/formData";
+import {
+	TRANSACTION_RECURRING_OPTIONS,
+	TransactionRecurring,
+} from "../constants/transactionRecurringOptions";
+import { TRANSACTION_TYPE_OPTIONS, TransactionType } from "../constants/transactionTypeOptions";
+
+const ACCOUNT_PATH_REGEX =
+	/\/accounts\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})/;
+const GROUP_PATH_REGEX =
+	/\/groups\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})/;
+
+const useNewTransactionData = () => {
+	// #region Hooks
+	const { pathname } = useLastPathname();
+	const { admin } = useAdminUser();
+	const { transactionCategories } = useGetTransactionCategories();
+	const { accounts } = useGetAccounts();
+	const { groups } = useGetGroups();
+	const { data, updateData, setData } = useFormData(NEW_TRANSACTION_FORM_DATA);
+	//#endregion
+
+	// #region Constants
+	const TRANSACTION_CATEGORY_TYPE_OPTIONS: SegmentedControlOption<TransactionType>[] = useMemo(
+		() =>
+			TRANSACTION_TYPE_OPTIONS.map((option) => ({
+				value: option,
+				label: capitalizeString(option),
+			})),
+		[]
+	);
+	const CATEGORY_OPTIONS: SelectOption[] = useMemo(
+		() =>
+			transactionCategories
+				.filter((category) => category.type === data.type)
+				.map((category) => ({
+					value: category.id,
+					label: <TransactionCategoryOption transactionCategory={category} />,
+				})),
+		[transactionCategories, data.type]
+	);
+	const RECURRING_OPTIONS: SelectOption<TransactionRecurring | "">[] = useMemo(
+		() => [
+			{
+				value: "",
+				label: <ThemedText>Not recurring</ThemedText>,
+			},
+			...TRANSACTION_RECURRING_OPTIONS.map((option) => ({
+				value: option,
+				label: <ThemedText>{capitalizeString(option)}</ThemedText>,
+			})),
+		],
+		[]
+	);
+	const ACCOUNT_OPTIONS: SelectOption[] = useMemo(
+		() =>
+			accounts.map((account) => ({
+				value: account.id,
+				label: <AccountOption account={account} />,
+			})),
+
+		[accounts]
+	);
+	const GROUP_OPTIONS: SelectOption[] = useMemo(
+		() => [
+			{
+				value: "",
+				label: <ThemedText>No group</ThemedText>,
+			},
+			...groups.map((group) => ({
+				value: group.id,
+				label: <GroupOption group={group} />,
+			})),
+		],
+		[groups]
+	);
+	const MEMBER_OPTIONS: SelectOption[] = useMemo(
+		() =>
+			!admin
+				? []
+				: data.groupId
+				? groups
+						.find((group) => group.id === data.groupId)
+						?.users.map((user) => ({
+							value: user.id,
+							label: (
+								<ThemedText>
+									{user.name} {user.id === admin.id ? "(Me)" : ""}
+								</ThemedText>
+							),
+						})) ?? []
+				: [{ value: admin.id, label: <ThemedText>{admin.name} (Me)</ThemedText> }],
+		[admin, groups, data.groupId]
+	);
+	//#endregion
+
+	// #region Functions
+	function resetFormData() {
+		setData({
+			...NEW_TRANSACTION_FORM_DATA,
+			timestamp: new Date(),
+			accountId: accounts.find((account) => account.default)?.id ?? "",
+			userId: admin?.id ?? "",
+		});
+	}
+	//#endregion
+
+	// Set user ID
+	useEffect(() => {
+		if (!admin) return;
+
+		// Update data
+		setData((data) => ({ ...data, userId: admin.id }));
+	}, [admin, setData]);
+
+	// Set account ID
+	useEffect(() => {
+		const accountMatch = ACCOUNT_PATH_REGEX.exec(pathname);
+		if (accountMatch) {
+			// Get account ID
+			const accountId = accountMatch[1];
+
+			// Check account ID
+			if (!accountId) return;
+
+			// Update data
+			setData((data) => ({ ...data, accountId }));
+
+			return;
+		}
+
+		// Get default account
+		const defaultAccount = accounts.find((account) => account.default);
+
+		// Check default account
+		if (!defaultAccount) return;
+
+		// Update data
+		setData((data) => ({ ...data, accountId: defaultAccount.id }));
+	}, [pathname, accounts, setData]);
+
+	// Set group ID
+	useEffect(() => {
+		const groupMatch = GROUP_PATH_REGEX.exec(pathname);
+		if (groupMatch) {
+			// Get group ID
+			const groupId = groupMatch[1];
+
+			// Check group ID
+			if (!groupId) return;
+
+			// Update data
+			setData((data) => ({ ...data, groupId }));
+
+			return;
+		}
+	}, [pathname, setData]);
+
+	return {
+		data,
+		updateData,
+		setData,
+		resetFormData,
+		TRANSACTION_CATEGORY_TYPE_OPTIONS,
+		CATEGORY_OPTIONS,
+		RECURRING_OPTIONS,
+		ACCOUNT_OPTIONS,
+		GROUP_OPTIONS,
+		MEMBER_OPTIONS,
+		lastPathname: pathname,
+	};
+};
+
+export default useNewTransactionData;

@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { useLocalSearchParams } from "expo-router";
+import { useGlobalSearchParams } from "expo-router";
 import { useEffect } from "react";
 import { useError } from "../../error/contexts/ErrorContext";
 import getTransactionCategory from "../services/getTransactionCategory";
 
 const useGetTransactionCategory = () => {
 	// #region Hooks
-	const { transactionCategoryId } = useLocalSearchParams<{ transactionCategoryId?: string }>();
+	const { transactionCategoryId } = useGlobalSearchParams<{ transactionCategoryId?: string }>();
 	const { setError } = useError();
 	//#endregion
 

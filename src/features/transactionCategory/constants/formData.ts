@@ -19,3 +19,10 @@ export const EDIT_TRANSACTION_CATEGORY_FORM_DATA = {
 	backgroundColor: "#000000",
 };
 export type EditTransactionCategoryFormData = typeof EDIT_TRANSACTION_CATEGORY_FORM_DATA;
+
+// Delete category
+export const DELETE_TRANSACTION_CATEGORY_FORM_DATA = {
+	deleteTransactions: false,
+	newCategoryId: "",
+};
+export type DeleteTransactionCategoryFormData = typeof DELETE_TRANSACTION_CATEGORY_FORM_DATA;

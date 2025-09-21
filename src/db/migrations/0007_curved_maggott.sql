@@ -1,0 +1,1 @@
+ALTER TABLE `transaction_category` ADD `order` integer NOT NULL;

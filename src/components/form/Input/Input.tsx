@@ -34,7 +34,8 @@ const Input = forwardRef<TextInput, InputProps>(
 		//#endregion
 
 		// #region Hooks
-		const backgroundColor = useThemeColor({ variant: "neutral", shade: 100 });
+		const defaultBackgroundColor = useThemeColor({ variant: "neutral", shade: 100 });
+		const searchBackgroundColor = useThemeColor({ variant: "neutral", shade: 200 });
 		const placeholderColor = useThemeColor({ variant: "neutral", shade: 600 });
 		const color = useThemeColor({ variant: "neutral", shade: 800 });
 		const iconColor = useThemeColor({ variant: "neutral", shade: 600 });
@@ -86,7 +87,13 @@ const Input = forwardRef<TextInput, InputProps>(
 		//#endregion
 
 		return (
-			<Animated.View style={[styles.container, animatedViewStyle, { backgroundColor }]}>
+			<Animated.View
+				style={[
+					styles.container,
+					animatedViewStyle,
+					{ backgroundColor: search ? searchBackgroundColor : defaultBackgroundColor },
+				]}
+			>
 				{search && <Feather name="search" size={20} color={iconColor} />}
 
 				<TextInput

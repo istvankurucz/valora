@@ -7,7 +7,7 @@ export default async function getTransactionCategory(id: string): Promise<Transa
 	const categoryData = await getTransactionCategoryData(id);
 
 	// Get transactions
-	const transactions = await getTransactionsByCategoryId(categoryData.id);
+	const transactions = await getTransactionsByCategoryId(categoryData.id, { adminId: undefined });
 
 	// Return transaction category
 	return { ...categoryData, transactions };

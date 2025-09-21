@@ -1,4 +1,4 @@
-import SectionTitle from "@/src/components/ui/SectionTitle";
+import Section from "@/src/components/ui/Section/Section";
 import ThemedView from "@/src/components/ui/ThemedView";
 import generateUUID from "@/src/utils/uuid/generateUUID";
 import { useEditGroup } from "../../contexts/EditGroupContext";
@@ -31,7 +31,7 @@ const EditGroupPreview = () => {
 
 	return (
 		<ThemedView>
-			<SectionTitle>Preview</SectionTitle>
+			<Section.Title>Preview</Section.Title>
 			<GroupListItem group={groupData} />
 		</ThemedView>
 	);

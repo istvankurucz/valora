@@ -73,6 +73,7 @@ const NewAccountForm = () => {
 				await createTransactionCategory({
 					type: category.type,
 					name: category.name,
+					order: category.order,
 					iconId: icon.id,
 				});
 			});

@@ -1,7 +1,7 @@
 import Screen from "@/src/components/layout/Screen/Screen";
+import GroupLatestTransactions from "@/src/features/group/components/layout/GroupLatestTransactions";
 import { useGroup } from "@/src/features/group/contexts/GroupContext";
 import { Stack } from "expo-router";
-import { Text } from "react-native";
 
 const Group = () => {
 	//#region Hooks
@@ -12,7 +12,9 @@ const Group = () => {
 		<Screen>
 			<Stack.Screen options={{ title: group?.name }} />
 
-			<Text>Group</Text>
+			<Screen.ScrollView>
+				<GroupLatestTransactions />
+			</Screen.ScrollView>
 		</Screen>
 	);
 };

@@ -1,3 +1,4 @@
+import GroupDeleteModal from "@/src/features/group/components/layout/GroupDeleteModal";
 import GroupHeader from "@/src/features/group/components/layout/GroupHeader";
 import GroupMainModal from "@/src/features/group/components/layout/GroupMainModal";
 import { GroupProvider } from "@/src/features/group/contexts/GroupContext";
@@ -7,7 +8,8 @@ import { useRef } from "react";
 
 const GroupLayout = () => {
 	// #region Refs
-	const groupMainModalRef = useRef<BottomSheetModal>(null);
+	const mainModalRef = useRef<BottomSheetModal>(null);
+	const deleteModalRef = useRef<BottomSheetModal>(null);
 	//#endregion
 
 	return (
@@ -15,15 +17,21 @@ const GroupLayout = () => {
 			<Stack
 				screenOptions={{
 					header: ({ options }) => (
-						<GroupHeader title={options.title} mainModalRef={groupMainModalRef} />
+						<GroupHeader title={options.title} mainModalRef={mainModalRef} />
 					),
 				}}
 			>
 				<Stack.Screen name="index" />
 				<Stack.Screen name="edit" options={{ title: "Edit group" }} />
+				<Stack.Screen name="transactions" options={{ headerShown: false }} />
 			</Stack>
 
-			<GroupMainModal modalRef={groupMainModalRef} ref={groupMainModalRef} />
+			<GroupMainModal
+				modalRef={mainModalRef}
+				deleteModalRef={deleteModalRef}
+				ref={mainModalRef}
+			/>
+			<GroupDeleteModal ref={deleteModalRef} />
 		</GroupProvider>
 	);
 };

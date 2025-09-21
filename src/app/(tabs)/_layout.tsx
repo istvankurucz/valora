@@ -1,19 +1,27 @@
+import TabsHeader from "@/src/components/layout/TabsHeader";
 import SpecialTabBarIcon from "@/src/features/navigation/components/ui/SpecialTabBarIcon";
 import TabBarIcon from "@/src/features/navigation/components/ui/TabBarIcon";
 import useThemeColor from "@/src/hooks/useThemeColor";
-import { Tabs } from "expo-router";
+import { Tabs, usePathname } from "expo-router";
 import { StyleSheet } from "react-native";
 
 const TabsLayout = () => {
 	// #region Hooks
+	const pathname = usePathname();
+
 	const backgroundColor = useThemeColor({ variant: "neutral", shade: 100 });
 	const shadowColor = useThemeColor({ variant: "neutral", shade: 300 });
+	//#endregion
+
+	// #region Constants
+	const showHeader = pathname === "/new-transaction";
 	//#endregion
 
 	return (
 		<Tabs
 			screenOptions={{
-				headerShown: false,
+				headerShown: showHeader,
+				header: ({ options }) => <TabsHeader title={options.title} />,
 				popToTopOnBlur: true,
 				tabBarShowLabel: false,
 				tabBarStyle: [
@@ -38,8 +46,9 @@ const TabsLayout = () => {
 				}}
 			/>
 			<Tabs.Screen
-				name="create-transaction"
+				name="new-transaction"
 				options={{
+					title: "New transaction",
 					tabBarIcon: ({ focused }) => <SpecialTabBarIcon focused={focused} />,
 				}}
 			/>

@@ -1,8 +1,9 @@
 import { BORDER_RADIUS } from "@/src/constants/borderRadius";
 import { StyleSheet } from "react-native";
-import SectionTitle from "../SectionTitle";
 import ThemedView, { ThemedViewProps } from "../ThemedView";
 import EmptySection from "./EmptySection";
+import SectionHeader from "./SectionHeader/SectionHeader";
+import SectionTitle from "./SectionTitle";
 
 export type SectionProps = ThemedViewProps;
 
@@ -23,6 +24,7 @@ const styles = StyleSheet.create({
 });
 
 // Children
+Section.Header = SectionHeader;
 Section.Title = SectionTitle;
 Section.Empty = EmptySection;
 

@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import ThemedText, { ThemedTextProps } from "./ThemedText";
+import ThemedText, { ThemedTextProps } from "../ThemedText";
 
 type Props = ThemedTextProps;
 
