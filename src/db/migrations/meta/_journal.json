@@ -57,6 +57,13 @@
       "when": 1758441464953,
       "tag": "0007_curved_maggott",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1758539608177,
+      "tag": "0008_complete_bromley",
+      "breakpoints": true
     }
   ]
 }

@@ -38,6 +38,7 @@ const DateInput = ({
 	//#endregion
 
 	// #region Hooks
+	const backgroundColor = useThemeColor({ variant: "neutral", shade: 100 });
 	const iconColor = useThemeColor({ variant: "neutral", shade: 600 });
 	const iconBackgroundColor = useThemeColor({ variant: "neutral", shade: 300 });
 
@@ -88,7 +89,9 @@ const DateInput = ({
 	return (
 		<View>
 			<Pressable onPress={handleShowPress}>
-				<Animated.View style={[styles.container, animatedViewStyle, style]}>
+				<Animated.View
+					style={[styles.container, { backgroundColor }, animatedViewStyle, style]}
+				>
 					<ThemedText style={styles.value}>
 						{value === INITIAL_DATE ? "No date" : value.toLocaleDateString()}
 					</ThemedText>

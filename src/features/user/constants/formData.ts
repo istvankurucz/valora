@@ -14,3 +14,15 @@ export const EDIT_ACCOUNT_FORM_DATA = {
 	currency: "USD" as CurrencyCode,
 };
 export type EditAccountFormData = typeof EDIT_ACCOUNT_FORM_DATA;
+
+// New user
+export const NEW_USER_FORM_DATA = {
+	name: "",
+};
+export type NewUserFormData = typeof NEW_USER_FORM_DATA;
+
+// Edit user
+export const EDIT_USER_FORM_DATA = {
+	name: "",
+};
+export type EditUserFormData = typeof EDIT_USER_FORM_DATA;

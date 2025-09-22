@@ -35,6 +35,7 @@ const Select = <T,>({
 	//#endregion
 
 	// #region Hooks
+	const backgroundColor = useThemeColor({ variant: "neutral", shade: 100 });
 	const iconColor = useThemeColor({ variant: "neutral", shade: 600 });
 
 	const defaultBorderWidth = 2;
@@ -85,7 +86,10 @@ const Select = <T,>({
 	return (
 		<Fragment>
 			<Pressable disabled={disabled} onPress={handleSelectPress}>
-				<Animated.View style={[styles.container, animatedViewStyle, style]} {...rest}>
+				<Animated.View
+					style={[styles.container, { backgroundColor }, animatedViewStyle, style]}
+					{...rest}
+				>
 					<ThemedText style={styles.value}>{valueLabel}</ThemedText>
 
 					<IconUnderlay style={styles.icon} onPress={handleSelectPress}>

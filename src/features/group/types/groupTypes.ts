@@ -30,4 +30,5 @@ export type GroupUserInsert = typeof GroupUserTable.$inferInsert;
 
 // #region Group user
 export type GroupUser = Omit<GroupUserSelect, "groupId" | "userId"> & UserData;
+export type GroupUserWithTransactions = GroupUser & { transactions: Transaction[] };
 //#endregion

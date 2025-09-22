@@ -16,7 +16,7 @@ type Props = BottomModalProps & {
 };
 
 const AccountMainModal = forwardRef<BottomSheetModal, Props>(
-	({ modalRef, deleteModalRef, ...rest }, ref) => {
+	({ modalRef, deleteModalRef, snapPoints, ...rest }, ref) => {
 		// #region Hooks
 		const { account } = useAccount();
 
@@ -35,9 +35,15 @@ const AccountMainModal = forwardRef<BottomSheetModal, Props>(
 		//#endregion
 
 		return (
-			<BottomModal {...rest} ref={ref}>
+			<BottomModal snapPoints={[300]} {...rest} ref={ref}>
 				<BottomModalTitle>Account options</BottomModalTitle>
 
+				<Link href={`/accounts/${account?.id}/transactions`} onPress={handleEditPress} asChild>
+					<BottomModalListItem>
+						<Ionicons name="card-outline" size={24} color={defaultIconColor} />
+						<ThemedText>Transactions</ThemedText>
+					</BottomModalListItem>
+				</Link>
 				<Link href={`/accounts/${account?.id}/edit`} onPress={handleEditPress} asChild>
 					<BottomModalListItem>
 						<Ionicons name="pencil" size={24} color={defaultIconColor} />

@@ -13,7 +13,9 @@ const Settings = () => {
 				<Link href="/settings/transaction-categories" asChild>
 					<SettingsListItem icon="pricetag-outline" label="Transaction categories" />
 				</Link>
-				<SettingsListItem icon="people-outline" label="Members" />
+				<Link href="/settings/users" asChild>
+					<SettingsListItem icon="people-outline" label="Members" />
+				</Link>
 				<SettingsListItem icon="information-outline" label="App info" />
 			</Section>
 		</Screen>

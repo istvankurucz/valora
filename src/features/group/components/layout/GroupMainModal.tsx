@@ -14,7 +14,7 @@ type Props = BottomModalProps & {
 };
 
 const GroupMainModal = forwardRef<BottomSheetModal, Props>(
-	({ modalRef, deleteModalRef, ...rest }, ref) => {
+	({ modalRef, deleteModalRef, snapPoints, ...rest }, ref) => {
 		// #region Hooks
 		const { group } = useGroup();
 
@@ -33,9 +33,21 @@ const GroupMainModal = forwardRef<BottomSheetModal, Props>(
 		//#endregion
 
 		return (
-			<BottomModal {...rest} ref={ref}>
+			<BottomModal snapPoints={[350]} {...rest} ref={ref}>
 				<BottomModalTitle>Group options</BottomModalTitle>
 
+				<Link href={`/groups/${group?.id}/transactions`} onPress={handleEditPress} asChild>
+					<BottomModalListItem>
+						<Ionicons name="card-outline" size={24} color={defaultIconColor} />
+						<ThemedText>Transactions</ThemedText>
+					</BottomModalListItem>
+				</Link>
+				<Link href={`/groups/${group?.id}/members`} onPress={handleEditPress} asChild>
+					<BottomModalListItem>
+						<Ionicons name="person-outline" size={24} color={defaultIconColor} />
+						<ThemedText>Members</ThemedText>
+					</BottomModalListItem>
+				</Link>
 				<Link href={`/groups/${group?.id}/edit`} onPress={handleEditPress} asChild>
 					<BottomModalListItem>
 						<Ionicons name="pencil" size={24} color={defaultIconColor} />

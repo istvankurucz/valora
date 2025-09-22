@@ -1,5 +1,6 @@
 import { CurrencyCode } from "@/src/constants/currencies";
 import { UserTable } from "@/src/db/schemas/User";
+import { GroupData } from "../../group/types/groupTypes";
 
 // #region User DB types
 export type UserSelect = typeof UserTable.$inferSelect;
@@ -19,4 +20,10 @@ export type AdminUserUpdate = Partial<Pick<UserSelect, "name" | "currency">>;
 
 // #region User data
 export type UserData = Omit<UserSelect, "currency" | "updatedAt" | "createdAt">;
+//#endregion
+
+// #region User
+export type User = UserData & {
+	groups: GroupData[];
+};
 //#endregion

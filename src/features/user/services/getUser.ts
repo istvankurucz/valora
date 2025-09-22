@@ -1,21 +1,14 @@
-import { db } from "@/src/db/db";
-import AppError from "../../error/classes/AppError";
-import { UserData } from "../types/userTypes";
+import getGroupsByUserId from "../../group/services/getGroupsByUserId";
+import { User } from "../types/userTypes";
+import getUserData from "./getUserData";
 
-export default async function getUser(id: string): Promise<UserData> {
+export default async function getUser(id: string): Promise<User> {
 	// Get user
-	const user = await db.query.UserTable.findFirst({
-		columns: {
-			currency: false,
-			updatedAt: false,
-			createdAt: false,
-		},
-		where: (user, { eq }) => eq(user.id, id),
-	});
+	const userData = await getUserData(id);
 
-	// Check user
-	if (!user) throw new AppError({ message: "User not found." });
+	// Get groups
+	const groups = await getGroupsByUserId(id);
 
 	// Return user
-	return user;
+	return { ...userData, groups };
 }

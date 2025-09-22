@@ -22,7 +22,7 @@ export const TransactionTable = sqliteTable("transaction", {
 	recurring: text("recurring", { enum: TRANSACTION_RECURRING_OPTIONS }),
 	accountId: text("account_id", { length: UUID_LENGTH }).references(() => AccountTable.id),
 	userId: text("user_id", { length: UUID_LENGTH })
-		.references(() => UserTable.id)
+		.references(() => UserTable.id, { onDelete: "cascade" })
 		.notNull(),
 	groupId: text("group_id", { length: UUID_LENGTH }).references(() => GroupTable.id),
 });

@@ -21,12 +21,20 @@ const useCreateGroupUsers = () => {
 		CreateGroupUsersVariables
 	>({
 		mutationFn: ({ groupId, userIds }) => createGroupUsers(groupId, userIds),
-		onSuccess: (_, { groupId }) => {
+		onSuccess: (_, { groupId, userIds }) => {
 			// Invalidate groups query
 			queryClient.invalidateQueries({ queryKey: ["groups"], exact: true });
 
 			// Invalidate group query
 			queryClient.invalidateQueries({ queryKey: ["groups", groupId] });
+
+			// Invalidate users query
+			queryClient.invalidateQueries({ queryKey: ["users"] });
+
+			// Invalidate query of each user
+			userIds.forEach((userId) =>
+				queryClient.invalidateQueries({ queryKey: ["users", userId] })
+			);
 		},
 		onError: (err) => {
 			setError(err);

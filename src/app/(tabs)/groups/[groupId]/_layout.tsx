@@ -24,6 +24,7 @@ const GroupLayout = () => {
 				<Stack.Screen name="index" />
 				<Stack.Screen name="edit" options={{ title: "Edit group" }} />
 				<Stack.Screen name="transactions" options={{ headerShown: false }} />
+				<Stack.Screen name="members" options={{ headerShown: false }} />
 			</Stack>
 
 			<GroupMainModal

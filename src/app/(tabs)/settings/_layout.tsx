@@ -7,6 +7,7 @@ const SettingsLayout = () => {
 			<Stack.Screen name="index" options={{ title: "Settings" }} />
 			<Stack.Screen name="my-data" options={{ title: "My data" }} />
 			<Stack.Screen name="transaction-categories" options={{ headerShown: false }} />
+			<Stack.Screen name="users" options={{ headerShown: false }} />
 		</Stack>
 	);
 };

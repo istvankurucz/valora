@@ -1,9 +1,11 @@
 import ThemedText from "@/src/components/ui/ThemedText";
 import { SegmentedControlOption, SelectOption } from "@/src/types/uiTypes";
 import capitalizeString from "@/src/utils/string/capitalizeString";
+import { usePathname } from "expo-router";
 import { useEffect, useMemo } from "react";
 import AccountOption from "../../account/components/ui/AccountOption";
 import useGetAccounts from "../../account/hooks/useGetAccounts";
+import { useFeedback } from "../../feedback/contexts/FeedbackContext";
 import useFormData from "../../form/hooks/useFormData";
 import GroupOption from "../../group/components/ui/GroupOption";
 import useGetGroups from "../../group/hooks/useGetGroups";
@@ -22,15 +24,19 @@ const ACCOUNT_PATH_REGEX =
 	/\/accounts\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})/;
 const GROUP_PATH_REGEX =
 	/\/groups\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})/;
+const MEMBER_PATH_REGEX =
+	/\/members\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})/;
 
 const useNewTransactionData = () => {
 	// #region Hooks
-	const { pathname } = useLastPathname();
+	const pathname = usePathname();
+	const { pathname: lastPathname } = useLastPathname();
 	const { admin } = useAdminUser();
 	const { transactionCategories } = useGetTransactionCategories();
 	const { accounts } = useGetAccounts();
 	const { groups } = useGetGroups();
 	const { data, updateData, setData } = useFormData(NEW_TRANSACTION_FORM_DATA);
+	const { setFeedback } = useFeedback();
 	//#endregion
 
 	// #region Constants
@@ -105,6 +111,8 @@ const useNewTransactionData = () => {
 				: [{ value: admin.id, label: <ThemedText>{admin.name} (Me)</ThemedText> }],
 		[admin, groups, data.groupId]
 	);
+
+	const showFeedback = pathname === "/new-transaction";
 	//#endregion
 
 	// #region Functions
@@ -128,16 +136,24 @@ const useNewTransactionData = () => {
 
 	// Set account ID
 	useEffect(() => {
-		const accountMatch = ACCOUNT_PATH_REGEX.exec(pathname);
+		const accountMatch = ACCOUNT_PATH_REGEX.exec(lastPathname);
 		if (accountMatch) {
 			// Get account ID
 			const accountId = accountMatch[1];
 
-			// Check account ID
-			if (!accountId) return;
+			// Check account ID and amin
+			if (!accountId || !admin) return;
 
 			// Update data
-			setData((data) => ({ ...data, accountId }));
+			setData((data) => ({ ...data, accountId, userId: admin.id, groupId: "" }));
+
+			if (showFeedback) {
+				// Show feedback
+				setFeedback({
+					type: "info",
+					message: "Account was set automatically.",
+				});
+			}
 
 			return;
 		}
@@ -150,11 +166,11 @@ const useNewTransactionData = () => {
 
 		// Update data
 		setData((data) => ({ ...data, accountId: defaultAccount.id }));
-	}, [pathname, accounts, setData]);
+	}, [lastPathname, accounts, admin, setData, setFeedback, showFeedback]);
 
 	// Set group ID
 	useEffect(() => {
-		const groupMatch = GROUP_PATH_REGEX.exec(pathname);
+		const groupMatch = GROUP_PATH_REGEX.exec(lastPathname);
 		if (groupMatch) {
 			// Get group ID
 			const groupId = groupMatch[1];
@@ -165,9 +181,43 @@ const useNewTransactionData = () => {
 			// Update data
 			setData((data) => ({ ...data, groupId }));
 
+			const memberMatch = MEMBER_PATH_REGEX.exec(lastPathname);
+			if (memberMatch) {
+				// Get member ID
+				const memberId = memberMatch[1];
+
+				// Check member ID
+				if (!memberId) return;
+
+				// Update data
+				setData((data) => ({ ...data, userId: memberId, accountId: "" }));
+
+				if (showFeedback) {
+					// Show feedback
+					setFeedback({
+						type: "info",
+						message: "Group and member was set automatically.",
+					});
+				}
+			} else {
+				// Check admin
+				if (!admin) return;
+
+				// Update data
+				setData((data) => ({ ...data, userId: admin.id }));
+
+				if (showFeedback) {
+					// Show feedback
+					setFeedback({
+						type: "info",
+						message: "Group was set automatically.",
+					});
+				}
+			}
+
 			return;
 		}
-	}, [pathname, setData]);
+	}, [lastPathname, admin, setData, setFeedback, showFeedback]);
 
 	return {
 		data,
@@ -180,7 +230,7 @@ const useNewTransactionData = () => {
 		ACCOUNT_OPTIONS,
 		GROUP_OPTIONS,
 		MEMBER_OPTIONS,
-		lastPathname: pathname,
+		lastPathname,
 	};
 };
 
