@@ -17,7 +17,7 @@ const SegmentedControl = <T,>({
 	value,
 	onValueChange,
 	options,
-	shade,
+	shade = 100,
 	style,
 	...rest
 }: SegmentedControlProps<T>) => {
@@ -51,14 +51,14 @@ const SegmentedControl = <T,>({
 	//#endregion
 
 	return (
-		<ThemedView shade={shade ?? 100} style={[styles.container, style]} {...rest}>
+		<ThemedView shade={shade} style={[styles.container, style]} {...rest}>
 			{options.map((option, i) => (
 				<Underlay
 					key={i}
 					style={styles.optionContainer}
 					onPress={() => handleOptionPress(option.value)}
 				>
-					<ThemedView shade={shade ?? 100} style={styles.option}>
+					<ThemedView shade={shade} style={styles.option}>
 						<ThemedText shade={600}>{option.label}</ThemedText>
 					</ThemedView>
 				</Underlay>
