@@ -5,17 +5,19 @@ import FormSegmentedControl from "@/src/components/form/SegmentedControl/FormSeg
 import FormSelect from "@/src/components/form/Select/FormSelect";
 import Button from "@/src/components/ui/Button";
 import { useFormValidation } from "@/src/features/form/contexts/FormValidationContext";
+import { useLastPathname } from "@/src/features/navigation/contexts/LastPathnameContext";
 import { useAdminUser } from "@/src/features/user/contexts/AdminUserContext";
 import { useRouter } from "expo-router";
 import { View } from "react-native";
-import useCreateTransaction from "../../hooks/useCreateTransaction";
-import useNewTransactionData from "../../hooks/useNewTransactionData";
-import validateNewTransactionData from "../../utils/validation/validateNewTransactionData";
+import useEditTransactionData from "../../hooks/useEditTransactionData";
+import useUpdateTransaction from "../../hooks/useUpdateTransaction";
+import validateEditTransactionData from "../../utils/validation/validateEditTransactionData";
 
-const NewTransactionForm = () => {
+const EditTransactionForm = () => {
 	// #region Hooks
 	const { admin } = useAdminUser();
 	const {
+		transaction,
 		data,
 		updateData,
 		handleMemberChange,
@@ -26,21 +28,24 @@ const NewTransactionForm = () => {
 		ACCOUNT_OPTIONS,
 		GROUP_OPTIONS,
 		MEMBER_OPTIONS,
-		lastPathname,
-	} = useNewTransactionData();
-	const { createTransaction, loading } = useCreateTransaction();
+	} = useEditTransactionData();
+	const { updateTransaction, loading } = useUpdateTransaction();
 	const { addError, removeErrors } = useFormValidation();
 	const router = useRouter();
+	const { pathname } = useLastPathname();
 	//#endregion
 
 	// #region Functions
-	async function handleCreateTransactionPress() {
+	async function handleUpdateTransactionPress() {
+		// Check transaction
+		if (!transaction) return;
+
 		// Remove form errors
 		removeErrors();
 
 		try {
 			// Validation
-			const transactionData = validateNewTransactionData({
+			const transactionData = validateEditTransactionData({
 				type: data.type,
 				label: data.label,
 				note: data.note || undefined,
@@ -54,10 +59,10 @@ const NewTransactionForm = () => {
 			});
 
 			// Create transaction
-			await createTransaction(transactionData);
+			await updateTransaction({ id: transaction.id, data: transactionData });
 
 			// Navigation
-			router.replace(lastPathname as any);
+			router.replace(pathname as any);
 
 			// Reset form data
 			resetFormData();
@@ -149,12 +154,12 @@ const NewTransactionForm = () => {
 			</InputsContainer>
 
 			<Button
-				title="Create transaction"
+				title="Update transaction"
 				loading={loading}
-				onPress={handleCreateTransactionPress}
+				onPress={handleUpdateTransactionPress}
 			/>
 		</View>
 	);
 };
 
-export default NewTransactionForm;
+export default EditTransactionForm;

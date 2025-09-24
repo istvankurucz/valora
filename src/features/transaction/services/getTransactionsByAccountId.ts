@@ -1,6 +1,6 @@
 import { db } from "@/src/db/db";
 import { Transaction } from "../types/transactionTypes";
-import getFullTransaction from "./getFullTransaction";
+import getTransactionDetails from "./getTransactionDetails";
 
 export default async function getTransactionsByAccountId(
 	accountId: string
@@ -13,7 +13,7 @@ export default async function getTransactionsByAccountId(
 
 	// Get full transactions
 	const transactions = await Promise.all(
-		transactionSelects.map(async (transaction) => await getFullTransaction(transaction))
+		transactionSelects.map(async (transaction) => await getTransactionDetails(transaction))
 	);
 
 	// Return transactions

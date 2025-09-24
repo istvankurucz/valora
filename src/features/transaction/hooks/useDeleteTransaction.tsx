@@ -1,26 +1,18 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useError } from "../../error/contexts/ErrorContext";
-import updateTransaction from "../services/updateTransaction";
-import { TransactionSelect, TransactionUpdate } from "../types/transactionTypes";
+import deleteTransaction from "../services/deleteTransaction";
 
-type UpdateTransactionVariables = {
-	id: string;
-	data: TransactionUpdate;
-};
+type DeleteTransactionVariables = string;
 
-const useUpdateTransaction = () => {
+const useDeleteTransaction = () => {
 	// #region Hooks
 	const queryClient = useQueryClient();
 	const { setError } = useError();
 	//#endregion
 
-	//#region Mutation
-	const { mutateAsync, isPending } = useMutation<
-		TransactionSelect,
-		unknown,
-		UpdateTransactionVariables
-	>({
-		mutationFn: ({ id, data }) => updateTransaction(id, data),
+	// #region Mutation
+	const { mutateAsync, isPending } = useMutation<void, unknown, DeleteTransactionVariables>({
+		mutationFn: deleteTransaction,
 		onSuccess: () => {
 			// Invalidate accounts query
 			queryClient.invalidateQueries({ queryKey: ["accounts"] });
@@ -43,7 +35,7 @@ const useUpdateTransaction = () => {
 	});
 	//#endregion
 
-	return { updateTransaction: mutateAsync, loading: isPending };
+	return { deleteTransaction: mutateAsync, loading: isPending };
 };
 
-export default useUpdateTransaction;
+export default useDeleteTransaction;

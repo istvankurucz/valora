@@ -30,7 +30,7 @@ type Props = PropsWithChildren;
 
 export const ChartNavigationProvider = ({ children }: Props) => {
 	// #region States
-	const [interval, setInterval] = useState<ChartInterval>(CHART_INTERVAL_OPTIONS[0]);
+	const [interval, setInterval] = useState<ChartInterval>(CHART_INTERVAL_OPTIONS[2]);
 	const [date, setDate] = useState(new Date());
 	//#endregion
 

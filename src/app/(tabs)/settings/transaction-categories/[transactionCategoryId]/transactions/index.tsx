@@ -5,7 +5,7 @@ import { useFilterTransactions } from "@/src/features/transaction/contexts/Filte
 import TransactionCategoryTransactionListItem from "@/src/features/transactionCategory/components/ui/TransactionCategoryTransactionListItem";
 import { useTransactionCategory } from "@/src/features/transactionCategory/contexts/TransactionCategoryContext";
 import capitalizeString from "@/src/utils/string/capitalizeString";
-import { Stack } from "expo-router";
+import { Link, Stack } from "expo-router";
 import { FlatList, StyleSheet } from "react-native";
 
 const TransactionCategoryTransactions = () => {
@@ -23,7 +23,14 @@ const TransactionCategoryTransactions = () => {
 			<FlatList
 				data={filteredTransactions}
 				keyExtractor={(category) => category.id}
-				renderItem={({ item }) => <TransactionCategoryTransactionListItem transaction={item} />}
+				renderItem={({ item: transaction }) => (
+					<Link
+						href={`/settings/transaction-categories/${transactionCategory?.id}/transactions/${transaction.id}`}
+						asChild
+					>
+						<TransactionCategoryTransactionListItem transaction={transaction} />
+					</Link>
+				)}
 				ListHeaderComponent={<FilterTransactionsSearch />}
 				ListEmptyComponent={<Section.Empty icon="card-outline" text="No transactions." />}
 				contentContainerStyle={styles.container}

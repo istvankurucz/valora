@@ -4,7 +4,7 @@ import getTransactionCategoryData from "../../transactionCategory/services/getTr
 import getUserData from "../../user/services/getUserData";
 import { Transaction, TransactionSelect } from "../types/transactionTypes";
 
-export default async function getFullTransaction(
+export default async function getTransactionDetails(
 	transaction: TransactionSelect
 ): Promise<Transaction> {
 	// Extract transaction properties

@@ -26,6 +26,8 @@ const GROUP_PATH_REGEX =
 	/\/groups\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})/;
 const MEMBER_PATH_REGEX =
 	/\/members\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})/;
+const TRANSACTION_CATEGORY_PATH_REGEX =
+	/\/transaction-categories\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})/;
 
 const useNewTransactionData = () => {
 	// #region Hooks
@@ -116,6 +118,26 @@ const useNewTransactionData = () => {
 	//#endregion
 
 	// #region Functions
+	function handleMemberChange(memberId: string) {
+		// Update user ID
+		updateData({ userId: memberId });
+
+		// Member is not the admin
+		if (memberId !== admin?.id) updateData({ accountId: "" });
+
+		// Selected member is the admin but there is no account selected
+		if (memberId === admin?.id && data.accountId === "") {
+			// Get default account
+			const defaultAccount = accounts.find((account) => account.default);
+
+			// Check default account
+			if (!defaultAccount) return;
+
+			// Update data
+			updateData({ accountId: defaultAccount.id });
+		}
+	}
+
 	function resetFormData() {
 		setData({
 			...NEW_TRANSACTION_FORM_DATA,
@@ -219,10 +241,37 @@ const useNewTransactionData = () => {
 		}
 	}, [lastPathname, admin, setData, setFeedback, showFeedback]);
 
+	// Set category
+	useEffect(() => {
+		const categoryMatch = TRANSACTION_CATEGORY_PATH_REGEX.exec(lastPathname);
+		if (categoryMatch) {
+			// Get category
+			const categoryId = categoryMatch[1];
+			const category = transactionCategories.find((category) => category.id === categoryId);
+
+			// Check xategory
+			if (!category) return;
+
+			// Update data
+			setData((data) => ({ ...data, categoryId: category.id, type: category.type }));
+
+			if (showFeedback) {
+				// Show feedback
+				setFeedback({
+					type: "info",
+					message: "Category was set automatically.",
+				});
+			}
+
+			return;
+		}
+	}, [lastPathname, setData, setFeedback, showFeedback, transactionCategories]);
+
 	return {
 		data,
 		updateData,
 		setData,
+		handleMemberChange,
 		resetFormData,
 		TRANSACTION_CATEGORY_TYPE_OPTIONS,
 		CATEGORY_OPTIONS,

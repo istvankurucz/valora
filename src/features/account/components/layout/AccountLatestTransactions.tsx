@@ -26,11 +26,15 @@ const AccountLatestTransactions = () => {
 					<Section.Empty icon="card-outline" text="No transactions." />
 				)}
 				{[
-					...(account?.transactions ?? [])
-						.slice(0, 5)
-						.map((transaction) => (
-							<AccountTransactionListItem key={transaction.id} transaction={transaction} />
-						)),
+					...(account?.transactions ?? []).slice(0, 5).map((transaction) => (
+						<Link
+							key={transaction.id}
+							href={`/accounts/${account?.id}/transactions/${transaction.id}`}
+							asChild
+						>
+							<AccountTransactionListItem transaction={transaction} />
+						</Link>
+					)),
 				]}
 			</ListContainer>
 		</View>

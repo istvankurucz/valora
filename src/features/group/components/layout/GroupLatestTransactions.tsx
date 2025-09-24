@@ -26,11 +26,15 @@ const GroupLatestTransactions = () => {
 					<Section.Empty icon="card-outline" text="No transactions." />
 				)}
 				{[
-					...(group?.transactions ?? [])
-						.slice(0, 5)
-						.map((transaction) => (
-							<GroupTransactionListItem key={transaction.id} transaction={transaction} />
-						)),
+					...(group?.transactions ?? []).slice(0, 5).map((transaction) => (
+						<Link
+							key={transaction.id}
+							href={`/groups/${group?.id}/transactions/${transaction.id}`}
+							asChild
+						>
+							<GroupTransactionListItem transaction={transaction} />
+						</Link>
+					)),
 				]}
 			</ListContainer>
 		</View>

@@ -19,6 +19,19 @@ export const NEW_TRANSACTION_FORM_DATA = {
 export type NewTransactionFormData = typeof NEW_TRANSACTION_FORM_DATA;
 
 // Edit transaction
+export const EDIT_TRANSACTION_FORM_DATA = {
+	type: "expense" as TransactionType,
+	label: "",
+	note: "",
+	categoryId: "",
+	timestamp: new Date(),
+	amount: "",
+	recurring: "" as TransactionRecurring | "",
+	accountId: "",
+	userId: "",
+	groupId: "",
+};
+export type EditTransactionFormData = typeof EDIT_TRANSACTION_FORM_DATA;
 
 // Filter transactions
 export const FILTER_TRANSACTIONS_FORM_DATA = {

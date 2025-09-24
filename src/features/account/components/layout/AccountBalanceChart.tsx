@@ -1,9 +1,9 @@
 import Section from "@/src/components/ui/Section/Section";
 import { View } from "react-native";
-import BalanceChart from "../../chart/components/ui/BalanceChart";
-import { BalanceChartProvider } from "../../chart/contexts/BalanceChartContext";
-import { ChartProvider } from "../../chart/contexts/ChartContext";
-import { ChartNavigationProvider } from "../../chart/contexts/ChartNavigationContext";
+import BalanceChart from "../../../chart/components/ui/BalanceChart";
+import { BalanceChartProvider } from "../../../chart/contexts/BalanceChartContext";
+import { ChartProvider } from "../../../chart/contexts/ChartContext";
+import { ChartNavigationProvider } from "../../../chart/contexts/ChartNavigationContext";
 import { useAccount } from "../../contexts/AccountContext";
 
 const AccountBalanceChart = () => {

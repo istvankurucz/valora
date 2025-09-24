@@ -28,14 +28,15 @@ const TransactionCategoryLatestTransactions = () => {
 					<Section.Empty icon="card-outline" text="No transactions." />
 				)}
 				{[
-					...(transactionCategory?.transactions ?? [])
-						.slice(0, 5)
-						.map((transaction) => (
-							<TransactionCategoryTransactionListItem
-								key={transaction.id}
-								transaction={transaction}
-							/>
-						)),
+					...(transactionCategory?.transactions ?? []).slice(0, 5).map((transaction) => (
+						<Link
+							key={transaction.id}
+							href={`/settings/transaction-categories/${transactionCategory?.id}/transactions/${transaction.id}`}
+							asChild
+						>
+							<TransactionCategoryTransactionListItem transaction={transaction} />
+						</Link>
+					)),
 				]}
 			</ListContainer>
 		</View>

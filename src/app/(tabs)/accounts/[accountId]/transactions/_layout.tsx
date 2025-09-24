@@ -28,6 +28,7 @@ const AccountTransactionsLayout = () => {
 				}}
 			>
 				<Stack.Screen name="index" />
+				<Stack.Screen name="[transactionId]" options={{ headerShown: false }} />
 			</Stack>
 
 			<FilterTransactionsModal ref={filterModalRef} />

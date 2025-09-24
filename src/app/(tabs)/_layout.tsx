@@ -14,7 +14,7 @@ const TabsLayout = () => {
 	//#endregion
 
 	// #region Constants
-	const showHeader = pathname === "/new-transaction";
+	const showHeader = pathname === "/new-transaction" || pathname === "/edit-transaction";
 	//#endregion
 
 	return (
@@ -50,6 +50,13 @@ const TabsLayout = () => {
 				options={{
 					title: "New transaction",
 					tabBarIcon: ({ focused }) => <SpecialTabBarIcon focused={focused} />,
+				}}
+			/>
+			<Tabs.Screen
+				name="edit-transaction"
+				options={{
+					href: null,
+					title: "Edit transaction",
 				}}
 			/>
 			<Tabs.Screen
