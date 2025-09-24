@@ -24,7 +24,6 @@ const BalanceChartComponent = () => {
 				activeOpacity={1}
 				barColors={incomeColor}
 				backgroundColor={barBackgroundColor}
-				style={styles.bar}
 			/>
 			<ProgressBar
 				value={chartData.expense.value}
@@ -32,7 +31,6 @@ const BalanceChartComponent = () => {
 				activeOpacity={1}
 				barColors={expenseColor}
 				backgroundColor={barBackgroundColor}
-				style={styles.bar}
 			/>
 		</View>
 	);
@@ -42,9 +40,6 @@ const BalanceChartComponent = () => {
 const styles = StyleSheet.create({
 	contaiener: {
 		gap: 12,
-	},
-	bar: {
-		height: 32,
 	},
 });
 

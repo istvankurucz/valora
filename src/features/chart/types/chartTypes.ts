@@ -7,6 +7,14 @@ export type BalanceChartData = {
 };
 //#endregion
 
+// #region Accounts balance chart
+export type AccountBalanceChartData = {
+	label: string;
+	income: { value: number };
+	expense: { value: number };
+};
+//#endregion
+
 // #region Transaction categories chart
 export type TransactionCategoriesChartData = {
 	type: TransactionType;

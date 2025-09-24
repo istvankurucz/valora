@@ -2,12 +2,12 @@ import ListContainer from "@/src/components/layout/ListContainer";
 import Section from "@/src/components/ui/Section/Section";
 import ThemedView from "@/src/components/ui/ThemedView";
 import { Link } from "expo-router";
-import useGetAccounts from "../../hooks/useGetAccounts";
+import { useAccounts } from "../../contexts/AccountsContext";
 import AccountListItem from "../ui/AccountListItem";
 
 const AccountsList = () => {
 	//#region Hooks
-	const { accounts } = useGetAccounts();
+	const { accounts } = useAccounts();
 	//#endregion
 
 	return (

@@ -1,10 +1,9 @@
 import AppError from "@/src/features/error/classes/AppError";
-import { TransactionCategoriesChartFormData } from "../constants/formData";
 import { BalanceChartData, TransactionCategoriesChartData } from "../types/chartTypes";
 
 export default function getTransactionCategoriesChartValue(
 	chartData: TransactionCategoriesChartData[],
-	params: { selectedIndex: number | null; data: TransactionCategoriesChartFormData }
+	params: { selectedIndex: number | null }
 ): TransactionCategoriesChartData | BalanceChartData {
 	// Get params
 	const { selectedIndex } = params;

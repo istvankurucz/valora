@@ -6,20 +6,21 @@ import { StyleSheet, View, ViewProps } from "react-native";
 import { useChart } from "../../contexts/ChartContext";
 import { useTransactionCategoriesChart } from "../../contexts/TransactionCategoriesChartContext";
 import getTransactionCategoriesChartValue from "../../utils/getTransactionCategoriesChartValue";
+import ChartValueBox from "./ChartValueBox";
 
 type Props = ViewProps;
 
 const TransactionCategoriesChartValue = ({ style, ...rest }: Props) => {
 	//#region Hooks
 	const { selectedIndex } = useChart();
-	const { data, chartData } = useTransactionCategoriesChart();
+	const { chartData } = useTransactionCategoriesChart();
 	const { formatAmount } = useFormatAmount();
 	//#endregion
 
 	// #region Constants
 	const valueData = useMemo(
-		() => getTransactionCategoriesChartValue(chartData, { selectedIndex, data }),
-		[chartData, selectedIndex, data]
+		() => getTransactionCategoriesChartValue(chartData, { selectedIndex }),
+		[chartData, selectedIndex]
 	);
 	//#endregion
 
@@ -29,13 +30,7 @@ const TransactionCategoriesChartValue = ({ style, ...rest }: Props) => {
 				<View>
 					<ThemedText style={styles.category}>{valueData.label}</ThemedText>
 					<ThemedText
-						variant={
-							valueData.value !== 0
-								? valueData.type === "income"
-									? "success"
-									: "danger"
-								: undefined
-						}
+						variant={valueData.type === "income" ? "success" : "danger"}
 						shade={500}
 						fontFamily="Poppins_700Bold"
 						style={styles.value}
@@ -47,34 +42,8 @@ const TransactionCategoriesChartValue = ({ style, ...rest }: Props) => {
 			)}
 			{"income" in valueData && (
 				<View style={styles.boxContainer}>
-					<View style={styles.box}>
-						<ThemedText fontFamily="Poppins_500Medium" style={styles.label}>
-							Income
-						</ThemedText>
-						<ThemedText
-							variant="success"
-							shade={500}
-							fontFamily="Poppins_700Bold"
-							style={styles.value}
-						>
-							{valueData.income.value > 0 ? "+" : ""}
-							{formatAmount(valueData.income.value)}
-						</ThemedText>
-					</View>
-					<View style={styles.box}>
-						<ThemedText fontFamily="Poppins_500Medium" style={styles.label}>
-							Expense
-						</ThemedText>
-						<ThemedText
-							variant="danger"
-							shade={500}
-							fontFamily="Poppins_700Bold"
-							style={styles.value}
-						>
-							{valueData.expense.value > 0 ? "-" : ""}
-							{formatAmount(valueData.expense.value)}
-						</ThemedText>
-					</View>
+					<ChartValueBox type="income" label="Income" value={valueData.income.value} />
+					<ChartValueBox type="expense" label="Expense" value={valueData.expense.value} />
 				</View>
 			)}
 		</View>
@@ -95,13 +64,6 @@ const styles = StyleSheet.create({
 	boxContainer: {
 		flexDirection: "row",
 		gap: 16,
-	},
-	box: {
-		flex: 1,
-		alignItems: "center",
-	},
-	label: {
-		fontSize: FONT_SIZE[400],
 	},
 });
 

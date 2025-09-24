@@ -25,7 +25,7 @@ export default function getTransactionCategoriesChartData(
 	// Get date range
 	const dateRange = getChartDateRange(date, interval);
 
-	// Filter transactions by date and type
+	// Filter transactions by date
 	const filteredTransactions = transactions.filter(
 		(transaction) =>
 			new Date(transaction.timestamp) >= dateRange.start &&
