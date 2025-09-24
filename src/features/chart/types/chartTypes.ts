@@ -22,3 +22,11 @@ export type TransactionCategoriesChartData = {
 	value: number;
 };
 //#endregion
+
+// #region Group members balance chart
+export type GroupMembersBalanceChartData = {
+	name: string;
+	income: { value: number };
+	expense: { value: number };
+};
+//#endregion

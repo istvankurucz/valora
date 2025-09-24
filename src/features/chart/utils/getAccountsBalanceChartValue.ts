@@ -15,7 +15,7 @@ export default function getAccountsBalanceChartValue(
 
 		// Check selected chart data
 		if (!selectedChartData) {
-			throw new AppError({ message: "Invalid selected transaction chart data." });
+			throw new AppError({ message: "Invalid selected accounts balance chart data." });
 		}
 
 		// Return selected chart data

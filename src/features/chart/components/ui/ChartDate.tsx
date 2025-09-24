@@ -16,7 +16,8 @@ const ChartDate = ({ style, ...rest }: Props) => {
 	//#endregion
 
 	// #region Hooks
-	const { interval, date, setDate, navigate } = useChartNavigation();
+	const { interval, date, setDate, navigate, disablePrevButton, disableNextButton } =
+		useChartNavigation();
 
 	const iconBackgroundColor = useThemeColor({ variant: "neutral", shade: 200 });
 	const iconColor = useThemeColor({ variant: "neutral", shade: 800 });
@@ -52,6 +53,7 @@ const ChartDate = ({ style, ...rest }: Props) => {
 		<View style={[styles.container, style]} {...rest}>
 			{showNavButton && (
 				<IconUnderlay
+					disabled={disablePrevButton}
 					style={{ backgroundColor: iconBackgroundColor }}
 					onPress={handlePrevPress}
 				>
@@ -67,6 +69,7 @@ const ChartDate = ({ style, ...rest }: Props) => {
 
 			{showNavButton && (
 				<IconUnderlay
+					disabled={disableNextButton}
 					style={{ backgroundColor: iconBackgroundColor }}
 					onPress={handleNextPress}
 				>
