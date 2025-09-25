@@ -36,6 +36,12 @@ const TabsLayout = () => {
 			<Tabs.Screen
 				name="index"
 				options={{
+					href: null,
+				}}
+			/>
+			<Tabs.Screen
+				name="home"
+				options={{
 					tabBarIcon: ({ focused }) => <TabBarIcon name="home" focused={focused} />,
 				}}
 			/>

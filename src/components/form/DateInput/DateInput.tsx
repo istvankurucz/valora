@@ -55,15 +55,15 @@ const DateInput = ({
 	});
 
 	const animatedViewStyle = useAnimatedStyle(() => {
-		return { borderWidth: borderWidth.value, borderColor: borderColor.value };
+		return { borderWidth: borderWidth.get(), borderColor: borderColor.get() };
 	}, []);
 	//#endregion
 
 	// #region Functions
 	function handleShowPress() {
 		// Set animated values
-		borderColor.value = withTiming(inputBorderColor.focused);
-		borderWidth.value = withTiming(focusedBorderWidth);
+		borderColor.set(withTiming(inputBorderColor.focused));
+		borderWidth.set(withTiming(focusedBorderWidth));
 
 		// Show picker
 		setShow(true);
@@ -74,8 +74,8 @@ const DateInput = ({
 		if (date) onValueChange?.(date);
 
 		// Set animated values
-		if (!value) borderColor.value = withTiming(inputBorderColor.default);
-		borderWidth.value = withTiming(defaultBorderWidth);
+		if (!value) borderColor.set(withTiming(inputBorderColor.default));
+		borderWidth.set(withTiming(defaultBorderWidth));
 
 		// Hide picker
 		setShow(false);

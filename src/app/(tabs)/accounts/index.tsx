@@ -6,8 +6,10 @@ const AccountsIndex = () => {
 	return (
 		<Screen>
 			<Screen.ScrollView>
-				<AccountsBalanceChart />
-				<AccountsList />
+				<Screen.Container>
+					<AccountsBalanceChart />
+					<AccountsList />
+				</Screen.Container>
 			</Screen.ScrollView>
 		</Screen>
 	);

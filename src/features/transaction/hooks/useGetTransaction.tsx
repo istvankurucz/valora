@@ -5,7 +5,7 @@ import { useError } from "../../error/contexts/ErrorContext";
 import getTransaction from "../services/getTransaction";
 
 const useGetTransaction = () => {
-	//   #region Hooks
+	//#region Hooks
 	const { transactionId } = useLocalSearchParams<{ transactionId?: string }>();
 	const { setError } = useError();
 	//#endregion

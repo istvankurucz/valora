@@ -5,7 +5,9 @@ const Groups = () => {
 	return (
 		<Screen>
 			<Screen.ScrollView>
-				<GroupsList />
+				<Screen.Container>
+					<GroupsList />
+				</Screen.Container>
 			</Screen.ScrollView>
 		</Screen>
 	);
