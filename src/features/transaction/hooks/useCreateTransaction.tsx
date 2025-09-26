@@ -32,6 +32,9 @@ const useCreateTransaction = () => {
 			queryClient.invalidateQueries({
 				queryKey: ["transactionCategories", transaction.categoryId],
 			});
+
+			// Invalidate admin transactions query
+			queryClient.invalidateQueries({ queryKey: ["users", "admin", "transactions"] });
 		},
 		onError: (err) => {
 			setError(err);

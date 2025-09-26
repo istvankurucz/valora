@@ -48,6 +48,8 @@ const TransactionDeleteModal = forwardRef<BottomSheetModal, Props>(
 					router.dismissTo(
 						`/settings/transaction-categories/${transaction.category.id}/transactions`
 					);
+				} else if (pathname.includes("/home/transactions")) {
+					router.dismissTo("/home/transactions");
 				} else {
 					router.replace("/");
 				}

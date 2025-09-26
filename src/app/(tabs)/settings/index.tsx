@@ -16,7 +16,9 @@ const Settings = () => {
 				<Link href="/settings/users" asChild>
 					<SettingsListItem icon="people-outline" label="Members" />
 				</Link>
-				<SettingsListItem icon="information-outline" label="App info" />
+				<Link href="/settings/info" asChild>
+					<SettingsListItem icon="information-outline" label="App info and support" />
+				</Link>
 			</Section>
 		</Screen>
 	);
