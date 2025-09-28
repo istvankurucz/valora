@@ -2,11 +2,14 @@ import IconBox from "@/src/components/ui/IconBox";
 import ListItem from "@/src/components/ui/ListItem/ListItem";
 import Section from "@/src/components/ui/Section/Section";
 import ThemedText from "@/src/components/ui/ThemedText";
+import ThemedView from "@/src/components/ui/ThemedView";
+import { BORDER_RADIUS } from "@/src/constants/borderRadius";
 import { FONT_SIZE } from "@/src/constants/fontSizes";
 import UserIcon from "@/src/features/user/components/ui/UserIcon";
 import { useAdminUser } from "@/src/features/user/contexts/AdminUserContext";
 import useFormatAmount from "@/src/features/user/hooks/useFormatAmount";
 import formatRelativeDate from "@/src/utils/format/formatRelativeDate";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { Link } from "expo-router";
 import { StyleSheet, View, ViewProps } from "react-native";
 import { Transaction } from "../../types/transactionTypes";
@@ -58,6 +61,12 @@ const TransactionDetails = ({ transaction }: Props) => {
 					{formatAmount(transaction.amount)}
 				</ThemedText>
 			</View>
+			{transaction.recurring && (
+				<ThemedView variant="info" shade={100} style={styles.recurring}>
+					<Ionicons name="sync-outline" size={16} />
+					<ThemedText>Recurring {transaction.recurring}</ThemedText>
+				</ThemedView>
+			)}
 			{transaction.account && (
 				<Section shade={200}>
 					<TransactionSectionHeader icon="card-outline" title="Account" />
@@ -166,6 +175,18 @@ const styles = StyleSheet.create({
 		textAlign: "right",
 		fontSize: FONT_SIZE[700],
 		paddingHorizontal: 16,
+	},
+	recurring: {
+		alignSelf: "flex-start",
+		flexDirection: "row",
+		gap: 8,
+		alignItems: "center",
+		borderTopRightRadius: BORDER_RADIUS[500],
+		borderBottomRightRadius: BORDER_RADIUS[500],
+		paddingLeft: 16,
+		paddingVertical: 8,
+		paddingRight: 16,
+		marginLeft: -16,
 	},
 	underlay: {
 		paddingHorizontal: 16,

@@ -1,5 +1,6 @@
 import FormDateInput from "@/src/components/form/DateInput/FormDateInput";
 import FormInput from "@/src/components/form/Input/FormInput";
+import PriceInput from "@/src/components/form/Input/PriceInput";
 import InputsContainer from "@/src/components/form/InputsContainer";
 import FormSegmentedControl from "@/src/components/form/SegmentedControl/FormSegmentedControl";
 import FormSelect from "@/src/components/form/Select/FormSelect";
@@ -35,6 +36,8 @@ const EditTransactionForm = () => {
 	const { pathname } = useLastPathname();
 	//#endregion
 
+	// console.log(data);
+
 	// #region Functions
 	async function handleUpdateTransactionPress() {
 		// Check transaction
@@ -52,7 +55,7 @@ const EditTransactionForm = () => {
 				categoryId: data.categoryId,
 				timestamp: data.timestamp.toISOString(),
 				amount: parseFloat(data.amount),
-				recurring: data.recurring || undefined,
+				recurring: data.recurring || null,
 				accountId: data.accountId || undefined,
 				userId: data.userId,
 				groupId: data.groupId || undefined,
@@ -84,20 +87,19 @@ const EditTransactionForm = () => {
 					value={data.type}
 					onValueChange={(type) => updateData({ type })}
 				/>
+				<PriceInput
+					field="amount"
+					type={data.type}
+					placeholder="0"
+					value={data.amount}
+					onChangeText={(amount) => updateData({ amount })}
+				/>
 				<FormInput
 					field="label"
 					label="Label"
 					placeholder="Label"
 					value={data.label}
 					onChangeText={(label) => updateData({ label })}
-				/>
-				<FormInput
-					field="amount"
-					label="Amount"
-					placeholder="Amount"
-					keyboardType="decimal-pad"
-					value={data.amount}
-					onChangeText={(amount) => updateData({ amount })}
 				/>
 				<FormSelect
 					field="categoryId"

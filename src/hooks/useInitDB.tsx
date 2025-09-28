@@ -21,7 +21,7 @@ const useInitDB = () => {
 		// Wait until migration finished
 		if (!success) return;
 
-		console.log("Successful migration.");
+		// console.log("Successful migration.");
 	}, [success, error, setError]);
 
 	return { loading: !success };
