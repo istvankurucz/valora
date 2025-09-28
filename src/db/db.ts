@@ -9,6 +9,7 @@ import * as SQLite from "expo-sqlite";
 
 // SQLite client
 export const sqliteClient = SQLite.openDatabaseSync("expenseTracker.db");
+sqliteClient.execSync("PRAGMA foreign_keys = ON;");
 
 // Schema
 const schema = {

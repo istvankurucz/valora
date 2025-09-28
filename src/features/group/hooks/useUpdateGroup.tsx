@@ -23,6 +23,12 @@ const useUpdateGroup = () => {
 
 			// Invalidate group query
 			queryClient.invalidateQueries({ queryKey: ["groups", group.id] });
+
+			// Invalidate users query
+			queryClient.invalidateQueries({ queryKey: ["users"] });
+
+			// Invalidate transactions query
+			queryClient.invalidateQueries({ queryKey: ["transactions"] });
 		},
 		onError: (err) => {
 			setError(err);

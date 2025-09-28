@@ -29,7 +29,7 @@ const useCreateGroupUsers = () => {
 			queryClient.invalidateQueries({ queryKey: ["groups", groupId] });
 
 			// Invalidate users query
-			queryClient.invalidateQueries({ queryKey: ["users"] });
+			queryClient.invalidateQueries({ queryKey: ["users"], exact: true });
 
 			// Invalidate query of each user
 			userIds.forEach((userId) =>

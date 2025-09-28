@@ -23,8 +23,8 @@ const useMoveAccountTransactionsToDefaultAccount = () => {
 		mutationFn: ({ transactionIds, defaultAccountId }) =>
 			moveAccountTransactionsToDefaultAccount(transactionIds, defaultAccountId),
 		onSuccess: () => {
-			// Invalidate default account query
-			queryClient.invalidateQueries({ queryKey: ["accounts", "default"] });
+			// Invalidate accounts query
+			queryClient.invalidateQueries({ queryKey: ["accounts"] });
 		},
 		onError: (err) => {
 			setError(err);

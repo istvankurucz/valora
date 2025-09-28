@@ -13,7 +13,7 @@ const GroupLatestUsers = () => {
 	return (
 		<View>
 			<Section.Header>
-				<Section.Title>Newest members</Section.Title>
+				<Section.Title>Members</Section.Title>
 				<Link href={`/groups/${group?.id}/members`}>
 					<Section.Header.Link>See all</Section.Header.Link>
 				</Link>

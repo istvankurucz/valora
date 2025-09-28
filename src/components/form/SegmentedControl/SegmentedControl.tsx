@@ -35,11 +35,11 @@ const SegmentedControl = <T,>({
 	// #region Hooks
 	const left = useSharedValue(getLeftValue(value));
 	const animatedSelectedStyle = useAnimatedStyle(() => {
-		return { left: left.value };
+		return { left: left.get() };
 	}, []);
 
 	useEffect(() => {
-		left.value = withTiming(getLeftValue(value));
+		left.set(withTiming(getLeftValue(value)));
 	}, [left, value, getLeftValue]);
 	//#endregion
 

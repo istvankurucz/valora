@@ -14,20 +14,17 @@ const useDeleteTransaction = () => {
 	const { mutateAsync, isPending } = useMutation<void, unknown, DeleteTransactionVariables>({
 		mutationFn: deleteTransaction,
 		onSuccess: () => {
+			// Invalidate transaction categories query
+			queryClient.invalidateQueries({ queryKey: ["transactionCategories"] });
+
 			// Invalidate accounts query
 			queryClient.invalidateQueries({ queryKey: ["accounts"] });
 
 			// Invalidate groups query
 			queryClient.invalidateQueries({ queryKey: ["groups"] });
 
-			// Invalidate users query
-			queryClient.invalidateQueries({ queryKey: ["users"] });
-
-			// Invalidate transaction categories query
-			queryClient.invalidateQueries({ queryKey: ["transactionCategories"] });
-
-			// Invalidate transactions query
-			queryClient.invalidateQueries({ queryKey: ["transactions"] });
+			// Invalidate admin transactions query
+			queryClient.invalidateQueries({ queryKey: ["users", "admin", "transactions"] });
 		},
 		onError: (err) => {
 			setError(err);

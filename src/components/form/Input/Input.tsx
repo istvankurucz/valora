@@ -54,15 +54,15 @@ const Input = forwardRef<TextInput, InputProps>(
 		useUpdateInputColors({ borderColor, inputBorderColor, value: rest.value });
 
 		const animatedViewStyle = useAnimatedStyle(() => {
-			return { borderWidth: borderWidth.value, borderColor: borderColor.value };
+			return { borderWidth: borderWidth.get(), borderColor: borderColor.get() };
 		}, []);
 		//#endregion
 
 		// #region Functions
 		function handleFocus(e: FocusEvent) {
 			// Set animated values
-			borderColor.value = withTiming(inputBorderColor.focused);
-			borderWidth.value = withTiming(focusedBorderWidth);
+			borderColor.set(withTiming(inputBorderColor.focused));
+			borderWidth.set(withTiming(focusedBorderWidth));
 
 			// Run event handler prop
 			onFocus?.(e);
@@ -70,8 +70,8 @@ const Input = forwardRef<TextInput, InputProps>(
 
 		function handleBlur(e: FocusEvent) {
 			// Set animated values
-			if (!rest.value) borderColor.value = withTiming(inputBorderColor.default);
-			borderWidth.value = withTiming(defaultBorderWidth);
+			if (!rest.value) borderColor.set(withTiming(inputBorderColor.default));
+			borderWidth.set(withTiming(defaultBorderWidth));
 
 			// Run event handler prop
 			onBlur?.(e);

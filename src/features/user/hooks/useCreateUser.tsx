@@ -20,6 +20,9 @@ const useCreateUser = () => {
 
 			// Invalidate user query
 			queryClient.invalidateQueries({ queryKey: ["users", user.id] });
+
+			// Invalidate groups query
+			queryClient.invalidateQueries({ queryKey: ["groups"] });
 		},
 		onError: (err) => {
 			setError(err);

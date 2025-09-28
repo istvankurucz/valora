@@ -17,8 +17,8 @@ const useDeleteAccount = () => {
 			// Invalidate accounts query
 			queryClient.invalidateQueries({ queryKey: ["accounts"] });
 
-			// Invalidate groups query
-			queryClient.invalidateQueries({ queryKey: ["groups"] });
+			// Invalidate transactions query
+			queryClient.invalidateQueries({ queryKey: ["transactions"] });
 		},
 		onError: (err) => {
 			setError(err);

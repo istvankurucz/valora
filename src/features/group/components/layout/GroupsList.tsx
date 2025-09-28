@@ -2,12 +2,12 @@ import ListContainer from "@/src/components/layout/ListContainer";
 import Section from "@/src/components/ui/Section/Section";
 import ThemedView from "@/src/components/ui/ThemedView";
 import { Link } from "expo-router";
-import useGetGroups from "../../hooks/useGetGroups";
+import { useGroups } from "../../contexts/GroupsContext";
 import GroupListItem from "../ui/GroupListItem";
 
 const GroupsList = () => {
 	//#region Hooks
-	const { groups } = useGetGroups();
+	const { groups } = useGroups();
 	//#endregion
 
 	return (

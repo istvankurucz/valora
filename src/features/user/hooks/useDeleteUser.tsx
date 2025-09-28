@@ -17,7 +17,7 @@ const useDeleteUser = () => {
 			// Invalidate users query
 			queryClient.invalidateQueries({ queryKey: ["users"], exact: true });
 
-			// Invalidate all groups query
+			// Invalidate groups query
 			queryClient.invalidateQueries({ queryKey: ["groups"] });
 		},
 		onError: (err) => {

@@ -17,11 +17,13 @@ import capitalizeString from "@/src/utils/string/capitalizeString";
 import { useRouter } from "expo-router";
 import { useMemo } from "react";
 import { useNewTransactionCategory } from "../../contexts/NewTransactionCategoryContext";
+import { useTransactionCategories } from "../../contexts/TransactionCategoriesContext";
 import useCreateTransactionCategory from "../../hooks/useCreateTransactionCategory";
 import validateNewTransactionCategoryData from "../../utils/validation/validateNewTransactionCategoryData";
 
 const NewTransactionCategoryForm = () => {
 	// #region Hooks
+	const { transactionCategories } = useTransactionCategories();
 	const { data, updateData } = useNewTransactionCategory();
 	const { createIcon, loading: loadingCreateIcon } = useCreateIcon();
 	const { createTransactionCategory, loading: loadingCreateTransactionCategory } =
@@ -61,16 +63,18 @@ const NewTransactionCategoryForm = () => {
 
 			// Create account
 			const createdIcon = await createIcon({ name: icon, foregroundColor, backgroundColor });
+			const order =
+				transactionCategories.filter((category) => category.type === type).length + 1;
 			const category = await createTransactionCategory({
 				type,
 				name,
 				iconId: createdIcon.id,
+				order,
 			});
 
 			// Navigate
 			router.dismissTo(`/settings/transaction-categories/${category.id}`);
 		} catch (err) {
-			console.log(err);
 			addError(err);
 		}
 	}

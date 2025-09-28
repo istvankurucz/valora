@@ -1,10 +1,12 @@
 import Screen from "@/src/components/layout/Screen/Screen";
 import { useError } from "@/src/features/error/contexts/ErrorContext";
+import { useFeedback } from "@/src/features/feedback/contexts/FeedbackContext";
 import { TransactionType } from "@/src/features/transaction/constants/transactionTypeOptions";
 import TransactionCategoryListItem from "@/src/features/transactionCategory/components/ui/TransactionCategoryListItem";
 import { useTransactionCategories } from "@/src/features/transactionCategory/contexts/TransactionCategoriesContext";
 import useUpdateTransactionCategory from "@/src/features/transactionCategory/hooks/useUpdateTransactionCategory";
 import { TransactionCategory } from "@/src/features/transactionCategory/types/transactionCategoryTypes";
+import * as Haptics from "expo-haptics";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
@@ -19,6 +21,7 @@ const ReorderCategories = () => {
 	const { transactionCategories } = useTransactionCategories();
 	const { type } = useLocalSearchParams<{ type?: TransactionType }>();
 	const { updateTransactionCategory } = useUpdateTransactionCategory();
+	const { setFeedback } = useFeedback();
 	const { setError } = useError();
 
 	useEffect(() => {
@@ -31,6 +34,14 @@ const ReorderCategories = () => {
 	//#endregion
 
 	// #region Functions
+	function handleItemLongPress(drag: () => void) {
+		// Haptic feedback
+		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
+		// Run drag function
+		drag();
+	}
+
 	function handleDragEnd(data: TransactionCategory[]) {
 		// Get categories based on type
 		const currentCategories = categories.filter(
@@ -54,6 +65,9 @@ const ReorderCategories = () => {
 				setError(err);
 			}
 		});
+
+		// Show feedback
+		setFeedback({ type: "success", message: "Order updated!" });
 	}
 	//#endregion
 
@@ -65,7 +79,7 @@ const ReorderCategories = () => {
 				renderItem={({ item: category, drag }) => (
 					<TransactionCategoryListItem
 						transactionCategory={category}
-						onLongPress={drag}
+						onLongPress={() => handleItemLongPress(drag)}
 						sortable
 					/>
 				)}

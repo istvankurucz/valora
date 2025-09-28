@@ -17,7 +17,19 @@ const useDeleteTransactionsByCategoryId = () => {
 		DeleteTransactionsByCategoryIdVariables
 	>({
 		mutationFn: deleteTransactionsByCategoryId,
-		onSuccess: () => {},
+		onSuccess: () => {
+			// Invalidate transaction categories query
+			queryClient.invalidateQueries({ queryKey: ["transactionCategories"] });
+
+			// Invalidate accounts query
+			queryClient.invalidateQueries({ queryKey: ["accounts"] });
+
+			// Invalidate groups query
+			queryClient.invalidateQueries({ queryKey: ["groups"] });
+
+			// Invalidate admin transactions query
+			queryClient.invalidateQueries({ queryKey: ["users", "admin", "transactions"] });
+		},
 		onError: (err) => {
 			setError(err);
 		},

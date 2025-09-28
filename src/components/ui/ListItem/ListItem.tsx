@@ -28,14 +28,14 @@ const ListItem = ({
 
 	const scale = useSharedValue(1);
 	const containerAnimatedStyle = useAnimatedStyle(() => {
-		return { transform: [{ scale: scale.value }] };
+		return { transform: [{ scale: scale.get() }] };
 	}, []);
 	//#endregion
 
 	// #region Functions
 	function handlePressIn(e: GestureResponderEvent) {
 		// Set animated value
-		if (!disableScaleAnimation) scale.value = withTiming(0.95);
+		if (!disableScaleAnimation) scale.set(withTiming(0.95));
 
 		// Run event handler
 		onPressIn?.(e);
@@ -43,7 +43,7 @@ const ListItem = ({
 
 	function handlePressOut(e: GestureResponderEvent) {
 		// Set animated value
-		if (!disableScaleAnimation) scale.value = withTiming(1);
+		if (!disableScaleAnimation) scale.set(withTiming(1));
 
 		// Run event handler
 		onPressOut?.(e);

@@ -16,6 +16,7 @@ import useDeleteTransactionCategory from "../../hooks/useDeleteTransactionCatego
 import useGetTransactionCategories from "../../hooks/useGetTransactionCategories";
 import useGetTransactionCategory from "../../hooks/useGetTransactionCategory";
 import useMoveTransactionCategoryTransactionsToDifferentTransactionCategory from "../../hooks/useMoveTransactionCategoryTransactionsToDifferentTransactionCategory";
+import useUpdateTransactionCategory from "../../hooks/useUpdateTransactionCategory";
 import validateDeleteTransactionCategoryData from "../../utils/validation/validateDeleteTransactionCategoryData";
 import TransactionCategoryOption from "../ui/TransactionCategoryOption";
 
@@ -32,6 +33,8 @@ const DeleteTransactionCategoryForm = () => {
 	} = useMoveTransactionCategoryTransactionsToDifferentTransactionCategory();
 	const { deleteTransactionsByCategoryId, loading: loadingDeleteTransactions } =
 		useDeleteTransactionsByCategoryId();
+	const { updateTransactionCategory, loading: loadingUpdateTransactionCategory } =
+		useUpdateTransactionCategory();
 	const { setFeedback } = useFeedback();
 	const { setError } = useError();
 	const router = useRouter();
@@ -54,7 +57,10 @@ const DeleteTransactionCategoryForm = () => {
 	);
 
 	const loading =
-		loadingDeleteTransactionCategory || loadingMovingTransactions || loadingDeleteTransactions;
+		loadingDeleteTransactionCategory ||
+		loadingMovingTransactions ||
+		loadingDeleteTransactions ||
+		loadingUpdateTransactionCategory;
 	//#endregion
 
 	// #region Functions
@@ -66,8 +72,8 @@ const DeleteTransactionCategoryForm = () => {
 			// Validation
 			const deleteData = validateDeleteTransactionCategoryData(data);
 
-			// Delete transaction category
 			if (!deleteData.deleteTransactions) {
+				// Move category transactions to the new category
 				await moveTransactionCategoryTransactionsToDifferentTransactionCategory({
 					transactionIds: transactionCategory.transactions.map(
 						(transaction) => transaction.id
@@ -75,9 +81,25 @@ const DeleteTransactionCategoryForm = () => {
 					newTransactionCategoryId: deleteData.newCategoryId,
 				});
 			} else {
+				// Delete transactions of category
 				await deleteTransactionsByCategoryId(transactionCategory.id);
 			}
+
+			// Delete transaction category
 			await deleteTransactionCategory(transactionCategory.id);
+
+			// Reorder transactions
+			const remainingCategories = transactionCategories.filter(
+				(category) => category.id !== transactionCategory.id
+			);
+			remainingCategories.forEach(async (category) => {
+				if (category.order > transactionCategory.order) {
+					await updateTransactionCategory({
+						id: category.id,
+						data: { order: category.order - 1 },
+					});
+				}
+			});
 
 			// Show feedback
 			setFeedback({

@@ -19,8 +19,10 @@ const useGetAdminUser = () => {
 	// #region Error handling
 	useEffect(() => {
 		if (error) {
+			// Check admin not found error
 			if (error instanceof AppError && error.message === "Admin not found.") return;
 
+			// Pass errror to error context
 			setError(error);
 		}
 	}, [error, setError]);

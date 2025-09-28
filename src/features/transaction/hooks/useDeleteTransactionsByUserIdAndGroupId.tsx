@@ -20,13 +20,7 @@ const useDeleteTransactionsByUserIdAndGroupId = () => {
 		DeleteTransactionsByUserIdAndGroupIdVariables
 	>({
 		mutationFn: deleteTransactionsByUserIdAndGroupId,
-		onSuccess: (_, userId) => {
-			// Invalidate users query
-			queryClient.invalidateQueries({ queryKey: ["users"], exact: true });
-
-			// Invalidate user query
-			queryClient.invalidateQueries({ queryKey: ["users", userId] });
-
+		onSuccess: () => {
 			// Invalidate all groups query
 			queryClient.invalidateQueries({ queryKey: ["groups"] });
 		},

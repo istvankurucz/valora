@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useError } from "../../error/contexts/ErrorContext";
 import deleteGroupMemberTransactions from "../services/deleteGroupMemberTransactions";
 
@@ -9,7 +9,6 @@ type DeleteGroupMemberTransactionsVariables = {
 
 const useDeleteGroupMemberTransactions = () => {
 	// #region Hooks
-	const queryClient = useQueryClient();
 	const { setError } = useError();
 	//#endregion
 

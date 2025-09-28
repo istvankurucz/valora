@@ -15,8 +15,8 @@ const useUpdateAdminUser = () => {
 	const { mutateAsync, isPending } = useMutation<UserSelect, unknown, UpdateAdminUserVariables>({
 		mutationFn: updateAdminUser,
 		onSuccess: () => {
-			// Invalidate admin user query
-			queryClient.invalidateQueries({ queryKey: ["users", "admin"] });
+			// Invalidate all queries
+			queryClient.invalidateQueries();
 		},
 		onError: (err) => {
 			setError(err);

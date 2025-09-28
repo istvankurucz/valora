@@ -21,7 +21,7 @@ const BalanceChartValue = ({ style, ...rest }: Props) => {
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
-		gap: 16,
+		gap: 8,
 	},
 });
 

@@ -47,7 +47,7 @@ const Select = <T,>({
 	useUpdateInputColors({ borderColor, inputBorderColor, value });
 
 	const animatedViewStyle = useAnimatedStyle(() => {
-		return { borderWidth: borderWidth.value, borderColor: borderColor.value };
+		return { borderWidth: borderWidth.get(), borderColor: borderColor.get() };
 	}, []);
 	//#endregion
 
@@ -58,8 +58,8 @@ const Select = <T,>({
 	// #region Functions
 	function handleSelectPress() {
 		// Set animated values
-		borderColor.value = withTiming(inputBorderColor.focused);
-		borderWidth.value = withTiming(focusedBorderWidth);
+		borderColor.set(withTiming(inputBorderColor.focused));
+		borderWidth.set(withTiming(focusedBorderWidth));
 
 		// Show option
 		setShowOptions(true);
@@ -75,8 +75,8 @@ const Select = <T,>({
 
 	function handleRequestClose() {
 		// Set animated values
-		if (!value) borderColor.value = withTiming(inputBorderColor.default);
-		borderWidth.value = withTiming(defaultBorderWidth);
+		if (!value) borderColor.set(withTiming(inputBorderColor.default));
+		borderWidth.set(withTiming(defaultBorderWidth));
 
 		// Hide options
 		setShowOptions(false);

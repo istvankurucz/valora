@@ -36,6 +36,9 @@ const useUpdateTransactionCategory = () => {
 
 			// Invalidate groups query
 			queryClient.invalidateQueries({ queryKey: ["groups"] });
+
+			// Invalidate admin transactions
+			queryClient.invalidateQueries({ queryKey: ["users", "admin", "transactions"] });
 		},
 		onError: (err) => {
 			setError(err);

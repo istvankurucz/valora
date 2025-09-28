@@ -11,7 +11,7 @@ const SettingsMembersHeader = ({ title, ...rest }: Props) => {
 		<Screen.Header {...rest}>
 			<Screen.Header.Back />
 			<Screen.Header.Title>{title}</Screen.Header.Title>
-			<Link href="/settings/members/new" asChild>
+			<Link href="/settings/users/new" asChild>
 				<Screen.Header.New />
 			</Link>
 		</Screen.Header>

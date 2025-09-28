@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
 	},
 	boxContainer: {
 		flexDirection: "row",
-		gap: 16,
+		gap: 8,
 	},
 });
 

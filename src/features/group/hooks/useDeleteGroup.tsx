@@ -16,6 +16,12 @@ const useDeleteGroup = () => {
 		onSuccess: () => {
 			// Invalidate groups query
 			queryClient.invalidateQueries({ queryKey: ["groups"], exact: true });
+
+			// Invalidate users query
+			queryClient.invalidateQueries({ queryKey: ["users"] });
+
+			// Invalidate transactions query
+			queryClient.invalidateQueries({ queryKey: ["transactions"] });
 		},
 		onError: (err) => {
 			setError(err);

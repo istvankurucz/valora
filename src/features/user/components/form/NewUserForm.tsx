@@ -52,7 +52,7 @@ const NewUserForm = () => {
 				/>
 			</InputsContainer>
 
-			<Button title="Create users" loading={loading} onPress={handleCreateUserPress} />
+			<Button title="Create user" loading={loading} onPress={handleCreateUserPress} />
 		</View>
 	);
 };

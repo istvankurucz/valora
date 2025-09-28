@@ -46,23 +46,23 @@ const Button = ({
 	const scale = useSharedValue(1);
 	const buttonAnimatedStyle = useAnimatedStyle(() => {
 		return {
-			backgroundColor: backgroundColor.value,
-			borderColor: borderColor.value,
-			transform: [{ scale: scale.value }],
+			backgroundColor: backgroundColor.get(),
+			borderColor: borderColor.get(),
+			transform: [{ scale: scale.get() }],
 		};
 	}, []);
 	const buttonTitleAnimatedStyle = useAnimatedStyle(() => {
-		return { color: titleColor.value };
+		return { color: titleColor.get() };
 	}, []);
 	//#endregion
 
 	// #region Functions
 	function handlePressIn(e: GestureResponderEvent) {
 		// Set animated properties
-		backgroundColor.value = withTiming(buttonColors.backgroundColor.active);
-		borderColor.value = withTiming(buttonColors.backgroundColor.active);
-		scale.value = withTiming(0.95);
-		if (outlined) titleColor.value = withTiming(buttonColors.titleColor.default);
+		backgroundColor.set(withTiming(buttonColors.backgroundColor.active));
+		borderColor.set(withTiming(buttonColors.backgroundColor.active));
+		scale.set(withTiming(0.95));
+		if (outlined) titleColor.set(withTiming(buttonColors.titleColor.default));
 
 		// Run event handler
 		onPressIn?.(e);
@@ -70,13 +70,13 @@ const Button = ({
 
 	function handlePressOut(e: GestureResponderEvent) {
 		// Set animated properties
-		borderColor.value = withTiming(buttonColors.backgroundColor.default);
-		scale.value = withTiming(1);
+		borderColor.set(withTiming(buttonColors.backgroundColor.default));
+		scale.set(withTiming(1));
 		if (outlined) {
-			titleColor.value = withTiming(buttonColors.backgroundColor.default);
-			backgroundColor.value = withTiming("transparent");
+			titleColor.set(withTiming(buttonColors.backgroundColor.default));
+			backgroundColor.set(withTiming("transparent"));
 		} else {
-			backgroundColor.value = withTiming(buttonColors.backgroundColor.default);
+			backgroundColor.set(withTiming(buttonColors.backgroundColor.default));
 		}
 
 		// Run event handler
