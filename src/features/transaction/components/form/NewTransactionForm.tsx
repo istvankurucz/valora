@@ -134,14 +134,14 @@ const NewTransactionForm = () => {
 				)}
 				<FormSelect
 					field="recurring"
-					label="Recurring transactions"
+					label="Recurring"
 					options={RECURRING_OPTIONS}
 					value={data.recurring}
 					onValueChange={(recurring) => updateData({ recurring })}
 				/>
 				<FormInput
 					field="note"
-					label="Note (optional)"
+					label="Note"
 					placeholder="Note"
 					multiline
 					value={data.note}

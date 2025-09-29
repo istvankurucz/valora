@@ -39,11 +39,11 @@ const AccountListItem = ({ account, ...rest }: AccountListItemProps) => {
 // Styles
 const styles = StyleSheet.create({
 	star: {
-		borderRadius: BORDER_RADIUS[400],
+		borderRadius: BORDER_RADIUS[999],
 		padding: 4,
 		position: "absolute",
-		top: -6,
-		left: -6,
+		top: -4,
+		left: -4,
 	},
 });
 

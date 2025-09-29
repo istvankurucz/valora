@@ -8,6 +8,7 @@ import { FONT_SIZE } from "@/src/constants/fontSizes";
 import UserIcon from "@/src/features/user/components/ui/UserIcon";
 import { useAdminUser } from "@/src/features/user/contexts/AdminUserContext";
 import useFormatAmount from "@/src/features/user/hooks/useFormatAmount";
+import useThemeColor from "@/src/hooks/useThemeColor";
 import formatRelativeDate from "@/src/utils/format/formatRelativeDate";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Link } from "expo-router";
@@ -23,6 +24,8 @@ const TransactionDetails = ({ transaction }: Props) => {
 	// #region Hooks
 	const { admin } = useAdminUser();
 	const { formatAmount } = useFormatAmount();
+
+	const recurringIconColor = useThemeColor({ variant: "neutral", shade: 800 });
 	//#endregion
 
 	// #region Constants
@@ -63,7 +66,7 @@ const TransactionDetails = ({ transaction }: Props) => {
 			</View>
 			{transaction.recurring && (
 				<ThemedView variant="info" shade={100} style={styles.recurring}>
-					<Ionicons name="sync-outline" size={16} />
+					<Ionicons name="sync-outline" size={16} color={recurringIconColor} />
 					<ThemedText>Recurring {transaction.recurring}</ThemedText>
 				</ThemedView>
 			)}
