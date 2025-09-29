@@ -1,10 +1,11 @@
 import ThemedText from "@/src/components/ui/ThemedText";
 import IconUnderlay from "@/src/components/ui/Underlay/IconUnderlay";
+import { INITIAL_DATE } from "@/src/constants/initialDate";
 import useThemeColor from "@/src/hooks/useThemeColor";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View, ViewProps } from "react-native";
+import DatePicker from "react-native-date-picker";
 import { useChartNavigation } from "../../contexts/ChartNavigationContext";
 import formatChartDate from "../../utils/formatChartDate";
 
@@ -19,6 +20,7 @@ const ChartDate = ({ style, ...rest }: Props) => {
 	const { interval, date, setDate, navigate, disablePrevButton, disableNextButton } =
 		useChartNavigation();
 
+	const dateInputColor = useThemeColor({ variant: "neutral", shade: 800 });
 	const iconBackgroundColor = useThemeColor({ variant: "neutral", shade: 200 });
 	const iconColor = useThemeColor({ variant: "neutral", shade: 800 });
 	//#endregion
@@ -40,11 +42,15 @@ const ChartDate = ({ style, ...rest }: Props) => {
 		setShowPicker(true);
 	}
 
-	function handleDateInputChange(_: any, date?: Date) {
+	function handleDateInputChange(date: Date) {
 		// Set date
-		if (date) setDate(date);
+		setDate(date);
 
 		// Hide picker
+		setShowPicker(false);
+	}
+
+	function handleCancelPress() {
 		setShowPicker(false);
 	}
 	//#endregion
@@ -77,15 +83,18 @@ const ChartDate = ({ style, ...rest }: Props) => {
 				</IconUnderlay>
 			)}
 
-			{showPicker && (
-				<DateTimePicker
-					mode="date"
-					value={date}
-					onChange={handleDateInputChange}
-					maximumDate={new Date()}
-					{...rest}
-				/>
-			)}
+			<DatePicker
+				modal
+				open={showPicker}
+				mode="date"
+				date={date === INITIAL_DATE ? new Date() : date}
+				maximumDate={new Date()}
+				buttonColor={dateInputColor}
+				dividerColor={dateInputColor}
+				onConfirm={handleDateInputChange}
+				onCancel={handleCancelPress}
+				{...rest}
+			/>
 		</View>
 	);
 };

@@ -5,19 +5,15 @@ import useInputColors from "@/src/hooks/useInputColors";
 import useThemeColor from "@/src/hooks/useThemeColor";
 import useUpdateInputColors from "@/src/hooks/useUpdateInputColors";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import DateTimePicker, {
-	AndroidNativeProps,
-	DateTimePickerEvent,
-	IOSNativeProps,
-} from "@react-native-community/datetimepicker";
+import { format } from "date-fns";
 import { useState } from "react";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import DatePicker, { DatePickerProps } from "react-native-date-picker";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import ThemedText from "../../ui/ThemedText";
 import IconUnderlay from "../../ui/Underlay/IconUnderlay";
 
-type DateTimePickerProps = IOSNativeProps | AndroidNativeProps;
-export type DateInputProps = DateTimePickerProps & {
+export type DateInputProps = DatePickerProps & {
 	variant?: ColorVariant;
 	style?: ViewStyle;
 	onValueChange?: (newDate: Date) => void;
@@ -27,10 +23,11 @@ const DateInput = ({
 	variant = "neutral",
 	mode,
 	maximumDate,
+	dividerColor,
+	buttonColor,
 	style,
-	value,
+	date,
 	onValueChange,
-	onChange,
 	...rest
 }: DateInputProps) => {
 	// #region States
@@ -38,6 +35,7 @@ const DateInput = ({
 	//#endregion
 
 	// #region Hooks
+	const dateInputColor = useThemeColor({ variant: "neutral", shade: 800 });
 	const backgroundColor = useThemeColor({ variant: "neutral", shade: 100 });
 	const iconColor = useThemeColor({ variant: "neutral", shade: 600 });
 	const iconBackgroundColor = useThemeColor({ variant: "neutral", shade: 300 });
@@ -47,16 +45,27 @@ const DateInput = ({
 	const borderWidth = useSharedValue(defaultBorderWidth);
 
 	const { borderColor: inputBorderColor } = useInputColors({ variant });
-	const borderColor = useSharedValue(value ? inputBorderColor.focused : inputBorderColor.default);
+	const borderColor = useSharedValue(date ? inputBorderColor.focused : inputBorderColor.default);
 	useUpdateInputColors({
 		borderColor,
 		inputBorderColor,
-		value: value === INITIAL_DATE ? undefined : value,
+		value: date === INITIAL_DATE ? undefined : date,
 	});
 
 	const animatedViewStyle = useAnimatedStyle(() => {
 		return { borderWidth: borderWidth.get(), borderColor: borderColor.get() };
 	}, []);
+	//#endregion
+
+	// #region Constants
+	const formattedDate =
+		date === INITIAL_DATE
+			? "No date"
+			: mode === "time"
+			? format(date, "HH:mm")
+			: mode === "date"
+			? format(date, "yyyy.MM.dd")
+			: format(date, "yyyy.MM.dd HH:mm");
 	//#endregion
 
 	// #region Functions
@@ -69,12 +78,21 @@ const DateInput = ({
 		setShow(true);
 	}
 
-	function handleChange(_?: DateTimePickerEvent, date?: Date) {
+	function handleConfirm(newDate: Date) {
 		// Run event handler
-		if (date) onValueChange?.(date);
+		onValueChange?.(newDate);
 
 		// Set animated values
-		if (!value) borderColor.set(withTiming(inputBorderColor.default));
+		if (newDate === INITIAL_DATE) borderColor.set(withTiming(inputBorderColor.default));
+		borderWidth.set(withTiming(defaultBorderWidth));
+
+		// Hide picker
+		setShow(false);
+	}
+
+	function handleCancelPress() {
+		// Set animated values
+		if (date === INITIAL_DATE) borderColor.set(withTiming(inputBorderColor.default));
 		borderWidth.set(withTiming(defaultBorderWidth));
 
 		// Hide picker
@@ -82,7 +100,7 @@ const DateInput = ({
 	}
 
 	function handleRemovePress() {
-		handleChange(undefined, INITIAL_DATE);
+		handleConfirm(INITIAL_DATE);
 	}
 	//#endregion
 
@@ -92,11 +110,9 @@ const DateInput = ({
 				<Animated.View
 					style={[styles.container, { backgroundColor }, animatedViewStyle, style]}
 				>
-					<ThemedText style={styles.value}>
-						{value === INITIAL_DATE ? "No date" : value.toLocaleDateString()}
-					</ThemedText>
+					<ThemedText style={styles.value}>{formattedDate}</ThemedText>
 
-					{value !== INITIAL_DATE && (
+					{date !== INITIAL_DATE && (
 						<IconUnderlay
 							style={[styles.icon, { backgroundColor: iconBackgroundColor }]}
 							onPress={handleRemovePress}
@@ -107,15 +123,17 @@ const DateInput = ({
 				</Animated.View>
 			</Pressable>
 
-			{show && (
-				<DateTimePicker
-					mode="date"
-					value={value === INITIAL_DATE ? new Date() : value}
-					onChange={handleChange}
-					maximumDate={maximumDate ?? new Date()}
-					{...rest}
-				/>
-			)}
+			<DatePicker
+				modal
+				open={show}
+				date={date === INITIAL_DATE ? new Date() : date}
+				maximumDate={maximumDate ?? new Date()}
+				buttonColor={buttonColor ?? dateInputColor}
+				dividerColor={dividerColor ?? dateInputColor}
+				onConfirm={handleConfirm}
+				onCancel={handleCancelPress}
+				{...rest}
+			/>
 		</View>
 	);
 };

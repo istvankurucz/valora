@@ -94,18 +94,19 @@ const NewTransactionForm = () => {
 					value={data.label}
 					onChangeText={(label) => updateData({ label })}
 				/>
+				<FormDateInput
+					field="timestamp"
+					label="Date"
+					title="Select trasnsaction date"
+					date={data.timestamp}
+					onValueChange={(timestamp) => updateData({ timestamp })}
+				/>
 				<FormSelect
 					field="categoryId"
 					label="Category"
 					options={CATEGORY_OPTIONS}
 					value={data.categoryId}
 					onValueChange={(categoryId) => updateData({ categoryId })}
-				/>
-				<FormDateInput
-					field="timestamp"
-					label="Date"
-					value={data.timestamp}
-					onValueChange={(timestamp) => updateData({ timestamp })}
 				/>
 				<FormSelect
 					field="accountId"

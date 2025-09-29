@@ -222,7 +222,8 @@ const FilterTransactionsForm = ({
 						<FormDateInput
 							field=""
 							label="Start date"
-							value={data.startDate}
+							mode="date"
+							date={data.startDate}
 							onValueChange={(startDate) => updateData({ startDate })}
 						/>
 					</View>
@@ -230,7 +231,8 @@ const FilterTransactionsForm = ({
 						<FormDateInput
 							field=""
 							label="End date"
-							value={data.endDate}
+							mode="date"
+							date={data.endDate}
 							onValueChange={(endDate) => updateData({ endDate })}
 						/>
 					</View>

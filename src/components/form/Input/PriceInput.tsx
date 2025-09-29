@@ -34,7 +34,7 @@ const PriceInput = forwardRef<TextInput, Props>(
 		//#endregion
 
 		//#region Constants
-		const sign = type === "income" ? "+" : "-";
+		const sign = value ? (type === "income" ? "+" : "-") : " ";
 		const currencySymbol = getCurrencySymbol(admin?.currency ?? "USD");
 		const formattedValue = value ? formatAmount(parseFloat(value)) : "";
 		const formattedNumber = formattedValue
