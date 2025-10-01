@@ -20,6 +20,7 @@ export const TransactionTable = sqliteTable("transaction", {
 	timestamp: text("timestamp", { length: ISO_DATE_LENGTH }).notNull(),
 	amount: real("amount").notNull(),
 	recurring: text("recurring", { enum: TRANSACTION_RECURRING_OPTIONS }),
+	nextTransactionAddedAt: text("next_transaction_added_at", { length: ISO_DATE_LENGTH }),
 	accountId: text("account_id", { length: UUID_LENGTH }).references(() => AccountTable.id),
 	userId: text("user_id", { length: UUID_LENGTH })
 		.references(() => UserTable.id, { onDelete: "cascade" })

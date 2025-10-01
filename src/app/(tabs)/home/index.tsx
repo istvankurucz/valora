@@ -1,4 +1,5 @@
 import Screen from "@/src/components/layout/Screen/Screen";
+import RecurringTransactions from "@/src/features/transaction/components/layout/RecurringTransactions";
 import AdminBalanceChart from "@/src/features/user/components/layout/AdminBalanceChart";
 import AdminLatestTransactions from "@/src/features/user/components/layout/AdminLatestTransactions";
 import AdminTransactionCategoriesChart from "@/src/features/user/components/layout/AdminTransactionCategoriesChart";
@@ -11,6 +12,7 @@ const Home = () => {
 			<Screen.ScrollView contentContainerStyle={styles.container}>
 				<Screen.Container>
 					<AdminWelcome />
+					<RecurringTransactions />
 					<AdminBalanceChart />
 					<AdminTransactionCategoriesChart />
 					<AdminLatestTransactions />

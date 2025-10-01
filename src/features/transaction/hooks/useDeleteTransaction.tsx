@@ -14,6 +14,9 @@ const useDeleteTransaction = () => {
 	const { mutateAsync, isPending } = useMutation<void, unknown, DeleteTransactionVariables>({
 		mutationFn: deleteTransaction,
 		onSuccess: () => {
+			// Invalidate recurring transactions query
+			queryClient.invalidateQueries({ queryKey: ["transactions", "recurring"] });
+
 			// Invalidate transaction categories query
 			queryClient.invalidateQueries({ queryKey: ["transactionCategories"] });
 

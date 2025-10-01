@@ -16,6 +16,9 @@ const Settings = () => {
 				<Link href="/settings/users" asChild>
 					<SettingsListItem icon="people-outline" label="Members" />
 				</Link>
+				<Link href="/settings/recurring-transactions" asChild>
+					<SettingsListItem icon="sync-outline" label="Recurring transactions" />
+				</Link>
 				<Link href="/settings/info" asChild>
 					<SettingsListItem icon="information-outline" label="App info and support" />
 				</Link>

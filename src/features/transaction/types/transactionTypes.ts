@@ -22,6 +22,10 @@ export type Transaction = Omit<
 };
 //#endregion
 
+// #region Transaction recurring state
+export type TransactionRecurringState = "today" | "past" | "upcoming";
+//#endregion
+
 // #region Transactions sort
 export type TransactionSortProperty = "timestamp" | "amount";
 //#endregion

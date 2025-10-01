@@ -24,6 +24,9 @@ const useUpdateTransaction = () => {
 	>({
 		mutationFn: ({ id, data }) => updateTransaction(id, data),
 		onSuccess: (transaction) => {
+			// Invalidate recurring transactions query
+			queryClient.invalidateQueries({ queryKey: ["transactions", "recurring"] });
+
 			// Invalidate transaction query
 			queryClient.invalidateQueries({ queryKey: ["transactions", transaction.id] });
 

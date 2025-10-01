@@ -15,7 +15,7 @@ type Props = PressableProps & {
 	title?: string;
 	IconComponent?: ReactNode;
 	loading?: boolean;
-	titleStyle?: ThemedTextProps;
+	titleStyle?: ThemedTextProps["style"];
 };
 
 const Button = ({

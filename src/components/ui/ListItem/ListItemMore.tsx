@@ -1,14 +1,13 @@
 import useThemeColor from "@/src/hooks/useThemeColor";
-import Feather from "@expo/vector-icons/Feather";
-import { ReactNode } from "react";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { StyleSheet } from "react-native";
 import IconUnderlay, { IconUnderlayProps } from "../Underlay/IconUnderlay";
 
 type Props = IconUnderlayProps & {
-	IconComponent?: ReactNode;
+	iconName?: string;
 };
 
-const ListItemMore = ({ IconComponent, style, ...rest }: Props) => {
+const ListItemMore = ({ iconName, style, ...rest }: Props) => {
 	// #region Hooks
 	const backgroundColor = useThemeColor({ variant: "neutral", shade: 200 });
 	const iconColor = useThemeColor({ variant: "neutral", shade: 800 });
@@ -16,12 +15,12 @@ const ListItemMore = ({ IconComponent, style, ...rest }: Props) => {
 
 	return (
 		<IconUnderlay style={[styles.underlay, { backgroundColor }, style]} {...rest}>
-			{IconComponent ?? <Feather name="arrow-right" size={16} color={iconColor} />}
+			<Ionicons name={(iconName as any) ?? "arrow-forward"} size={14} color={iconColor} />
 		</IconUnderlay>
 	);
 };
 
-// Sytles
+// Styles
 const styles = StyleSheet.create({
 	underlay: {
 		padding: 8,

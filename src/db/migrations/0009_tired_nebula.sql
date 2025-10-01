@@ -1,0 +1,1 @@
+ALTER TABLE `transaction` ADD `next_transaction_added_at` text(24);

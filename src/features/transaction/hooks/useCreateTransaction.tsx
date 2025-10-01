@@ -21,6 +21,9 @@ const useCreateTransaction = () => {
 	>({
 		mutationFn: createTransaction,
 		onSuccess: (transaction) => {
+			// Invalidate recurring transactions query
+			queryClient.invalidateQueries({ queryKey: ["transactions", "recurring"] });
+
 			// Invalidate transaction categories query
 			queryClient.invalidateQueries({ queryKey: ["transactionCategories"], exact: true });
 			queryClient.invalidateQueries({
