@@ -1,4 +1,13 @@
-import { addDays, addMonths, addWeeks, addYears } from "date-fns";
+import {
+	addDays,
+	addMonths,
+	addWeeks,
+	addYears,
+	startOfDay,
+	startOfMonth,
+	startOfWeek,
+	startOfYear,
+} from "date-fns";
 import { Transaction } from "../../transaction/types/transactionTypes";
 import { ChartInterval } from "../constants/chartIntervalOptions";
 
@@ -9,31 +18,25 @@ export default function shouldDisablePrevButton(
 	// Get params
 	const { interval, transactions } = params;
 
+	// Get first transaction date
+	if (transactions.length === 0) return true;
+	const firstTransactionDate = new Date(
+		transactions.reduce((earliest, transaction) => {
+			return transaction.timestamp < earliest ? transaction.timestamp : earliest;
+		}, transactions[0]!.timestamp)
+	);
+
 	// Get previous date
-	let prevDate: Date;
 	switch (interval) {
 		case "day":
-			prevDate = addDays(date, -1);
-			break;
+			return startOfDay(addDays(date, -1)) < startOfDay(firstTransactionDate);
 		case "week":
-			prevDate = addWeeks(date, -1);
-			break;
+			return startOfWeek(addWeeks(date, -1)) < startOfWeek(firstTransactionDate);
 		case "month":
-			prevDate = addMonths(date, -1);
-			break;
+			return startOfMonth(addMonths(date, -1)) < startOfMonth(firstTransactionDate);
 		case "year":
-			prevDate = addYears(date, -1);
-			break;
+			return startOfYear(addYears(date, -1)) < startOfYear(firstTransactionDate);
 		case "all":
 			return true;
 	}
-
-	// Get first transaction date
-	if (transactions.length === 0) return true;
-	const firstTransactionDate = transactions.reduce((earliest, transaction) => {
-		return transaction.timestamp < earliest ? transaction.timestamp : earliest;
-	}, transactions[0]!.timestamp);
-
-	// Return result
-	return prevDate < new Date(firstTransactionDate);
 }
