@@ -6,6 +6,7 @@ import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useChart } from "../../contexts/ChartContext";
 import { useGroupMembersBalanceChartData } from "../../contexts/GroupMembersBalanceChartContext";
+import formatChartLabel from "../../utils/formatChartLabel";
 
 const GroupMembersBalanceChartComponent = () => {
 	// #region Hooks
@@ -23,6 +24,8 @@ const GroupMembersBalanceChartComponent = () => {
 	);
 	const incomeMaxValue = Math.max(...chartData.map((data) => data.income.value));
 	const expenseMaxValue = Math.max(...chartData.map((data) => data.expense.value));
+
+	const numberOfBars = formData.types.length;
 	//#endregion
 
 	// #region Functions
@@ -34,7 +37,7 @@ const GroupMembersBalanceChartComponent = () => {
 	return (
 		<ScrollView horizontal contentContainerStyle={styles.container}>
 			{chartData.map((data, i) => (
-				<View key={i} style={styles.dataContainer}>
+				<View key={i} style={[styles.dataContainer, { width: numberOfBars > 1 ? 56 : 40 }]}>
 					<View style={styles.barsContainer}>
 						{formData.types.includes("income") && (
 							<ProgressBar
@@ -69,7 +72,7 @@ const GroupMembersBalanceChartComponent = () => {
 					</View>
 
 					<ThemedText shade={600} fontFamily="Poppins_500Medium" style={styles.label}>
-						{data.name.substring(0, 10)}
+						{formatChartLabel(data.name, { length: numberOfBars > 1 ? 8 : 4 })}
 					</ThemedText>
 				</View>
 			))}

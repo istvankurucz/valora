@@ -1,7 +1,8 @@
 import useFormData from "@/src/features/form/hooks/useFormData";
 import useGetTransactionCategories from "@/src/features/transactionCategory/hooks/useGetTransactionCategories";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { createContext, PropsWithChildren, useContext, useEffect, useRef, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useRef, useState } from "react";
+import { TransactionType } from "../../transaction/constants/transactionTypeOptions";
 import TransactionCategoriesOptionsModal from "../components/layout/TransactionCategoriesOptionsModal";
 import {
 	TRANSACTION_CATEGORIES_CHART_FORM_DATA,
@@ -29,12 +30,22 @@ const TransactionCategoriesChartContext = createContext<TransactionCategoriesCha
 });
 
 // Provider
-type Props = PropsWithChildren;
+type Props = {
+	showIncomesOnLoad?: boolean;
+	children?: ReactNode;
+};
 
-export const TransactionCategoriesChartProvider = ({ children }: Props) => {
+export const TransactionCategoriesChartProvider = ({ showIncomesOnLoad, children }: Props) => {
 	// #region States
 	const [chartData, setChartData] = useState<TransactionCategoriesChartData[]>([]);
-	const { data, updateData } = useFormData(TRANSACTION_CATEGORIES_CHART_FORM_DATA);
+	const { data, updateData } = useFormData(
+		showIncomesOnLoad
+			? {
+					...TRANSACTION_CATEGORIES_CHART_FORM_DATA,
+					types: ["income", "expense"] as TransactionType[],
+			  }
+			: TRANSACTION_CATEGORIES_CHART_FORM_DATA
+	);
 	//#endregion
 
 	// #region Refs

@@ -1,7 +1,7 @@
 import { db } from "@/src/db/db";
 import { IconTable } from "@/src/db/schemas/Icon";
 import { TransactionCategoryTable } from "@/src/db/schemas/TransactionCategory";
-import { asc, eq } from "drizzle-orm";
+import { asc, desc, eq } from "drizzle-orm";
 import { ICON_COLUMNS } from "../../icon/constants/iconDbColumns";
 import getTransactionsByCategoryId from "../../transaction/services/getTransactionsByCategoryId";
 import { TransactionCategory } from "../types/transactionCategoryTypes";
@@ -22,7 +22,7 @@ export default async function getTransactionCategories(
 		})
 		.from(TransactionCategoryTable)
 		.innerJoin(IconTable, eq(TransactionCategoryTable.iconId, IconTable.id))
-		.orderBy(asc(TransactionCategoryTable.order));
+		.orderBy(desc(TransactionCategoryTable.type), asc(TransactionCategoryTable.order));
 
 	// Get transactions
 	const categories = await Promise.all(

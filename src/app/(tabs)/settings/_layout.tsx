@@ -19,7 +19,10 @@ const SettingsLayout = () => {
 				<Stack.Screen name="my-data" options={{ title: "My data" }} />
 				<Stack.Screen name="transaction-categories" options={{ headerShown: false }} />
 				<Stack.Screen name="users" options={{ headerShown: false }} />
-				<Stack.Screen name="recurring-transactions" options={{ title: "Upcoming payments" }} />
+				<Stack.Screen
+					name="recurring-transactions"
+					options={{ title: "Recurring transactions" }}
+				/>
 				<Stack.Screen name="info" options={{ title: "Info" }} />
 			</Stack>
 

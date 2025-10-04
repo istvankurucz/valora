@@ -30,6 +30,12 @@ const RecurringTransactionListItem = ({ transaction, state, ...rest }: Props) =>
 
 	// #region Functions
 	async function handleAddTransactionPress() {
+		// Get next transaction date
+		const nextTransactionDate = getNextTransactionDate(
+			new Date(transaction.timestamp),
+			transaction.recurring!
+		);
+
 		try {
 			// Add transaction again
 			await createTransaction({
@@ -37,10 +43,10 @@ const RecurringTransactionListItem = ({ transaction, state, ...rest }: Props) =>
 				amount: transaction.amount,
 				label: transaction.label,
 				note: transaction.note,
-				timestamp: getNextTransactionDate(
-					new Date(transaction.timestamp),
-					transaction.recurring!
-				).toISOString(),
+				timestamp:
+					nextTransactionDate > new Date()
+						? new Date().toISOString()
+						: nextTransactionDate.toISOString(),
 				categoryId: transaction.category.id,
 				accountId: transaction.account?.id ?? null,
 				groupId: transaction.group?.id ?? null,

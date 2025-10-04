@@ -23,7 +23,7 @@ const TransactionCategoriesTransactionCategoriesChart = () => {
 		<View>
 			<ChartProvider transactions={transactions}>
 				<ChartNavigationProvider>
-					<TransactionCategoriesChartProvider>
+					<TransactionCategoriesChartProvider showIncomesOnLoad>
 						<TransactionCategoriesChartHeader />
 						<TransactionCategoriesChart />
 					</TransactionCategoriesChartProvider>

@@ -48,6 +48,12 @@ const SettingsUpcomingRecurringPayments = () => {
 
 	function handleAddAllTransactionsPress(transactions: Transaction[]) {
 		transactions.forEach(async (transaction) => {
+			// Get next transaction date
+			const nextTransactionDate = getNextTransactionDate(
+				new Date(transaction.timestamp),
+				transaction.recurring!
+			);
+
 			try {
 				// Add transaction again
 				await createTransaction({
@@ -55,10 +61,10 @@ const SettingsUpcomingRecurringPayments = () => {
 					amount: transaction.amount,
 					label: transaction.label,
 					note: transaction.note,
-					timestamp: getNextTransactionDate(
-						new Date(transaction.timestamp),
-						transaction.recurring!
-					).toISOString(),
+					timestamp:
+						nextTransactionDate > new Date()
+							? new Date().toISOString()
+							: nextTransactionDate.toISOString(),
 					categoryId: transaction.category.id,
 					accountId: transaction.account?.id ?? null,
 					groupId: transaction.group?.id ?? null,
@@ -82,7 +88,7 @@ const SettingsUpcomingRecurringPayments = () => {
 		<Screen>
 			<Screen.ScrollView>
 				<Screen.Container>
-					<ThemedText shade={500}>Click on the transaction to see more options.</ThemedText>
+					<ThemedText shade={500}>Click on the transaction to see options.</ThemedText>
 
 					<View>
 						<Section.Header>
@@ -99,10 +105,7 @@ const SettingsUpcomingRecurringPayments = () => {
 						</Section.Header>
 
 						{groupedTransactions.today.length === 0 && (
-							<Section.Empty
-								icon="card-outline"
-								text="No recurring transactions due today."
-							/>
+							<Section.Empty icon="card-outline" text="No transactions due today." />
 						)}
 						<ListContainer>
 							{groupedTransactions.today.map((transaction) => (

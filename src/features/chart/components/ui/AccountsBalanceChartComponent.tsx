@@ -5,6 +5,7 @@ import useThemeColor from "@/src/hooks/useThemeColor";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useAccountsBalanceChartData } from "../../contexts/AccountsBalanceChartContext";
 import { useChart } from "../../contexts/ChartContext";
+import formatChartLabel from "../../utils/formatChartLabel";
 
 const AccountsBalanceChartComponent = () => {
 	// #region Hooks
@@ -58,7 +59,7 @@ const AccountsBalanceChartComponent = () => {
 					</View>
 
 					<ThemedText shade={600} fontFamily="Poppins_500Medium" style={styles.label}>
-						{data.label.substring(0, 3)}
+						{formatChartLabel(data.label, { length: 8 })}
 					</ThemedText>
 				</View>
 			))}

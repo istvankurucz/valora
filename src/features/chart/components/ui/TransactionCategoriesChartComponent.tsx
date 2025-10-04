@@ -2,11 +2,11 @@ import ProgressBar from "@/src/components/ui/ProgressBar";
 import ThemedText from "@/src/components/ui/ThemedText";
 import { FONT_SIZE } from "@/src/constants/fontSizes";
 import useThemeColor from "@/src/hooks/useThemeColor";
-import capitalizeString from "@/src/utils/string/capitalizeString";
 import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useChart } from "../../contexts/ChartContext";
 import { useTransactionCategoriesChart } from "../../contexts/TransactionCategoriesChartContext";
+import formatChartLabel from "../../utils/formatChartLabel";
 
 const TransactionCategoriesChartComponent = () => {
 	// #region Hooks
@@ -31,7 +31,7 @@ const TransactionCategoriesChartComponent = () => {
 	return (
 		<ScrollView horizontal contentContainerStyle={styles.container}>
 			{chartData.map((data, i) => (
-				<View key={i}>
+				<View key={i} style={styles.item}>
 					<ProgressBar
 						value={data.value}
 						maxValue={maxValue}
@@ -42,7 +42,7 @@ const TransactionCategoriesChartComponent = () => {
 						onPress={() => handleBarPress(i)}
 					/>
 					<ThemedText shade={600} fontFamily="Poppins_500Medium" style={styles.label}>
-						{capitalizeString(data.label.substring(0, 3))}
+						{formatChartLabel(data.label)}
 					</ThemedText>
 				</View>
 			))}
@@ -56,6 +56,10 @@ const styles = StyleSheet.create({
 		minWidth: "100%",
 		gap: 12,
 		justifyContent: "center",
+	},
+	item: {
+		width: 32,
+		alignItems: "center",
 	},
 	bar: {
 		height: 150,
