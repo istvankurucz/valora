@@ -1,15 +1,15 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { createContext, PropsWithChildren, RefObject, useContext, useState } from "react";
-import { Transaction, TransactionRecurringState } from "../types/transactionTypes";
+import { RecurringTransaction, TransactionRecurringState } from "../types/transactionTypes";
 
-type TransactionWithRecurringState = Transaction & {
+type RecurringTransactionWithState = RecurringTransaction & {
 	recurringState: TransactionRecurringState;
 };
 
 // Context
 type RecurringTransactionContextType = {
-	transaction: TransactionWithRecurringState | null;
-	setTransaction: (transaction: TransactionWithRecurringState | null) => void;
+	transaction: RecurringTransactionWithState | null;
+	setTransaction: (transaction: RecurringTransactionWithState | null) => void;
 	showModal: () => void;
 	hideModal: () => void;
 };
@@ -27,7 +27,7 @@ type Props = PropsWithChildren & {
 
 export const RecurringTransactionProvider = ({ modalRef, children }: Props) => {
 	// #region State
-	const [transaction, setTransaction] = useState<TransactionWithRecurringState | null>(null);
+	const [transaction, setTransaction] = useState<RecurringTransactionWithState | null>(null);
 	// #endregion
 
 	//#region Functions

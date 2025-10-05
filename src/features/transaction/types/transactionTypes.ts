@@ -3,6 +3,7 @@ import { AccountData } from "../../account/types/accountTypes";
 import { GroupData } from "../../group/types/groupTypes";
 import { TransactionCategoryData } from "../../transactionCategory/types/transactionCategoryTypes";
 import { UserData } from "../../user/types/userTypes";
+import { TransactionRecurring } from "../constants/transactionRecurringOptions";
 
 // #region Transaction DB types
 export type TransactionSelect = typeof TransactionTable.$inferSelect;
@@ -22,7 +23,10 @@ export type Transaction = Omit<
 };
 //#endregion
 
-// #region Transaction recurring state
+// #region Recurring transaction
+export type RecurringTransaction = Omit<Transaction, "recurring"> & {
+	recurring: TransactionRecurring;
+};
 export type TransactionRecurringState = "today" | "past" | "upcoming";
 //#endregion
 

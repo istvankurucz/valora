@@ -1,35 +1,32 @@
 import getNextTransactionDate from "@/src/utils/date/getNextTransactionDate";
 import { startOfDay, startOfToday } from "date-fns";
-import { Transaction } from "../types/transactionTypes";
+import { RecurringTransaction } from "../types/transactionTypes";
 
-export default function groupRecurringTransactions(transactions: Transaction[]): {
-	today: Transaction[];
-	upcoming: Transaction[];
-	past: Transaction[];
+export default function groupRecurringTransactions(transactions: RecurringTransaction[]): {
+	today: RecurringTransaction[];
+	upcoming: RecurringTransaction[];
+	past: RecurringTransaction[];
 } {
-	const today = transactions.filter(
-		(transaction) =>
-			transaction.recurring &&
-			startOfDay(
-				getNextTransactionDate(new Date(transaction.timestamp), transaction.recurring)
-			).getTime() === startOfToday().getTime()
-	);
+	// Initialize groups
+	const today: RecurringTransaction[] = [];
+	const upcoming: RecurringTransaction[] = [];
+	const past: RecurringTransaction[] = [];
 
-	const upcoming = transactions.filter(
-		(transaction) =>
-			transaction.recurring &&
-			startOfDay(
-				getNextTransactionDate(new Date(transaction.timestamp), transaction.recurring)
-			) > startOfToday()
-	);
+	// Get start of today
+	const todayStart = startOfToday().getTime();
 
-	const past = transactions.filter(
-		(transaction) =>
-			transaction.recurring &&
-			startOfDay(
-				getNextTransactionDate(new Date(transaction.timestamp), transaction.recurring)
-			) < startOfToday()
-	);
+	// Group transactions by their next occurrence date
+	transactions.forEach((transaction) => {
+		// Get start of next occurrence date
+		const nextDateStart = startOfDay(
+			getNextTransactionDate(new Date(transaction.timestamp), transaction.recurring)
+		).getTime();
+
+		// Compare dates and group accordingly
+		if (nextDateStart === todayStart) today.push(transaction);
+		else if (nextDateStart > todayStart) upcoming.push(transaction);
+		else past.push(transaction);
+	});
 
 	return { today, upcoming, past };
 }

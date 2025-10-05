@@ -1,10 +1,10 @@
 import { db } from "@/src/db/db";
 import getNextTransactionDate from "@/src/utils/date/getNextTransactionDate";
 import { addDays, endOfDay, startOfDay, subDays } from "date-fns";
-import { Transaction } from "../types/transactionTypes";
+import { RecurringTransaction } from "../types/transactionTypes";
 import getTransactionDetails from "./getTransactionDetails";
 
-export default async function getRecurringTransactions(): Promise<Transaction[]> {
+export default async function getRecurringTransactions(): Promise<RecurringTransaction[]> {
 	// Get transactions
 	const transactionsSelect = await db.query.TransactionTable.findMany({
 		where: (transaction, { isNotNull, and, isNull }) =>
@@ -30,5 +30,5 @@ export default async function getRecurringTransactions(): Promise<Transaction[]>
 	);
 
 	// Return transactions
-	return transactions;
+	return transactions as RecurringTransaction[];
 }

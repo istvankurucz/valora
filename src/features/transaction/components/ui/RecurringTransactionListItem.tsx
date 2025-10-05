@@ -7,12 +7,12 @@ import formatRecurringDate from "@/src/utils/format/formatRecurringDate";
 import { StyleSheet, View } from "react-native";
 import useCreateTransaction from "../../hooks/useCreateTransaction";
 import useUpdateTransaction from "../../hooks/useUpdateTransaction";
-import { Transaction, TransactionRecurringState } from "../../types/transactionTypes";
+import { RecurringTransaction, TransactionRecurringState } from "../../types/transactionTypes";
 import TransactionAmount from "./TransactionAmount";
 import TransactionRecurringLabel from "./TransactionRecurringLabel";
 
 type Props = ListItemProps & {
-	transaction: Transaction;
+	transaction: RecurringTransaction;
 	state: TransactionRecurringState;
 };
 
@@ -33,7 +33,7 @@ const RecurringTransactionListItem = ({ transaction, state, ...rest }: Props) =>
 		// Get next transaction date
 		const nextTransactionDate = getNextTransactionDate(
 			new Date(transaction.timestamp),
-			transaction.recurring!
+			transaction.recurring
 		);
 
 		try {
@@ -76,7 +76,7 @@ const RecurringTransactionListItem = ({ transaction, state, ...rest }: Props) =>
 				<ListItem.Label>{transaction.label}</ListItem.Label>
 				<ListItem.Info>
 					{formatRecurringDate(
-						getNextTransactionDate(new Date(transaction.timestamp), transaction.recurring!)
+						getNextTransactionDate(new Date(transaction.timestamp), transaction.recurring)
 					)}
 				</ListItem.Info>
 			</ListItem.Main>

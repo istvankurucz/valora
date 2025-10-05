@@ -9,7 +9,7 @@ import useCreateTransaction from "@/src/features/transaction/hooks/useCreateTran
 import useGetRecurringTransactions from "@/src/features/transaction/hooks/useGetRecurringTransactions";
 import useUpdateTransaction from "@/src/features/transaction/hooks/useUpdateTransaction";
 import {
-	Transaction,
+	RecurringTransaction,
 	TransactionRecurringState,
 } from "@/src/features/transaction/types/transactionTypes";
 import groupRecurringTransactions from "@/src/features/transaction/utils/groupRecurringTransactions";
@@ -36,7 +36,7 @@ const SettingsUpcomingRecurringPayments = () => {
 
 	// #region Functions
 	function handleTransactionPress(
-		transaction: Transaction,
+		transaction: RecurringTransaction,
 		recurringState: TransactionRecurringState
 	) {
 		// Update state in context
@@ -46,12 +46,12 @@ const SettingsUpcomingRecurringPayments = () => {
 		showModal();
 	}
 
-	function handleAddAllTransactionsPress(transactions: Transaction[]) {
+	function handleAddAllTransactionsPress(transactions: RecurringTransaction[]) {
 		transactions.forEach(async (transaction) => {
 			// Get next transaction date
 			const nextTransactionDate = getNextTransactionDate(
 				new Date(transaction.timestamp),
-				transaction.recurring!
+				transaction.recurring
 			);
 
 			try {
