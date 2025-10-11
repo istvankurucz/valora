@@ -18,7 +18,10 @@ const TabsHeader = ({ title, ...rest }: Props) => {
 	function handleBackPress(e: GestureResponderEvent) {
 		e.preventDefault();
 
-		// Naviagte to last pathname
+		// Remove query string from pathname
+		router.setParams({});
+
+		// Navigate to last pathname
 		router.replace(pathname as any);
 	}
 	//#endregion

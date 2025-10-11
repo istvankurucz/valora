@@ -31,21 +31,16 @@ const useUpdateTransaction = () => {
 			queryClient.invalidateQueries({ queryKey: ["transactions", transaction.id] });
 
 			// Invalidate transaction categories query
-			queryClient.invalidateQueries({ queryKey: ["transactionCategories"], exact: true });
-			queryClient.invalidateQueries({
-				queryKey: ["transactionCategories", transaction.categoryId],
-			});
+			queryClient.invalidateQueries({ queryKey: ["transactionCategories"] });
 
 			// Invalidate accounts query
 			if (transaction.accountId) {
-				queryClient.invalidateQueries({ queryKey: ["accounts"], exact: true });
-				queryClient.invalidateQueries({ queryKey: ["accounts", transaction.accountId] });
+				queryClient.invalidateQueries({ queryKey: ["accounts"] });
 			}
 
 			// Invalidate groups query
 			if (transaction.groupId) {
-				queryClient.invalidateQueries({ queryKey: ["groups"], exact: true });
-				queryClient.invalidateQueries({ queryKey: ["groups", transaction.groupId] });
+				queryClient.invalidateQueries({ queryKey: ["groups"] });
 			}
 
 			if (transaction.userId === admin?.id) {

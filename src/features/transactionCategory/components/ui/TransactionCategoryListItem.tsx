@@ -22,7 +22,10 @@ const TransactionCategoryListItem = ({
 					{transactionCategory.transactions.length > 1 ? "s" : ""}
 				</ListItem.Info>
 			</ListItem.Main>
-			<ListItem.More iconName="swap-vertical-outline" onPress={rest.onPress} />
+			<ListItem.More
+				iconName={sortable ? "swap-vertical-outline" : undefined}
+				onPress={rest.onPress}
+			/>
 		</ListItem>
 	);
 };

@@ -1,42 +1,31 @@
 import Input from "@/src/components/form/Input/Input";
-import { useEffect, useRef } from "react";
+import ThemedText from "@/src/components/ui/ThemedText";
+import { FONT_SIZE } from "@/src/constants/fontSizes";
 import { StyleSheet, View } from "react-native";
 import { useFilterTransactions } from "../../contexts/FilterTransactionsContext";
-import filterTransactions from "../../utils/filterTransactions";
-import sortTransactions from "../../utils/sortTransactions";
 
 const FilterTransactionsSearch = () => {
-	// #region Refs
-	const timeoutRef = useRef<number>(undefined);
+	// #region Hooks
+	const { filteredTransactions, data, updateData, filterCount } = useFilterTransactions();
 	//#endregion
 
-	// #region Hooks
-	const { transactions, setFilteredTransactions, data, updateData } = useFilterTransactions();
-
-	useEffect(() => {
-		clearTimeout(timeoutRef.current);
-
-		timeoutRef.current = setTimeout(() => {
-			// Filter transactions
-			const filteredTransactions = filterTransactions(transactions, data);
-
-			// Sort transactions
-			const sortedTransactions = sortTransactions(filteredTransactions, data);
-
-			// Update state
-			setFilteredTransactions(sortedTransactions);
-		}, 500);
-	});
+	// #region Constants
+	const showCount = filterCount > 0 || data.searchText.length > 0;
 	//#endregion
 
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, !showCount ? { marginBottom: 8 } : undefined]}>
 			<Input
 				search={true}
 				placeholder="Search transaction"
 				value={data.searchText}
 				onChangeText={(searchText) => updateData({ searchText })}
 			/>
+			{showCount && (
+				<ThemedText shade={600} style={styles.count}>
+					{filteredTransactions.length} result{filteredTransactions.length !== 1 ? "s" : ""}
+				</ThemedText>
+			)}
 		</View>
 	);
 };
@@ -44,7 +33,10 @@ const FilterTransactionsSearch = () => {
 // Styles
 const styles = StyleSheet.create({
 	container: {
-		marginBottom: 8,
+		gap: 8,
+	},
+	count: {
+		fontSize: FONT_SIZE[400],
 	},
 });
 

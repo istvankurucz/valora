@@ -13,7 +13,7 @@ type Props = ViewProps;
 const TransactionCategoriesChartValue = ({ style, ...rest }: Props) => {
 	//#region Hooks
 	const { selectedIndex } = useChart();
-	const { chartData } = useTransactionCategoriesChart();
+	const { data, chartData } = useTransactionCategoriesChart();
 	const { formatAmount } = useFormatAmount();
 	//#endregion
 
@@ -42,8 +42,12 @@ const TransactionCategoriesChartValue = ({ style, ...rest }: Props) => {
 			)}
 			{"income" in valueData && (
 				<View style={styles.boxContainer}>
-					<ChartValueBox type="income" label="Income" value={valueData.income.value} />
-					<ChartValueBox type="expense" label="Expense" value={valueData.expense.value} />
+					{data.types.includes("income") && (
+						<ChartValueBox type="income" label="Income" value={valueData.income.value} />
+					)}
+					{data.types.includes("expense") && (
+						<ChartValueBox type="expense" label="Expense" value={valueData.expense.value} />
+					)}
 				</View>
 			)}
 		</View>

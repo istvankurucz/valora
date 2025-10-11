@@ -1,8 +1,8 @@
 import ThemedText from "@/src/components/ui/ThemedText";
 import { SegmentedControlOption, SelectOption } from "@/src/types/uiTypes";
 import capitalizeString from "@/src/utils/string/capitalizeString";
-import { usePathname } from "expo-router";
-import { useEffect, useMemo } from "react";
+import { useFocusEffect, useLocalSearchParams, usePathname } from "expo-router";
+import { useCallback, useEffect, useMemo } from "react";
 import AccountOption from "../../account/components/ui/AccountOption";
 import useGetAccounts from "../../account/hooks/useGetAccounts";
 import { useFeedback } from "../../feedback/contexts/FeedbackContext";
@@ -19,6 +19,7 @@ import {
 	TransactionRecurring,
 } from "../constants/transactionRecurringOptions";
 import { TRANSACTION_TYPE_OPTIONS, TransactionType } from "../constants/transactionTypeOptions";
+import { Transaction } from "../types/transactionTypes";
 
 const ACCOUNT_PATH_REGEX =
 	/\/accounts\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})/;
@@ -39,6 +40,39 @@ const useNewTransactionData = () => {
 	const { groups } = useGetGroups();
 	const { data, updateData, setData } = useFormData(NEW_TRANSACTION_FORM_DATA);
 	const { setFeedback } = useFeedback();
+	const { transactionData } = useLocalSearchParams<{ transactionData?: string }>();
+
+	useEffect(() => {
+		if (!transactionData) return;
+
+		// Parse transaction
+		const transaction: Transaction = JSON.parse(transactionData);
+
+		// Update form data
+		setData({
+			type: transaction.type,
+			amount: transaction.amount.toString(),
+			label: transaction.label,
+			note: transaction.note ?? "",
+			timestamp: new Date(),
+			recurring: transaction.recurring ?? "",
+			categoryId: transaction.category.id,
+			accountId: transaction.account?.id ?? "",
+			groupId: transaction.group?.id ?? "",
+			userId: transaction.user.id,
+		});
+	}, [transactionData, setData]);
+
+	useFocusEffect(
+		useCallback(() => {
+			// Do nothing on focus
+
+			// Reset form data on blur
+			return () => {
+				setData(NEW_TRANSACTION_FORM_DATA);
+			};
+		}, [setData])
+	);
 	//#endregion
 
 	// #region Constants

@@ -5,6 +5,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { FlatList, Modal, Pressable, StyleSheet, View } from "react-native";
 import IconBox from "../../ui/IconBox";
+import Section from "../../ui/Section/Section";
 import ThemedText from "../../ui/ThemedText";
 import ThemedView from "../../ui/ThemedView";
 import Underlay from "../../ui/Underlay/Underlay";
@@ -119,7 +120,7 @@ const IconInput = ({ value, onIconChange, iconColor, backgroundColor }: IconInpu
 							</View>
 						}
 						ListEmptyComponent={
-							<ThemedText style={styles.noResult}>No icon found.</ThemedText>
+							<Section.Empty icon="alert-circle-outline" text="No icon found." />
 						}
 						columnWrapperStyle={styles.list}
 					/>
@@ -150,9 +151,6 @@ const styles = StyleSheet.create({
 	},
 	list: {
 		alignSelf: "center",
-	},
-	noResult: {
-		textAlign: "center",
 	},
 	option: {
 		width: 56,

@@ -15,7 +15,7 @@ type Props = BottomModalProps & {
 };
 
 const TransactionMainModal = forwardRef<BottomSheetModal, Props>(
-	({ modalRef, deleteModalRef, ...rest }, ref) => {
+	({ modalRef, deleteModalRef, snapPoints, ...rest }, ref) => {
 		// #region Hooks
 		const { transaction } = useTransaction();
 
@@ -34,12 +34,26 @@ const TransactionMainModal = forwardRef<BottomSheetModal, Props>(
 		//#endregion
 
 		return (
-			<BottomModal {...rest} ref={ref}>
+			<BottomModal snapPoints={[300]} {...rest} ref={ref}>
 				<BottomModalTitle>Transaction options</BottomModalTitle>
 
 				<Link
 					href={{
-						pathname: `/edit-transaction`,
+						pathname: "/new-transaction",
+						params: { transactionData: JSON.stringify(transaction) },
+					}}
+					onPress={handleEditPress}
+					asChild
+				>
+					<BottomModalListItem>
+						<Ionicons name="add" size={24} color={defaultIconColor} />
+						<ThemedText>Add transaction again</ThemedText>
+					</BottomModalListItem>
+				</Link>
+
+				<Link
+					href={{
+						pathname: "/edit-transaction",
 						params: { transactionData: JSON.stringify(transaction) },
 					}}
 					onPress={handleEditPress}

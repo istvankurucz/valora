@@ -21,7 +21,6 @@ import { TRANSACTION_SORT_OPTIONS } from "../../constants/transactionSortOptions
 import { TransactionType } from "../../constants/transactionTypeOptions";
 import { Transaction, TransactionSortProperty } from "../../types/transactionTypes";
 import filterTransactions from "../../utils/filterTransactions";
-import getTransactionsFilterCount from "../../utils/getTransactionsFilterCount";
 import sortTransactions from "../../utils/sortTransactions";
 import TransactionSortOption from "../ui/TransactionSortOption";
 
@@ -136,7 +135,7 @@ const FilterTransactionsForm = ({
 
 	function handleResetPress() {
 		updateData(FILTER_TRANSACTIONS_FORM_DATA);
-		setFilterCount(0);
+		// setFilterCount(0);
 	}
 
 	function handleFilterPress() {
@@ -148,7 +147,7 @@ const FilterTransactionsForm = ({
 
 		// Update state
 		setTransactions(sortedTransactions);
-		setFilterCount(getTransactionsFilterCount(data));
+		// setFilterCount(getTransactionsFilterCount(data));
 	}
 	//#endregion
 

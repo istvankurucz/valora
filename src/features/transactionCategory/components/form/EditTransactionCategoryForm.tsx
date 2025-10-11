@@ -15,6 +15,7 @@ import { SegmentedControlOption } from "@/src/types/uiTypes";
 import formatHexColor from "@/src/utils/color/formatHexColor";
 import capitalizeString from "@/src/utils/string/capitalizeString";
 import { useRouter } from "expo-router";
+import { useMemo } from "react";
 import { useEditTransactionCategory } from "../../contexts/EditTransactionCategoryContext";
 import { useTransactionCategory } from "../../contexts/TransactionCategoryContext";
 import useUpdateTransactionCategory from "../../hooks/useUpdateTransactionCategory";
