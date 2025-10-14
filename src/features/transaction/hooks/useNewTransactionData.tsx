@@ -20,6 +20,8 @@ import {
 } from "../constants/transactionRecurringOptions";
 import { TRANSACTION_TYPE_OPTIONS, TransactionType } from "../constants/transactionTypeOptions";
 import { Transaction } from "../types/transactionTypes";
+import getLatestTransactions from "../utils/getLatestTransactions";
+import useGetTransactionsByAdminId from "./useGetTransactionsByAdminId";
 
 const ACCOUNT_PATH_REGEX =
 	/\/accounts\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})/;
@@ -35,6 +37,7 @@ const useNewTransactionData = () => {
 	const pathname = usePathname();
 	const { pathname: lastPathname } = useLastPathname();
 	const { admin } = useAdminUser();
+	const { transactions } = useGetTransactionsByAdminId();
 	const { transactionCategories } = useGetTransactionCategories();
 	const { accounts } = useGetAccounts();
 	const { groups } = useGetGroups();
@@ -83,6 +86,10 @@ const useNewTransactionData = () => {
 				label: capitalizeString(option),
 			})),
 		[]
+	);
+	const latestTransactions: Transaction[] = useMemo(
+		() => getLatestTransactions(transactions, data.type, { count: 3 }),
+		[transactions, data.type]
 	);
 	const CATEGORY_OPTIONS: SelectOption[] = useMemo(
 		() =>
@@ -222,7 +229,7 @@ const useNewTransactionData = () => {
 
 		// Update data
 		setData((data) => ({ ...data, accountId: defaultAccount.id }));
-	}, [lastPathname, accounts, admin, setData, setFeedback, showFeedback]);
+	}, [data.type, lastPathname, accounts, admin, setData, setFeedback, showFeedback]);
 
 	// Set group ID
 	useEffect(() => {
@@ -273,7 +280,7 @@ const useNewTransactionData = () => {
 
 			return;
 		}
-	}, [lastPathname, admin, setData, setFeedback, showFeedback]);
+	}, [data.type, lastPathname, admin, setData, setFeedback, showFeedback]);
 
 	// Set category
 	useEffect(() => {
@@ -299,7 +306,7 @@ const useNewTransactionData = () => {
 
 			return;
 		}
-	}, [lastPathname, setData, setFeedback, showFeedback, transactionCategories]);
+	}, [data.type, lastPathname, setData, setFeedback, showFeedback, transactionCategories]);
 
 	return {
 		data,
@@ -308,6 +315,7 @@ const useNewTransactionData = () => {
 		handleMemberChange,
 		resetFormData,
 		TRANSACTION_CATEGORY_TYPE_OPTIONS,
+		latestTransactions,
 		CATEGORY_OPTIONS,
 		RECURRING_OPTIONS,
 		ACCOUNT_OPTIONS,

@@ -8,10 +8,13 @@ import Button from "@/src/components/ui/Button";
 import { useFormValidation } from "@/src/features/form/contexts/FormValidationContext";
 import { useAdminUser } from "@/src/features/user/contexts/AdminUserContext";
 import { useRouter } from "expo-router";
-import { View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { TransactionType } from "../../constants/transactionTypeOptions";
 import useCreateTransaction from "../../hooks/useCreateTransaction";
 import useNewTransactionData from "../../hooks/useNewTransactionData";
+import { Transaction } from "../../types/transactionTypes";
 import validateNewTransactionData from "../../utils/validation/validateNewTransactionData";
+import LatestTransactionOption from "../ui/LatestTransactionOption";
 
 const NewTransactionForm = () => {
 	// #region Hooks
@@ -22,6 +25,7 @@ const NewTransactionForm = () => {
 		handleMemberChange,
 		resetFormData,
 		TRANSACTION_CATEGORY_TYPE_OPTIONS,
+		latestTransactions,
 		CATEGORY_OPTIONS,
 		RECURRING_OPTIONS,
 		ACCOUNT_OPTIONS,
@@ -35,6 +39,30 @@ const NewTransactionForm = () => {
 	//#endregion
 
 	// #region Functions
+	function handleTypeChange(type: TransactionType) {
+		if (data.type === type) return;
+		updateData({
+			type,
+			amount: "",
+			label: "",
+			recurring: "",
+			note: "",
+		});
+	}
+
+	function handleLatestTransactionPress(transaction: Transaction) {
+		updateData({
+			amount: transaction.amount.toString(),
+			label: transaction.label,
+			categoryId: transaction.category.id,
+			accountId: transaction.account?.id ?? "",
+			groupId: transaction.group?.id ?? "",
+			userId: transaction.user.id,
+			recurring: transaction.recurring ?? "",
+			note: transaction.note ?? "",
+		});
+	}
+
 	async function handleCreateTransactionPress() {
 		// Remove form errors
 		removeErrors();
@@ -78,7 +106,7 @@ const NewTransactionForm = () => {
 					label="Transaction type"
 					options={TRANSACTION_CATEGORY_TYPE_OPTIONS}
 					value={data.type}
-					onValueChange={(type) => updateData({ type })}
+					onValueChange={(type) => handleTypeChange(type)}
 				/>
 				<PriceInput
 					field="amount"
@@ -94,6 +122,17 @@ const NewTransactionForm = () => {
 					value={data.label}
 					onChangeText={(label) => updateData({ label })}
 				/>
+				{latestTransactions.length > 0 && (
+					<ScrollView horizontal contentContainerStyle={styles.latestTransactionsContainer}>
+						{latestTransactions.map((transaction) => (
+							<LatestTransactionOption
+								key={transaction.id}
+								transaction={transaction}
+								onPress={() => handleLatestTransactionPress(transaction)}
+							/>
+						))}
+					</ScrollView>
+				)}
 				<FormDateInput
 					field="timestamp"
 					label="Date"
@@ -157,5 +196,14 @@ const NewTransactionForm = () => {
 		</View>
 	);
 };
+
+// Styles
+const styles = StyleSheet.create({
+	latestTransactionsContainer: {
+		flexDirection: "row",
+		gap: 8,
+		marginBottom: 8,
+	},
+});
 
 export default NewTransactionForm;
