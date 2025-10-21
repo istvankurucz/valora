@@ -2,7 +2,7 @@ import { GroupUser } from "../../group/types/groupTypes";
 import { Transaction } from "../../transaction/types/transactionTypes";
 import { ChartInterval } from "../constants/chartIntervalOptions";
 import { GroupMembersBalanceChartData } from "../types/chartTypes";
-import getChartDateRange from "./getChartDateRange";
+import getDateRange from "./getDateRange";
 
 export default function getGroupMembersBalanceChartData(
 	transactions: Transaction[],
@@ -12,7 +12,7 @@ export default function getGroupMembersBalanceChartData(
 	const { interval, date, members } = params;
 
 	// Get date range
-	const dateRange = getChartDateRange(date, interval);
+	const dateRange = getDateRange(date, interval);
 
 	// Create chart data
 	return members.map((member) => {

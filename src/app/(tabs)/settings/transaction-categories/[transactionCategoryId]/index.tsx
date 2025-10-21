@@ -1,4 +1,5 @@
 import Screen from "@/src/components/layout/Screen/Screen";
+import TransactionCategoryChart from "@/src/features/transactionCategory/components/layout/TransactionCategoryChart";
 import TransactionCategoryLatestTransactions from "@/src/features/transactionCategory/components/layout/TransactionCategoryLatestTransactions";
 import { useTransactionCategory } from "@/src/features/transactionCategory/contexts/TransactionCategoryContext";
 import { Stack } from "expo-router";
@@ -14,7 +15,10 @@ const TransactionCategory = () => {
 			<Stack.Screen options={{ title: capitalizeString(transactionCategory?.name ?? "") }} />
 
 			<Screen.ScrollView>
-				<TransactionCategoryLatestTransactions />
+				<Screen.Container>
+					<TransactionCategoryChart />
+					<TransactionCategoryLatestTransactions />
+				</Screen.Container>
 			</Screen.ScrollView>
 		</Screen>
 	);

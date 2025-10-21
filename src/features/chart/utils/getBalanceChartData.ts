@@ -1,7 +1,7 @@
 import { Transaction } from "@/src/features/transaction/types/transactionTypes";
 import { ChartInterval } from "../constants/chartIntervalOptions";
 import { BalanceChartData } from "../types/chartTypes";
-import getChartDateRange from "./getChartDateRange";
+import getDateRange from "./getDateRange";
 
 export default function getBalanceChartData(
 	transactions: Transaction[],
@@ -11,7 +11,7 @@ export default function getBalanceChartData(
 	const { interval, date } = params;
 
 	// Get date range
-	const dateRange = getChartDateRange(date, interval);
+	const dateRange = getDateRange(date, interval);
 
 	// Filter transactions by date
 	const filteredTransactions = transactions.filter(

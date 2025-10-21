@@ -5,6 +5,11 @@ export type BalanceChartData = {
 	income: { value: number };
 	expense: { value: number };
 };
+export type BalanceBreakdownChartData = {
+	label: string;
+	income: { value: number };
+	expense: { value: number };
+};
 //#endregion
 
 // #region Accounts balance chart

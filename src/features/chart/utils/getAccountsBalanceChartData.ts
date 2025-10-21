@@ -1,7 +1,7 @@
 import { Account } from "../../account/types/accountTypes";
 import { ChartInterval } from "../constants/chartIntervalOptions";
 import { AccountBalanceChartData } from "../types/chartTypes";
-import getChartDateRange from "./getChartDateRange";
+import getDateRange from "./getDateRange";
 
 export default function getAccountsBalanceChartData(
 	accounts: Account[],
@@ -11,7 +11,7 @@ export default function getAccountsBalanceChartData(
 	const { interval, date } = params;
 
 	// Get date range
-	const dateRange = getChartDateRange(date, interval);
+	const dateRange = getDateRange(date, interval);
 
 	// Create chart data
 	return accounts.map((account) => {

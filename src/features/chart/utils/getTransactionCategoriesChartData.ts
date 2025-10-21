@@ -3,7 +3,7 @@ import { Transaction } from "@/src/features/transaction/types/transactionTypes";
 import { TransactionCategoryData } from "@/src/features/transactionCategory/types/transactionCategoryTypes";
 import { ChartInterval } from "../constants/chartIntervalOptions";
 import { TransactionCategoriesChartData } from "../types/chartTypes";
-import getChartDateRange from "./getChartDateRange";
+import getDateRange from "./getDateRange";
 
 export default function getTransactionCategoriesChartData(
 	transactions: Transaction[],
@@ -23,7 +23,7 @@ export default function getTransactionCategoriesChartData(
 	);
 
 	// Get date range
-	const dateRange = getChartDateRange(date, interval);
+	const dateRange = getDateRange(date, interval);
 
 	// Filter transactions by date
 	const filteredTransactions = transactions.filter(

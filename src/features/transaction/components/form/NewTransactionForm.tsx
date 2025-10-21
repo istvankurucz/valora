@@ -9,7 +9,6 @@ import { useFormValidation } from "@/src/features/form/contexts/FormValidationCo
 import { useAdminUser } from "@/src/features/user/contexts/AdminUserContext";
 import { useRouter } from "expo-router";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { TransactionType } from "../../constants/transactionTypeOptions";
 import useCreateTransaction from "../../hooks/useCreateTransaction";
 import useNewTransactionData from "../../hooks/useNewTransactionData";
 import { Transaction } from "../../types/transactionTypes";
@@ -39,17 +38,6 @@ const NewTransactionForm = () => {
 	//#endregion
 
 	// #region Functions
-	function handleTypeChange(type: TransactionType) {
-		if (data.type === type) return;
-		updateData({
-			type,
-			amount: "",
-			label: "",
-			recurring: "",
-			note: "",
-		});
-	}
-
 	function handleLatestTransactionPress(transaction: Transaction) {
 		updateData({
 			amount: transaction.amount.toString(),
@@ -106,7 +94,7 @@ const NewTransactionForm = () => {
 					label="Transaction type"
 					options={TRANSACTION_CATEGORY_TYPE_OPTIONS}
 					value={data.type}
-					onValueChange={(type) => handleTypeChange(type)}
+					onValueChange={(type) => updateData({ type })}
 				/>
 				<PriceInput
 					field="amount"

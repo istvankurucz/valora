@@ -1,9 +1,9 @@
 import { StyleSheet, View, ViewProps } from "react-native";
 import SectionHeaderLink from "./SectionHeaderLink";
 
-type Props = ViewProps;
+export type SectionHeaderProps = ViewProps;
 
-const SectionHeader = ({ style, children, ...rest }: Props) => {
+const SectionHeader = ({ style, children, ...rest }: SectionHeaderProps) => {
 	return (
 		<View style={[styles.header, style]} {...rest}>
 			{children}

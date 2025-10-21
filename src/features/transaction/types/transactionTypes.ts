@@ -30,6 +30,22 @@ export type RecurringTransaction = Omit<Transaction, "recurring"> & {
 export type TransactionRecurringState = "today" | "past" | "upcoming";
 //#endregion
 
+// #region Interval transactions
+export type IntervalTransactions = {
+	interval: Date;
+	transactions: Transaction[];
+};
+//#endregion
+
+// #region Transactions section data
+export type TransactionsSectionData = {
+	title: string;
+	data: Transaction[];
+	income: number;
+	expense: number;
+};
+//#endregion
+
 // #region Transactions sort
 export type TransactionSortProperty = "timestamp" | "amount";
 //#endregion

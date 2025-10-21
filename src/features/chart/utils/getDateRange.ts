@@ -10,7 +10,7 @@ import {
 } from "date-fns";
 import { ChartInterval } from "../constants/chartIntervalOptions";
 
-export default function getChartDateRange(
+export default function getDateRange(
 	date: Date,
 	interval: ChartInterval
 ): { start: Date; end: Date } {

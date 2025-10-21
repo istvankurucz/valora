@@ -17,13 +17,14 @@ const BalanceChartComponent = () => {
 	//#endregion
 
 	return (
-		<View style={styles.contaiener}>
+		<View style={styles.container}>
 			<ProgressBar
 				value={chartData.income.value}
 				maxValue={maxValue}
 				activeOpacity={1}
 				barColors={incomeColor}
 				backgroundColor={barBackgroundColor}
+				style={styles.bar}
 			/>
 			<ProgressBar
 				value={chartData.expense.value}
@@ -31,6 +32,7 @@ const BalanceChartComponent = () => {
 				activeOpacity={1}
 				barColors={expenseColor}
 				backgroundColor={barBackgroundColor}
+				style={styles.bar}
 			/>
 		</View>
 	);
@@ -38,8 +40,11 @@ const BalanceChartComponent = () => {
 
 // Styles
 const styles = StyleSheet.create({
-	contaiener: {
+	container: {
 		gap: 12,
+	},
+	bar: {
+		height: 16,
 	},
 });
 
