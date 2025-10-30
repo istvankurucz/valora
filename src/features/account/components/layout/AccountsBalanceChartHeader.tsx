@@ -1,23 +1,17 @@
 import Section from "@/src/components/ui/Section/Section";
-import { useAccountsBalanceChartData } from "@/src/features/chart/contexts/AccountsBalanceChartContext";
-import React from "react";
+import { useChartModal } from "@/src/features/chart/contexts/ChartModalContext";
 import { Pressable } from "react-native";
 
 const AccountsBalanceChartHeader = () => {
 	// #region Hooks
-	const { showOptionsModal } = useAccountsBalanceChartData();
-	//#endregion
-
-	// #region Functions
-	function handleOptionsPress() {
-		showOptionsModal();
-	}
+	const { showModal } = useChartModal();
 	//#endregion
 
 	return (
 		<Section.Header>
 			<Section.Title>Accounts balance</Section.Title>
-			<Pressable onPress={handleOptionsPress}>
+
+			<Pressable onPress={showModal}>
 				<Section.Header.Link>Options</Section.Header.Link>
 			</Pressable>
 		</Section.Header>

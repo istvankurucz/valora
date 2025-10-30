@@ -8,7 +8,8 @@ import { TransactionType } from "@/src/features/transaction/constants/transactio
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { forwardRef } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
-import { useChart } from "../../contexts/ChartContext";
+import { useBarChart } from "../../contexts/BarChartContext";
+import { useChartModal } from "../../contexts/ChartModalContext";
 import { useTransactionCategoriesChart } from "../../contexts/TransactionCategoriesChartContext";
 
 type Props = BottomModalProps;
@@ -16,8 +17,9 @@ type Props = BottomModalProps;
 const TransactionCategoriesOptionsModal = forwardRef<BottomSheetModal, Props>(
 	({ modalRef, snapPoints, ...rest }, ref) => {
 		// #region Hooks
-		const { setSelectedIndex } = useChart();
-		const { data, updateData, hideOptionsModal } = useTransactionCategoriesChart();
+		const { setSelectedIndex } = useBarChart();
+		const { hideModal } = useChartModal();
+		const { data, updateData } = useTransactionCategoriesChart();
 		//#endregion
 
 		// #region Functions
@@ -35,10 +37,6 @@ const TransactionCategoriesOptionsModal = forwardRef<BottomSheetModal, Props>(
 
 			// Reset selected index
 			setSelectedIndex(null);
-		}
-
-		function handleSelectPress() {
-			hideOptionsModal();
 		}
 		//#endregion
 
@@ -69,7 +67,7 @@ const TransactionCategoriesOptionsModal = forwardRef<BottomSheetModal, Props>(
 					</Section>
 				</View>
 
-				<Button title="Select options" onPress={handleSelectPress} />
+				<Button title="Select options" onPress={hideModal} />
 			</BottomModal>
 		);
 	}

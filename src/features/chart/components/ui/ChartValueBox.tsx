@@ -41,7 +41,6 @@ const ChartValueBox = ({ type, label, value, style, ...rest }: Props) => {
 // Styles
 const styles = StyleSheet.create({
 	box: {
-		flex: 1,
 		alignItems: "center",
 	},
 	label: {

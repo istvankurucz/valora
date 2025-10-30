@@ -1,8 +1,9 @@
 import { TransactionType } from "@/src/features/transaction/constants/transactionTypeOptions";
 import { Transaction } from "@/src/features/transaction/types/transactionTypes";
 import { TransactionCategoryData } from "@/src/features/transactionCategory/types/transactionCategoryTypes";
+import sum from "@/src/utils/math/sum";
 import { ChartInterval } from "../constants/chartIntervalOptions";
-import { TransactionCategoriesChartData } from "../types/chartTypes";
+import { BarChartData, BarGroup } from "../types/chartTypes";
 import getDateRange from "./getDateRange";
 
 export default function getTransactionCategoriesChartData(
@@ -13,7 +14,7 @@ export default function getTransactionCategoriesChartData(
 		transactionTypes: TransactionType[];
 		categories: TransactionCategoryData[];
 	}
-): TransactionCategoriesChartData[] {
+): BarChartData {
 	// Get params
 	const { interval, date, transactionTypes, categories } = params;
 
@@ -40,18 +41,18 @@ export default function getTransactionCategoriesChartData(
 		return { category, transactions };
 	});
 
-	// Create chart data
-	return categoryTransactions.map((category) => {
+	// Create groups
+	const groups: BarGroup[] = categoryTransactions.map((category) => {
 		// Sum transactions
-		const sum = category.transactions.reduce(
-			(total, transaction) => total + transaction.amount,
-			0
-		);
+		const value = sum(...category.transactions.map((t) => t.amount));
 
+		// Return group data
 		return {
-			type: category.category.type,
 			label: category.category.name,
-			value: sum,
+			bars: [{ value, type: category.category.type, label: category.category.name }],
 		};
 	});
+
+	// Return chart data
+	return { groups };
 }

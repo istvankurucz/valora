@@ -1,4 +1,6 @@
 import Screen from "@/src/components/layout/Screen/Screen";
+import { ChartModalProvider } from "@/src/features/chart/contexts/ChartModalContext";
+import { TransactionCategoriesChartProvider } from "@/src/features/chart/contexts/TransactionCategoriesChartContext";
 import GroupMemberBalanceChart from "@/src/features/group/components/layout/GroupMemberBalanceChart";
 import GroupMemberTransactionCategoriesChart from "@/src/features/group/components/layout/GroupMemberTransactionCategoriesChart";
 import GroupMemberTransactions from "@/src/features/group/components/layout/GroupMemberTransactions";
@@ -21,7 +23,13 @@ const GroupMember = () => {
 			<Screen.ScrollView>
 				<Screen.Container>
 					<GroupMemberBalanceChart />
-					<GroupMemberTransactionCategoriesChart />
+
+					<ChartModalProvider>
+						<TransactionCategoriesChartProvider>
+							<GroupMemberTransactionCategoriesChart />
+						</TransactionCategoriesChartProvider>
+					</ChartModalProvider>
+
 					<GroupMemberTransactions />
 				</Screen.Container>
 			</Screen.ScrollView>

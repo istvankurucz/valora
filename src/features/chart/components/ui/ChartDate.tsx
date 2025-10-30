@@ -6,7 +6,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View, ViewProps } from "react-native";
 import DatePicker from "react-native-date-picker";
-import { useChartNavigation } from "../../contexts/ChartNavigationContext";
+import { useBarChart } from "../../contexts/BarChartContext";
 import formatChartDate from "../../utils/formatChartDate";
 
 type Props = ViewProps;
@@ -17,8 +17,10 @@ const ChartDate = ({ style, ...rest }: Props) => {
 	//#endregion
 
 	// #region Hooks
+	// const { interval, date, setDate, navigate, disablePrevButton, disableNextButton } =
+	// 	useChartNavigation();
 	const { interval, date, setDate, navigate, disablePrevButton, disableNextButton } =
-		useChartNavigation();
+		useBarChart();
 
 	const dateInputColor = useThemeColor({ variant: "neutral", shade: 800 });
 	const iconBackgroundColor = useThemeColor({ variant: "neutral", shade: 200 });

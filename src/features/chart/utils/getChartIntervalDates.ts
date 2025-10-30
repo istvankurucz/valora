@@ -10,9 +10,10 @@ import getDateRange from "./getDateRange";
 export default function getChartIntervalDates(params: {
 	interval: ChartInterval;
 	date: Date;
+	firstTransactionDate: Date;
 }): Date[] {
 	// Get params
-	const { interval, date } = params;
+	const { interval, date, firstTransactionDate } = params;
 
 	// Get date range
 	const dateRange = getDateRange(date, interval);
@@ -28,6 +29,6 @@ export default function getChartIntervalDates(params: {
 		case "year":
 			return eachMonthOfInterval(dateRange);
 		case "all":
-			return eachYearOfInterval(dateRange);
+			return eachYearOfInterval({ ...dateRange, start: firstTransactionDate });
 	}
 }

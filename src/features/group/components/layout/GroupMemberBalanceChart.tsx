@@ -1,8 +1,9 @@
 import Section from "@/src/components/ui/Section/Section";
-import BalanceChart from "@/src/features/chart/components/ui/BalanceChart";
-import { BalanceChartProvider } from "@/src/features/chart/contexts/BalanceChartContext";
-import { ChartProvider } from "@/src/features/chart/contexts/ChartContext";
-import { ChartNavigationProvider } from "@/src/features/chart/contexts/ChartNavigationContext";
+import { ChartInterval } from "@/src/features/chart/constants/chartIntervalOptions";
+import { BarChartProvider } from "@/src/features/chart/contexts/BarChartContext";
+import { BarChartData } from "@/src/features/chart/types/chartTypes";
+import getIntervalBreakdownChartData from "@/src/features/chart/utils/getIntervalBreakdownChartData";
+import getFirstTransactionDate from "@/src/features/transaction/utils/getFirstTransactionDate";
 import { View } from "react-native";
 import { useGroupMember } from "../../contexts/GroupMemberContext";
 
@@ -11,17 +12,26 @@ const GroupMemberBalanceChart = () => {
 	const { member } = useGroupMember();
 	// #endregion
 
+	// #region Constants
+	const transactions = member?.transactions ?? [];
+	const firstTransactionDate = getFirstTransactionDate(transactions);
+	//#endregion
+
+	// #region Functions
+	function getChartData(params: { interval: ChartInterval; date: Date }): BarChartData {
+		return getIntervalBreakdownChartData(transactions, { ...params, firstTransactionDate });
+	}
+	//#endregion
+
 	return (
 		<View>
 			<Section.Title>Balance of {member?.name}</Section.Title>
 
-			<ChartProvider transactions={member?.transactions ?? []}>
-				<ChartNavigationProvider>
-					<BalanceChartProvider>
-						<BalanceChart />
-					</BalanceChartProvider>
-				</ChartNavigationProvider>
-			</ChartProvider>
+			<BarChartProvider
+				getChartData={getChartData}
+				firstTransactionDate={firstTransactionDate}
+				defaultLabel="Total balance"
+			/>
 		</View>
 	);
 };

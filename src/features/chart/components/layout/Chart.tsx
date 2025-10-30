@@ -1,18 +1,18 @@
 import Section from "@/src/components/ui/Section/Section";
 import { BORDER_RADIUS } from "@/src/constants/borderRadius";
 import { StyleSheet } from "react-native";
-import BalanceChartComponent from "./BalanceChartComponent";
-import BalanceChartValue from "./BalanceChartValue";
-import ChartDate from "./ChartDate";
-import ChartInterval from "./ChartInterval";
+import BarChart from "../ui/BarChart";
+import ChartDate from "../ui/ChartDate";
+import ChartInterval from "../ui/ChartInterval";
+import ChartValues from "../ui/ChartValues";
 
-const BalanceChart = () => {
+const Chart = () => {
 	return (
 		<Section shade={100} style={styles.container}>
 			<ChartInterval />
 			<ChartDate />
-			<BalanceChartValue />
-			<BalanceChartComponent />
+			<ChartValues />
+			<BarChart />
 		</Section>
 	);
 };
@@ -25,4 +25,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default BalanceChart;
+export default Chart;

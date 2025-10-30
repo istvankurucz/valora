@@ -43,6 +43,7 @@ export const ChartNavigationProvider = ({ children }: Props) => {
 
 	// #region Hooks
 	const { transactions } = useChart();
+	// const { transactions } = useBarChart();
 	//#endregion
 
 	// #region Constants

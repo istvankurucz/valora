@@ -8,16 +8,16 @@ import { TransactionType } from "@/src/features/transaction/constants/transactio
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { forwardRef } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
-import { useAccountsBalanceChartData } from "../../contexts/AccountsBalanceChartContext";
-import { useChart } from "../../contexts/ChartContext";
+import { useAccountsBalanceChart } from "../../contexts/AccountsBalanceChartContext";
+import { useBarChart } from "../../contexts/BarChartContext";
 
 type Props = BottomModalProps;
 
 const AccountsBalanceChartOptionsModal = forwardRef<BottomSheetModal, Props>(
 	({ modalRef, snapPoints, ...rest }, ref) => {
 		// #region Hooks
-		const { setSelectedIndex } = useChart();
-		const { data, updateData, hideOptionsModal } = useAccountsBalanceChartData();
+		const { setSelectedIndex } = useBarChart();
+		const { data, updateData, hideOptionsModal } = useAccountsBalanceChart();
 		//#endregion
 
 		// #region Functions

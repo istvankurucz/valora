@@ -1,5 +1,29 @@
 import { TransactionType } from "@/src/features/transaction/constants/transactionTypeOptions";
 
+// #region Bar chart
+export type BarDataType = TransactionType;
+export type BarData = {
+	value: number;
+	type: BarDataType;
+	label: string;
+	width?: number;
+	barColor?: string;
+	backgroundColor?: string;
+};
+export type BarGroup = {
+	bars: BarData[];
+	label?: string;
+};
+export type BarChartData = {
+	groups: BarGroup[];
+};
+export type ChartValue = {
+	value: number;
+	type: BarDataType;
+	label: string;
+};
+//#endregion
+
 // #region Balance chart
 export type BalanceChartData = {
 	income: { value: number };

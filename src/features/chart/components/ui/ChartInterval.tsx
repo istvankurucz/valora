@@ -7,13 +7,14 @@ import {
 	CHART_INTERVAL_OPTIONS,
 	ChartInterval as ChartIntervalType,
 } from "../../constants/chartIntervalOptions";
-import { useChartNavigation } from "../../contexts/ChartNavigationContext";
+import { useBarChart } from "../../contexts/BarChartContext";
 
 type Props = Omit<SegmentedControlProps<ChartIntervalType>, "options">;
 
 const ChartInterval = ({ value, onValueChange, ...rest }: Props) => {
 	// #region Hooks
-	const { interval, setInterval } = useChartNavigation();
+	// const { interval, setInterval } = useChartNavigation();
+	const { interval, setInterval } = useBarChart();
 	//#endregion
 
 	// #region Constants

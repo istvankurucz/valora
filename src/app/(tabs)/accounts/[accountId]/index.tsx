@@ -3,6 +3,8 @@ import AccontTransactionCategoriesChart from "@/src/features/account/components/
 import AccountBalanceChart from "@/src/features/account/components/layout/AccountBalanceChart";
 import AccountLatestTransactions from "@/src/features/account/components/layout/AccountLatestTransactions";
 import { useAccount } from "@/src/features/account/contexts/AccountContext";
+import { ChartModalProvider } from "@/src/features/chart/contexts/ChartModalContext";
+import { TransactionCategoriesChartProvider } from "@/src/features/chart/contexts/TransactionCategoriesChartContext";
 import { Stack } from "expo-router";
 
 const Account = () => {
@@ -17,7 +19,11 @@ const Account = () => {
 			<Screen.ScrollView>
 				<Screen.Container>
 					<AccountBalanceChart />
-					<AccontTransactionCategoriesChart />
+					<ChartModalProvider>
+						<TransactionCategoriesChartProvider>
+							<AccontTransactionCategoriesChart />
+						</TransactionCategoriesChartProvider>
+					</ChartModalProvider>
 					<AccountLatestTransactions />
 				</Screen.Container>
 			</Screen.ScrollView>

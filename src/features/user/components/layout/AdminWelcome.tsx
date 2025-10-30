@@ -1,3 +1,4 @@
+import AppName from "@/src/components/ui/AppName";
 import ThemedText from "@/src/components/ui/ThemedText";
 import { FONT_SIZE } from "@/src/constants/fontSizes";
 import { format } from "date-fns";
@@ -34,9 +35,7 @@ const AdminWelcome = () => {
 
 	return (
 		<View style={styles.container}>
-			<ThemedText fontFamily="Poppins_600SemiBold_Italic" style={styles.title}>
-				Valora
-			</ThemedText>
+			<AppName />
 
 			<View style={styles.date}>
 				<ThemedText shade={600} fontFamily="Poppins_500Medium" style={styles.day}>
@@ -55,9 +54,7 @@ const styles = StyleSheet.create({
 		gap: 32,
 		justifyContent: "space-between",
 	},
-	title: {
-		fontSize: FONT_SIZE[700],
-	},
+
 	date: {
 		alignItems: "flex-end",
 	},

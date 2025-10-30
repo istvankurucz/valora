@@ -8,16 +8,18 @@ import { TransactionType } from "@/src/features/transaction/constants/transactio
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { forwardRef } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
-import { useChart } from "../../contexts/ChartContext";
-import { useGroupMembersBalanceChartData } from "../../contexts/GroupMembersBalanceChartContext";
+import { useBarChart } from "../../contexts/BarChartContext";
+import { useChartModal } from "../../contexts/ChartModalContext";
+import { useGroupMembersBalanceChart } from "../../contexts/GroupMembersBalanceChartContext";
 
 type Props = BottomModalProps;
 
 const GroupMembersBalanceChartOptionsModal = forwardRef<BottomSheetModal, Props>(
 	({ modalRef, snapPoints, ...rest }, ref) => {
 		// #region Hooks
-		const { setSelectedIndex } = useChart();
-		const { data, updateData, hideOptionsModal } = useGroupMembersBalanceChartData();
+		const { setSelectedIndex } = useBarChart();
+		const { hideModal } = useChartModal();
+		const { data, updateData } = useGroupMembersBalanceChart();
 		//#endregion
 
 		// #region Functions
@@ -39,10 +41,6 @@ const GroupMembersBalanceChartOptionsModal = forwardRef<BottomSheetModal, Props>
 
 		function handleRelativeToMaximumPress() {
 			updateData({ relativeToMaximum: !data.relativeToMaximum });
-		}
-
-		function handleSelectPress() {
-			hideOptionsModal();
 		}
 		//#endregion
 
@@ -84,13 +82,13 @@ const GroupMembersBalanceChartOptionsModal = forwardRef<BottomSheetModal, Props>
 								onPress={handleRelativeToMaximumPress}
 							>
 								<Checkbox value={data.relativeToMaximum} />
-								<Label>Show value relative to maximum</Label>
+								<Label>Show differences</Label>
 							</Pressable>
 						</Section>
 					</View>
 				</View>
 
-				<Button title="Select options" onPress={handleSelectPress} />
+				<Button title="Select options" onPress={hideModal} />
 			</BottomModal>
 		);
 	}

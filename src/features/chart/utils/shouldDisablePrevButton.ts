@@ -8,23 +8,14 @@ import {
 	startOfWeek,
 	startOfYear,
 } from "date-fns";
-import { Transaction } from "../../transaction/types/transactionTypes";
 import { ChartInterval } from "../constants/chartIntervalOptions";
 
 export default function shouldDisablePrevButton(
 	date: Date,
-	params: { interval: ChartInterval; transactions: Transaction[] }
+	params: { interval: ChartInterval; firstTransactionDate: Date }
 ): boolean {
 	// Get params
-	const { interval, transactions } = params;
-
-	// Get first transaction date
-	if (transactions.length === 0) return true;
-	const firstTransactionDate = new Date(
-		transactions.reduce((earliest, transaction) => {
-			return transaction.timestamp < earliest ? transaction.timestamp : earliest;
-		}, transactions[0]!.timestamp)
-	);
+	const { interval, firstTransactionDate } = params;
 
 	// Get previous date
 	switch (interval) {

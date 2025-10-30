@@ -1,6 +1,6 @@
 import capitalizeString from "@/src/utils/string/capitalizeString";
 
-export default function formatChartLabel(label: string, options = { length: 4 }): string {
+export default function formatChartLabel(label: string, options = { length: 5 }): string {
 	// Get options
 	const { length } = options;
 

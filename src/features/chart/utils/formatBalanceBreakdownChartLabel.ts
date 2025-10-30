@@ -7,14 +7,14 @@ export default function formatBalanceBreakdownChartLabel(
 ): string {
 	switch (interval) {
 		case "day":
-			return format(date, "EEE");
+			return format(date, "EEEE");
 		case "week":
-			return format(date, "EEE");
+			return format(date, "EEEE");
 		case "month":
 			const weekOfMonth = Math.ceil(date.getDate() / 7);
-			return `Week ${weekOfMonth}`;
+			return `${weekOfMonth}. week`;
 		case "year":
-			return format(date, "LLL");
+			return format(date, "MMMM");
 		case "all":
 			return format(date, "yyyy");
 	}

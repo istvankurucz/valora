@@ -1,21 +1,33 @@
+import sum from "@/src/utils/math/sum";
 import { GroupUser } from "../../group/types/groupTypes";
+import { TransactionType } from "../../transaction/constants/transactionTypeOptions";
 import { Transaction } from "../../transaction/types/transactionTypes";
 import { ChartInterval } from "../constants/chartIntervalOptions";
-import { GroupMembersBalanceChartData } from "../types/chartTypes";
+import { BarChartData, BarData, BarGroup } from "../types/chartTypes";
 import getDateRange from "./getDateRange";
 
 export default function getGroupMembersBalanceChartData(
 	transactions: Transaction[],
-	params: { interval: ChartInterval; date: Date; members: GroupUser[] }
-): GroupMembersBalanceChartData[] {
+	params: {
+		interval: ChartInterval;
+		date: Date;
+		members: GroupUser[];
+		types: TransactionType[];
+		relativeToMaximum: boolean;
+	}
+): BarChartData {
 	// Get params
-	const { interval, date, members } = params;
+	const { interval, date, members, types, relativeToMaximum } = params;
 
 	// Get date range
 	const dateRange = getDateRange(date, interval);
 
-	// Create chart data
-	return members.map((member) => {
+	// Initialize maximum value for income and expense
+	let maxIncome = 0;
+	let maxExpense = 0;
+
+	// Create groups
+	let groups: BarGroup[] = members.map((member) => {
 		// Filter transactions by date and user ID
 		const filteredTransactions = transactions.filter(
 			(transaction) =>
@@ -25,27 +37,53 @@ export default function getGroupMembersBalanceChartData(
 		);
 
 		// Filter transactions by type
-		const incomeTransactions = filteredTransactions.filter(
-			(transaction) => transaction.type === "income"
-		);
-		const expenseTransactions = filteredTransactions.filter(
-			(transaction) => transaction.type === "expense"
-		);
+		const incomeTransactions = filteredTransactions.filter((t) => t.type === "income");
+		const expenseTransactions = filteredTransactions.filter((t) => t.type === "expense");
 
 		// Sum transactions
-		const incomeSum = incomeTransactions.reduce(
-			(total, transaction) => total + transaction.amount,
-			0
-		);
-		const expenseSum = expenseTransactions.reduce(
-			(total, transaction) => total + transaction.amount,
-			0
-		);
+		const incomeSum = sum(...incomeTransactions.map((t) => t.amount));
+		const expenseSum = sum(...expenseTransactions.map((t) => t.amount));
 
-		return {
-			name: member.name,
-			income: { value: incomeSum },
-			expense: { value: expenseSum },
-		};
+		// Update maximums
+		if (incomeSum > maxIncome) maxIncome = incomeSum;
+		if (expenseSum > maxExpense) maxExpense = expenseSum;
+
+		// Create bars data
+		const bars: BarData[] = [];
+		if (types.includes("income")) {
+			bars.push({ value: incomeSum, type: "income", label: "Income" });
+		}
+		if (types.includes("expense")) {
+			bars.push({
+				value: expenseSum,
+				type: "expense",
+				label: "Expense",
+			});
+		}
+
+		// Return group data
+		return { label: member.name, bars };
 	});
+
+	// Adjust bars to be relative to maximum if required
+	if (relativeToMaximum) {
+		// Normalize bar values
+		groups = groups.map((group) => {
+			// Create new bars with normalized values
+			const newBars = group.bars.map((bar) => {
+				switch (bar.type) {
+					case "income":
+						return { ...bar, value: maxIncome - bar.value };
+					case "expense":
+						return { ...bar, value: maxExpense - bar.value };
+				}
+			});
+
+			// Return updated group
+			return { ...group, bars: newBars };
+		});
+	}
+
+	// Return chart data
+	return { groups };
 }
