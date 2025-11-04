@@ -24,6 +24,7 @@ const GroupMemberTransactionCategoriesChart = () => {
 		return getTransactionCategoriesChartData(transactions, {
 			...params,
 			transactionTypes: data.types,
+			sorting: data.sorting,
 			categories: transactionCategories,
 		});
 	}

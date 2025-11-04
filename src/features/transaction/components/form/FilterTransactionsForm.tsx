@@ -13,6 +13,7 @@ import capitalizeString from "@/src/utils/string/capitalizeString";
 import { usePathname } from "expo-router";
 import { Dispatch, Fragment, SetStateAction, useMemo } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
+import SelectSortOption from "../../../../components/form/Select/SelectSortOption";
 import {
 	FILTER_TRANSACTIONS_FORM_DATA,
 	FilterTransactionsFormData,
@@ -22,7 +23,6 @@ import { TransactionType } from "../../constants/transactionTypeOptions";
 import { Transaction, TransactionSortProperty } from "../../types/transactionTypes";
 import filterTransactions from "../../utils/filterTransactions";
 import sortTransactions from "../../utils/sortTransactions";
-import TransactionSortOption from "../ui/TransactionSortOption";
 
 type Props = {
 	transactions: Transaction[];
@@ -60,7 +60,7 @@ const FilterTransactionsForm = ({
 		() =>
 			TRANSACTION_SORT_OPTIONS.map((option) => ({
 				value: `${option.property}-${option.asc ? "asc" : "desc"}`,
-				label: <TransactionSortOption option={option} />,
+				label: <SelectSortOption option={option} />,
 			})),
 		[]
 	);

@@ -1,13 +1,12 @@
 import ThemedText from "@/src/components/ui/ThemedText";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { StyleSheet, View, ViewProps } from "react-native";
-import { TransactionSortOption as TransactionSortOptionType } from "../../constants/transactionSortOptions";
 
 type Props = ViewProps & {
-	option: TransactionSortOptionType;
+	option: { text: string; icon: string };
 };
 
-const TransactionSortOption = ({ option, style, ...rest }: Props) => {
+const SelectSortOption = ({ option, style, ...rest }: Props) => {
 	return (
 		<View style={[styles.option, style]} {...rest}>
 			<Ionicons name={option.icon as any} size={16} />
@@ -25,4 +24,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default TransactionSortOption;
+export default SelectSortOption;

@@ -31,6 +31,7 @@ const GroupMemberBalanceChart = () => {
 				getChartData={getChartData}
 				firstTransactionDate={firstTransactionDate}
 				defaultLabel="Total balance"
+				autoScroll
 			/>
 		</View>
 	);

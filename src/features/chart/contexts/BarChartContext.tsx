@@ -3,14 +3,18 @@ import {
 	createContext,
 	Dispatch,
 	ReactNode,
+	RefObject,
 	SetStateAction,
 	useContext,
 	useEffect,
+	useRef,
 	useState,
 } from "react";
+import { ScrollView } from "react-native-gesture-handler";
 import Chart from "../components/layout/Chart";
 import { CHART_INTERVAL_OPTIONS, ChartInterval } from "../constants/chartIntervalOptions";
 import { BarChartData } from "../types/chartTypes";
+import getIntervalBreakdownChartScrollIndex from "../utils/getIntervalBreakdownChartScrollIndex";
 import shouldDisableNextButton from "../utils/shouldDisableNextButton";
 import shouldDisablePrevButton from "../utils/shouldDisablePrevButton";
 
@@ -28,6 +32,7 @@ type BarChartContextType = {
 	setSelectedIndex: Dispatch<SetStateAction<number | null>>;
 	defaultLabel?: string;
 	useTypeAsLabel?: boolean;
+	barsContainerRef: RefObject<ScrollView | null>;
 };
 const BarChartContext = createContext<BarChartContextType>({
 	chartData: { groups: [] },
@@ -42,23 +47,33 @@ const BarChartContext = createContext<BarChartContextType>({
 	setSelectedIndex: () => {},
 	defaultLabel: undefined,
 	useTypeAsLabel: undefined,
+	barsContainerRef: { current: null },
 });
 
 // Provider
+const GROUP_GAP = 24;
+const BAR_WIDTH = 24;
+const BAR_GAP = 8;
+
 type Props = {
 	getChartData: ({ interval, date }: { interval: ChartInterval; date: Date }) => BarChartData;
 	firstTransactionDate: Date;
 	defaultInterval?: ChartInterval;
 	defaultLabel?: string;
 	useTypeAsLabel?: boolean;
+	autoScroll?: boolean;
+	scrollOffset?: number;
 	children?: ReactNode;
 };
+
 export const BarChartProvider = ({
 	getChartData,
 	firstTransactionDate,
 	defaultInterval,
 	defaultLabel,
 	useTypeAsLabel,
+	autoScroll,
+	scrollOffset = -1,
 	children,
 }: Props) => {
 	//#region States
@@ -70,6 +85,10 @@ export const BarChartProvider = ({
 	const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 	//#endregion
 
+	// #region Refs
+	const barsContainerRef = useRef<ScrollView>(null);
+	//#endregion
+
 	// #region Hooks
 	useEffect(() => {
 		// Recalcalculate chart data when date or interval change
@@ -78,6 +97,31 @@ export const BarChartProvider = ({
 		// Update chart data state
 		setChartData(chartData);
 	}, [date, interval, getChartData]);
+
+	useEffect(() => {
+		// Check if auto scroll is enabled
+		if (!autoScroll) return;
+
+		// Initialize scroll position
+		let x = 0;
+
+		// Calculate scroll position
+		const scrollIndex = Math.min(
+			getIntervalBreakdownChartScrollIndex(interval),
+			Math.max(chartData.groups.length - 1, 0)
+		);
+		for (let i = 0; i < scrollIndex + scrollOffset; i++) {
+			// Get group data
+			const group = chartData.groups[i];
+			if (!group) return;
+
+			// Update scroll position
+			x += group.bars.length * BAR_WIDTH + (group.bars.length - 1) * BAR_GAP + GROUP_GAP;
+		}
+
+		// Scroll to calculated position
+		barsContainerRef.current?.scrollTo({ x, animated: true });
+	}, [chartData, autoScroll, scrollOffset, interval]);
 	//#endregion
 
 	// #region Constants
@@ -119,6 +163,7 @@ export const BarChartProvider = ({
 				setSelectedIndex,
 				defaultLabel,
 				useTypeAsLabel,
+				barsContainerRef,
 			}}
 		>
 			<Chart />

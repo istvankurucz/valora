@@ -1,8 +1,10 @@
 import { TransactionType } from "@/src/features/transaction/constants/transactionTypeOptions";
+import { TransactionCategoriesSorting } from "../../transactionCategory/constants/transactionCategoriesSortOptions";
 
 // Transaction categories chart options
 export const TRANSACTION_CATEGORIES_CHART_FORM_DATA = {
 	types: ["expense"] as TransactionType[],
+	sorting: "value" as TransactionCategoriesSorting,
 };
 export type TransactionCategoriesChartFormData = typeof TRANSACTION_CATEGORIES_CHART_FORM_DATA;
 

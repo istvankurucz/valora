@@ -8,35 +8,9 @@ import { BarData } from "../../types/chartTypes";
 import formatChartLabel from "../../utils/formatChartLabel";
 import getMaxChartValue from "../../utils/getMaxChartValue";
 
-const GROUP_GAP = 24;
-const BAR_WIDTH = 24;
-const BAR_GAP = 8;
-
 const BarChart = () => {
-	// #region Refs
-	// const scrollRef = useRef<ScrollView>(null);
-	//#endregion
-
 	// #region Hooks
-	const { chartData, setSelectedIndex } = useBarChart();
-
-	// const scrollToGroup = useCallback(
-	// 	(index: number) => {
-	// 		let x = 0;
-	// 		for (let i = 0; i < index; i++) {
-	// 			const group = chartData.groups[i];
-	// 			if (!group) return;
-
-	// 			x += group.bars.length * BAR_WIDTH + (group.bars.length - 1) * BAR_GAP + GROUP_GAP;
-	// 		}
-	// 		scrollRef.current?.scrollTo({ x, animated: true });
-	// 	},
-	// 	[chartData]
-	// );
-	// useEffect(() => {
-	// 	console.log("firs");
-	// 	scrollToGroup(3);
-	// }, [scrollToGroup]);
+	const { chartData, setSelectedIndex, barsContainerRef } = useBarChart();
 
 	const defaultBarColor = useThemeColor({ variant: "neutral", shade: 800 });
 	const incomeBarColor = useThemeColor({ variant: "success", shade: 400 });
@@ -67,7 +41,7 @@ const BarChart = () => {
 			horizontal
 			showsHorizontalScrollIndicator={false}
 			contentContainerStyle={styles.container}
-			// ref={scrollRef}
+			ref={barsContainerRef}
 		>
 			{chartData.groups.map((group, i) => (
 				<View key={i} style={styles.group}>
@@ -105,7 +79,7 @@ const BarChart = () => {
 const styles = StyleSheet.create({
 	container: {
 		minWidth: "100%",
-		gap: GROUP_GAP,
+		gap: 24,
 		justifyContent: "center",
 	},
 	group: {
@@ -113,10 +87,10 @@ const styles = StyleSheet.create({
 	},
 	bars: {
 		flexDirection: "row",
-		gap: BAR_GAP,
+		gap: 8,
 	},
 	bar: {
-		width: BAR_WIDTH,
+		width: 24,
 		height: 150,
 	},
 	label: {

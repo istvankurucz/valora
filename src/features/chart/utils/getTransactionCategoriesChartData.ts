@@ -2,6 +2,7 @@ import { TransactionType } from "@/src/features/transaction/constants/transactio
 import { Transaction } from "@/src/features/transaction/types/transactionTypes";
 import { TransactionCategoryData } from "@/src/features/transactionCategory/types/transactionCategoryTypes";
 import sum from "@/src/utils/math/sum";
+import { TransactionCategoriesSorting } from "../../transactionCategory/constants/transactionCategoriesSortOptions";
 import { ChartInterval } from "../constants/chartIntervalOptions";
 import { BarChartData, BarGroup } from "../types/chartTypes";
 import getDateRange from "./getDateRange";
@@ -12,11 +13,12 @@ export default function getTransactionCategoriesChartData(
 		interval: ChartInterval;
 		date: Date;
 		transactionTypes: TransactionType[];
+		sorting: TransactionCategoriesSorting;
 		categories: TransactionCategoryData[];
 	}
 ): BarChartData {
 	// Get params
-	const { interval, date, transactionTypes, categories } = params;
+	const { interval, date, transactionTypes, categories, sorting } = params;
 
 	// Filter categories by transaction type
 	const filteredCategories = categories.filter((category) =>
@@ -53,6 +55,18 @@ export default function getTransactionCategoriesChartData(
 		};
 	});
 
+	// Sort groups based on params
+	let sortedGroups: BarGroup[] = [...groups];
+	switch (sorting) {
+		case "value":
+			sortedGroups = groups.sort(
+				(a, b) =>
+					Math.max(...b.bars.map((bar) => bar.value)) -
+					Math.max(...a.bars.map((bar) => bar.value))
+			);
+			break;
+	}
+
 	// Return chart data
-	return { groups };
+	return { groups: sortedGroups };
 }
