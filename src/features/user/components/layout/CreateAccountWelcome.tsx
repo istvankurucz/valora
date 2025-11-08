@@ -1,4 +1,4 @@
-import logo from "@/src/assets/images/icon.png";
+import logo from "@/src/assets/images/valora_logo_v1.png";
 import ThemedText from "@/src/components/ui/ThemedText";
 import ThemedView from "@/src/components/ui/ThemedView";
 import { BORDER_RADIUS } from "@/src/constants/borderRadius";

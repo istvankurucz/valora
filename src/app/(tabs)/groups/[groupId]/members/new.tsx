@@ -7,7 +7,7 @@ import { FONT_SIZE } from "@/src/constants/fontSizes";
 import { useError } from "@/src/features/error/contexts/ErrorContext";
 import SearchGroupUserListItem from "@/src/features/group/components/ui/SearchGroupUserListItem";
 import { useGroup } from "@/src/features/group/contexts/GroupContext";
-import useCreateGroupUsers from "@/src/features/group/hooks/useCreateGroupUsers";
+import useAddUsersToGroup from "@/src/features/group/hooks/useAddUsersToGroup";
 import useCreateUser from "@/src/features/user/hooks/useCreateUser";
 import useGetUsers from "@/src/features/user/hooks/useGetUsers";
 import { User } from "@/src/features/user/types/userTypes";
@@ -29,7 +29,7 @@ const NewGroupMember = () => {
 	const { group } = useGroup();
 	const { users } = useGetUsers();
 	const { createUser, loading: loadingCreateUser } = useCreateUser();
-	const { createGroupUsers, loading: loadingCreateGroupUser } = useCreateGroupUsers();
+	const { addUsersToGroup, loading: loadingCreateGroupUser } = useAddUsersToGroup();
 	const { setError } = useError();
 
 	useEffect(() => {
@@ -63,7 +63,7 @@ const NewGroupMember = () => {
 			const user = await createUser({ name: searchText });
 
 			// Create group user
-			await createGroupUsers({ groupId: group.id, userIds: [user.id] });
+			await addUsersToGroup({ groupId: group.id, userIds: [user.id] });
 
 			// Clear search text
 			setSearchText("");

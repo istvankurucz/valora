@@ -3,15 +3,8 @@ import { GroupUserTable } from "@/src/db/schemas/GroupUser";
 import { GroupUserInsert, GroupUserSelect } from "../types/groupTypes";
 
 export default async function createGroupUsers(
-	groupId: string,
-	userIds: string[]
+	data: GroupUserInsert[]
 ): Promise<GroupUserSelect[]> {
-	// Create data
-	const data: GroupUserInsert[] = userIds.map((userId) => ({ groupId, userId }));
-
-	// Create group users
 	const groupUsers = await db.insert(GroupUserTable).values(data).returning();
-
-	// Return group users
 	return groupUsers;
 }

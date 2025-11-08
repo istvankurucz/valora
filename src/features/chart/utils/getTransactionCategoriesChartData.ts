@@ -51,7 +51,14 @@ export default function getTransactionCategoriesChartData(
 		// Return group data
 		return {
 			label: category.category.name,
-			bars: [{ value, type: category.category.type, label: category.category.name }],
+			bars: [
+				{
+					value,
+					type: category.category.type,
+					label: category.category.name,
+					barColor: category.category.icon.foregroundColor,
+				},
+			],
 		};
 	});
 

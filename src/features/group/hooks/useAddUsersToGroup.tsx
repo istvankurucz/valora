@@ -1,14 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useError } from "../../error/contexts/ErrorContext";
-import createGroupUsers from "../services/createGroupUsers";
+import addUsersToGroup from "../services/addUsersToGroup";
 import { GroupUserSelect } from "../types/groupTypes";
 
-type CreateGroupUsersVariables = {
+type AddUsersToGroupVariables = {
 	groupId: string;
 	userIds: string[];
 };
 
-const useCreateGroupUsers = () => {
+const useAddUsersToGroup = () => {
 	// #regions Hooks
 	const queryClient = useQueryClient();
 	const { setError } = useError();
@@ -18,9 +18,9 @@ const useCreateGroupUsers = () => {
 	const { mutateAsync, isPending } = useMutation<
 		GroupUserSelect[],
 		unknown,
-		CreateGroupUsersVariables
+		AddUsersToGroupVariables
 	>({
-		mutationFn: ({ groupId, userIds }) => createGroupUsers(groupId, userIds),
+		mutationFn: ({ groupId, userIds }) => addUsersToGroup(groupId, userIds),
 		onSuccess: (_, { groupId, userIds }) => {
 			// Invalidate groups query
 			queryClient.invalidateQueries({ queryKey: ["groups"], exact: true });
@@ -42,7 +42,7 @@ const useCreateGroupUsers = () => {
 	});
 	//#endregion
 
-	return { createGroupUsers: mutateAsync, loading: isPending };
+	return { addUsersToGroup: mutateAsync, loading: isPending };
 };
 
-export default useCreateGroupUsers;
+export default useAddUsersToGroup;

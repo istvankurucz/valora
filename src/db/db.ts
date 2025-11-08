@@ -1,6 +1,7 @@
 import * as Account from "@/src/db/schemas/Account";
 import * as Group from "@/src/db/schemas/Group";
 import * as GroupUser from "@/src/db/schemas/GroupUser";
+import * as Icon from "@/src/db/schemas/Icon";
 import * as Transaction from "@/src/db/schemas/Transaction";
 import * as TransactionCategory from "@/src/db/schemas/TransactionCategory";
 import * as User from "@/src/db/schemas/User";
@@ -19,6 +20,7 @@ const schema = {
 	...TransactionCategory,
 	...Group,
 	...GroupUser,
+	...Icon,
 };
 
 // DB client

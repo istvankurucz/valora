@@ -23,6 +23,7 @@ const SettingsLayout = () => {
 					name="recurring-transactions"
 					options={{ title: "Recurring transactions" }}
 				/>
+				<Stack.Screen name="export-import" options={{ title: "Export / Import" }} />
 				<Stack.Screen name="info" options={{ title: "Info" }} />
 			</Stack>
 

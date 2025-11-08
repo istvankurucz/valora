@@ -6,26 +6,21 @@ import { useFilterTransactions } from "../../contexts/FilterTransactionsContext"
 
 const FilterTransactionsSearch = () => {
 	// #region Hooks
-	const { filteredTransactions, data, updateData, filterCount } = useFilterTransactions();
-	//#endregion
-
-	// #region Constants
-	const showCount = filterCount > 0 || data.searchText.length > 0;
+	const { filteredTransactions, data, updateData } = useFilterTransactions();
 	//#endregion
 
 	return (
-		<View style={[styles.container, !showCount ? { marginBottom: 8 } : undefined]}>
+		<View style={styles.container}>
 			<Input
 				search={true}
 				placeholder="Search transaction"
 				value={data.searchText}
 				onChangeText={(searchText) => updateData({ searchText })}
 			/>
-			{showCount && (
-				<ThemedText shade={600} style={styles.count}>
-					{filteredTransactions.length} result{filteredTransactions.length !== 1 ? "s" : ""}
-				</ThemedText>
-			)}
+
+			<ThemedText shade={600} style={styles.count}>
+				{filteredTransactions.length} result{filteredTransactions.length !== 1 ? "s" : ""}
+			</ThemedText>
 		</View>
 	);
 };

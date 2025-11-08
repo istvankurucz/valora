@@ -38,6 +38,7 @@ const AccountTransactions = () => {
 				)}
 				ListHeaderComponent={<FilterTransactionsSearch />}
 				ListEmptyComponent={<Section.Empty icon="card-outline" text="No transactions." />}
+				showsVerticalScrollIndicator={false}
 				contentContainerStyle={styles.container}
 			/>
 		</Screen>

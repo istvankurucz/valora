@@ -21,6 +21,7 @@ export type ChartValue = {
 	value: number;
 	type: BarDataType;
 	label: string;
+	color?: string;
 };
 //#endregion
 

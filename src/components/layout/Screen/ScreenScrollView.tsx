@@ -2,9 +2,18 @@ import { ScrollView, ScrollViewProps, StyleSheet } from "react-native";
 
 type Props = ScrollViewProps;
 
-const ScreenScrollView = ({ contentContainerStyle, children, ...rest }: Props) => {
+const ScreenScrollView = ({
+	showsVerticalScrollIndicator,
+	contentContainerStyle,
+	children,
+	...rest
+}: Props) => {
 	return (
-		<ScrollView contentContainerStyle={[styles.container, contentContainerStyle]} {...rest}>
+		<ScrollView
+			showsVerticalScrollIndicator={showsVerticalScrollIndicator ?? false}
+			contentContainerStyle={[styles.container, contentContainerStyle]}
+			{...rest}
+		>
 			{children}
 		</ScrollView>
 	);

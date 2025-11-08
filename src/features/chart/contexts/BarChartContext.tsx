@@ -73,7 +73,7 @@ export const BarChartProvider = ({
 	defaultLabel,
 	useTypeAsLabel,
 	autoScroll,
-	scrollOffset = -1,
+	scrollOffset = 0,
 	children,
 }: Props) => {
 	//#region States

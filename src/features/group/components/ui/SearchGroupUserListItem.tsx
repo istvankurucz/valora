@@ -7,7 +7,7 @@ import { StyleSheet } from "react-native";
 import UserIcon from "../../../user/components/ui/UserIcon";
 import { User } from "../../../user/types/userTypes";
 import { useGroup } from "../../contexts/GroupContext";
-import useCreateGroupUsers from "../../hooks/useCreateGroupUsers";
+import useAddUsersToGroup from "../../hooks/useAddUsersToGroup";
 
 type Props = ListItemProps & {
 	user: User;
@@ -18,7 +18,7 @@ const SearchGroupUserListItem = ({ user, ...rest }: Props) => {
 	const { group } = useGroup();
 
 	// #region Hooks
-	const { createGroupUsers, loading } = useCreateGroupUsers();
+	const { addUsersToGroup, loading } = useAddUsersToGroup();
 	const { setError } = useError();
 
 	const backgroundColor = useThemeColor({ variant: "neutral", shade: 800 });
@@ -37,7 +37,7 @@ const SearchGroupUserListItem = ({ user, ...rest }: Props) => {
 
 		try {
 			// Create group user
-			await createGroupUsers({ groupId: group.id, userIds: [user.id] });
+			await addUsersToGroup({ groupId: group.id, userIds: [user.id] });
 		} catch (err) {
 			setError(err);
 		}

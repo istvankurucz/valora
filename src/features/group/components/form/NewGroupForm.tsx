@@ -10,8 +10,8 @@ import { useAdminUser } from "@/src/features/user/contexts/AdminUserContext";
 import formatHexColor from "@/src/utils/color/formatHexColor";
 import { useRouter } from "expo-router";
 import { useNewGroup } from "../../contexts/NewGroupContext";
+import useAddUsersToGroup from "../../hooks/useAddUsersToGroup";
 import useCreateGroup from "../../hooks/useCreateGroup";
-import useCreateGroupUsers from "../../hooks/useCreateGroupUsers";
 import validateNewGroupData from "../../utils/validation/validateNewGroupData";
 
 const NewGroupForm = () => {
@@ -20,7 +20,7 @@ const NewGroupForm = () => {
 	const { data, updateData } = useNewGroup();
 	const { createIcon, loading: loadingCreateIcon } = useCreateIcon();
 	const { createGroup, loading: loadingCreateGroup } = useCreateGroup();
-	const { createGroupUsers, loading: loadingCreateGroupUsers } = useCreateGroupUsers();
+	const { addUsersToGroup, loading: loadingCreateGroupUsers } = useAddUsersToGroup();
 	const { addError, removeErrors } = useFormValidation();
 	const router = useRouter();
 	//#endregion
@@ -52,7 +52,7 @@ const NewGroupForm = () => {
 				name,
 				iconId: createdIcon.id,
 			});
-			await createGroupUsers({ groupId: group.id, userIds: [admin.id] });
+			await addUsersToGroup({ groupId: group.id, userIds: [admin.id] });
 
 			// Navigate
 			router.dismissTo(`/groups/${group.id}`);

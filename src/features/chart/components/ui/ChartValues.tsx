@@ -71,9 +71,9 @@ const ChartValues = () => {
 				contentContainerStyle={styles.boxes}
 				showsHorizontalScrollIndicator={false}
 			>
-				{values.map((value) => (
+				{values.map((value, i) => (
 					<ChartValueBox
-						key={value.label}
+						key={i}
 						type={value.type}
 						label={
 							useTypeAsLabel ? capitalizeString(value.type) : capitalizeString(value.label)
