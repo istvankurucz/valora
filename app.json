@@ -14,7 +14,7 @@
 		"android": {
 			"adaptiveIcon": {
 				"backgroundColor": "#f6f6f6",
-				"foregroundImage": "./src/assets/images/valora_logo_v1.png"
+				"foregroundImage": "./src/assets/images/adaptive-icon.png"
 			},
 			"edgeToEdgeEnabled": true,
 			"predictiveBackGestureEnabled": false,
@@ -29,7 +29,7 @@
 			[
 				"expo-splash-screen",
 				{
-					"image": "./src/assets/images/valora_logo_v1.png",
+					"image": "./src/assets/images/adaptive-icon.png",
 					"imageWidth": 250,
 					"resizeMode": "contain",
 					"backgroundColor": "#f6f6f6",
