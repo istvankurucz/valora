@@ -4,7 +4,7 @@
 		"slug": "expense-tracker",
 		"version": "1.0.0",
 		"orientation": "portrait",
-		"icon": "./src/assets/images/valora_logo_v1.png",
+		"icon": "./src/assets/images/valora_logo_v2.png",
 		"scheme": "expensetracker",
 		"userInterfaceStyle": "automatic",
 		"newArchEnabled": true,
@@ -14,7 +14,7 @@
 		"android": {
 			"adaptiveIcon": {
 				"backgroundColor": "#f6f6f6",
-				"foregroundImage": "./src/assets/images/adaptive-icon.png"
+				"foregroundImage": "./src/assets/images/valora_logo_v2.png"
 			},
 			"edgeToEdgeEnabled": true,
 			"predictiveBackGestureEnabled": false,
@@ -29,7 +29,7 @@
 			[
 				"expo-splash-screen",
 				{
-					"image": "./src/assets/images/adaptive-icon.png",
+					"image": "./src/assets/images/valora_logo_v2.png",
 					"imageWidth": 250,
 					"resizeMode": "contain",
 					"backgroundColor": "#f6f6f6",

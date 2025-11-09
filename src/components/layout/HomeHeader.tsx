@@ -1,4 +1,4 @@
-import logo from "@/src/assets/images/valora_logo_v1.png";
+import logo from "@/src/assets/images/valora_logo_v2.png";
 import { FONT_SIZE } from "@/src/constants/fontSizes";
 import { useAdminUser } from "@/src/features/user/contexts/AdminUserContext";
 import { Image, StyleSheet, View } from "react-native";
