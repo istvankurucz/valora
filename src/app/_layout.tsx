@@ -12,6 +12,7 @@ import { FeedbackProvider } from "../features/feedback/contexts/FeedbackContext"
 import RootNavigator from "../features/navigation/components/layout/RootNavigator";
 import SplashScreenController from "../features/navigation/components/layout/SplashScreenController";
 import { LastPathnameProvider } from "../features/navigation/contexts/LastPathnameContext";
+import NotificationsController from "../features/notifications/components/layout/NotificationsController";
 import { AdminUserProvider } from "../features/user/contexts/AdminUserContext";
 
 // Prevent hiding splash screen
@@ -31,6 +32,7 @@ export default function RootLayout() {
 											<Feedback />
 
 											<SplashScreenController />
+											<NotificationsController />
 											<RootNavigator />
 
 											<StatusBar style="auto" />

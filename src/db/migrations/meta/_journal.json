@@ -71,6 +71,13 @@
       "when": 1759256234239,
       "tag": "0009_tired_nebula",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1762805991783,
+      "tag": "0010_loving_mentallo",
+      "breakpoints": true
     }
   ]
 }

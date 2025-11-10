@@ -9,13 +9,14 @@ export type UserUpdate = Partial<Pick<UserSelect, "name">>;
 //#endregion
 
 // #region Admin
-export type AdminUser = Omit<UserSelect, "currency"> & {
+export type AdminUser = Omit<UserSelect, "currency" | "notifications"> & {
 	currency: CurrencyCode;
+	notifications: boolean;
 };
 export type AdminUserInsert = Omit<UserInsert, "admin" | "currency"> & {
 	currency: string;
 };
-export type AdminUserUpdate = Partial<Pick<UserSelect, "name" | "currency">>;
+export type AdminUserUpdate = Partial<Pick<UserSelect, "name" | "currency" | "notifications">>;
 //#endregion
 
 // #region User data

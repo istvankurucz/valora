@@ -1,0 +1,1 @@
+ALTER TABLE `user` ADD `notifications` integer DEFAULT true;

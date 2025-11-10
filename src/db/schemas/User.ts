@@ -10,6 +10,7 @@ export const UserTable = sqliteTable("user", {
 	name: text("name").notNull(),
 	admin: integer("admin", { mode: "boolean" }).notNull(),
 	currency: text("currency", { length: 3 }),
+	notifications: integer("notifications", { mode: "boolean" }).default(true),
 	updatedAt,
 	createdAt,
 });

@@ -16,6 +16,10 @@
 				"backgroundColor": "#f6f6f6",
 				"foregroundImage": "./src/assets/images/valora_adaptive_icon_v2.png"
 			},
+			"notification": {
+				"icon": "./src/assets/images/valora_adaptive_icon_v2.png",
+				"color": "#1d2a30"
+			},
 			"edgeToEdgeEnabled": true,
 			"predictiveBackGestureEnabled": false,
 			"package": "com.istvankurucz.expensetracker"

@@ -17,12 +17,13 @@ const SettingsLayout = () => {
 			>
 				<Stack.Screen name="index" options={{ title: "Settings" }} />
 				<Stack.Screen name="my-data" options={{ title: "My data" }} />
-				<Stack.Screen name="transaction-categories" options={{ headerShown: false }} />
 				<Stack.Screen name="users" options={{ headerShown: false }} />
+				<Stack.Screen name="transaction-categories" options={{ headerShown: false }} />
 				<Stack.Screen
 					name="recurring-transactions"
 					options={{ title: "Recurring transactions" }}
 				/>
+				<Stack.Screen name="notifications" options={{ title: "Notifications" }} />
 				<Stack.Screen name="data-transfer" options={{ title: "Data transfer" }} />
 				<Stack.Screen name="info" options={{ title: "Info" }} />
 			</Stack>
