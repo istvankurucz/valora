@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
 	},
 	appName: {
 		fontSize: FONT_SIZE[700],
+		letterSpacing: -1,
 		marginTop: 4,
 	},
 	text: {

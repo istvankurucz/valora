@@ -23,10 +23,10 @@ export default function RootLayout() {
 			<GestureHandlerRootView>
 				<KeyboardProvider>
 					<FeedbackProvider>
-						<BottomSheetModalProvider>
-							<ErrorProvider>
-								<AdminUserProvider>
-									<LastPathnameProvider>
+						<ErrorProvider>
+							<AdminUserProvider>
+								<LastPathnameProvider>
+									<BottomSheetModalProvider>
 										<SafeAreaProvider>
 											<Feedback />
 
@@ -35,10 +35,10 @@ export default function RootLayout() {
 
 											<StatusBar style="auto" />
 										</SafeAreaProvider>
-									</LastPathnameProvider>
-								</AdminUserProvider>
-							</ErrorProvider>
-						</BottomSheetModalProvider>
+									</BottomSheetModalProvider>
+								</LastPathnameProvider>
+							</AdminUserProvider>
+						</ErrorProvider>
 					</FeedbackProvider>
 				</KeyboardProvider>
 			</GestureHandlerRootView>

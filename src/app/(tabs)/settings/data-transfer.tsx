@@ -5,7 +5,7 @@ import Import from "@/src/features/dataTransfer/components/layout/Import";
 import { ImportProvider } from "@/src/features/dataTransfer/contexts/ImportContext";
 import { StyleSheet } from "react-native";
 
-const ExportImport = () => {
+const DataTransfer = () => {
 	return (
 		<Screen>
 			<Screen.ScrollView>
@@ -33,4 +33,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ExportImport;
+export default DataTransfer;

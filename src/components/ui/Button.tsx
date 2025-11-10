@@ -93,7 +93,7 @@ const Button = ({
 			{...rest}
 		>
 			<View style={styles.content}>
-				{loading && <Spinner />}
+				{loading && <Spinner size={16} />}
 				{!loading && (
 					<Fragment>
 						{IconComponent}

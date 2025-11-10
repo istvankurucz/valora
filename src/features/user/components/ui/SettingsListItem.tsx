@@ -13,13 +13,17 @@ type Props = UnderlayProps & {
 
 const SettingsListItem = ({ icon, label, underlayColor, style, children, ...rest }: Props) => {
 	// #region Hooks
-	const underayColor = useThemeColor({ variant: "neutral", shade: 300 });
+	const defaultUnderlayColor = useThemeColor({ variant: "neutral", shade: 300 });
 	const iconColor = useThemeColor({ variant: "neutral", shade: 800 });
 	const arrowIconColor = useThemeColor({ variant: "neutral", shade: 500 });
 	//#endregion
 
 	return (
-		<Underlay underlayColor={underayColor} style={[styles.container, style]} {...rest}>
+		<Underlay
+			underlayColor={underlayColor ?? defaultUnderlayColor}
+			style={[styles.container, style]}
+			{...rest}
+		>
 			<View style={styles.inner}>
 				<ThemedView shade={300} style={[styles.iconContainer, style]} {...rest}>
 					<Ionicons name={icon as any} size={16} color={iconColor} />

@@ -19,8 +19,8 @@ const Settings = () => {
 				<Link href="/settings/recurring-transactions" asChild>
 					<SettingsListItem icon="sync-outline" label="Recurring transactions" />
 				</Link>
-				<Link href="/settings/export-import" asChild>
-					<SettingsListItem icon="save-outline" label="Export / import" />
+				<Link href="/settings/data-transfer" asChild>
+					<SettingsListItem icon="swap-horizontal-outline" label="Data transfer" />
 				</Link>
 				<Link href="/settings/info" asChild>
 					<SettingsListItem icon="information-outline" label="App info and support" />

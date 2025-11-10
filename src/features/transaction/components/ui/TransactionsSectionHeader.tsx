@@ -1,16 +1,19 @@
 import Section from "@/src/components/ui/Section/Section";
 import { SectionHeaderProps } from "@/src/components/ui/Section/SectionHeader/SectionHeader";
+import * as Haptics from "expo-haptics";
 import { useCallback, useEffect, useState } from "react";
 import { Pressable, StyleSheet } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { TransactionType } from "../../constants/transactionTypeOptions";
+import { useMonthlyTransactionsStats } from "../../contexts/MonthlyTransactionsStatsContext";
 import { TransactionsSectionData } from "../../types/transactionTypes";
 import TransactionAmount from "./TransactionAmount";
 
 const FLIP_DURATION = 500;
 
 type Props = SectionHeaderProps & {
-	section: Omit<TransactionsSectionData, "data">;
+	// section: Omit<TransactionsSectionData, "data">;
+	section: TransactionsSectionData;
 	showByDefault?: TransactionType;
 	showAnimation?: boolean;
 };
@@ -25,6 +28,8 @@ const TransactionsSectionHeader = ({
 	//#endregion
 
 	// #region Hooks
+	const { setTransactionsSectionData, showModal } = useMonthlyTransactionsStats();
+
 	const translateY = useSharedValue(0);
 	const visibleRotateX = useSharedValue("0deg");
 	const hiddenRotateX = useSharedValue("-90deg");
@@ -72,13 +77,29 @@ const TransactionsSectionHeader = ({
 		// Toggle visible amount
 		setShowIncome((show) => !show);
 	}
+
+	async function handleAmountLongPress() {
+		// Add haptic feedback
+		await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
+		// Set data in context
+		setTransactionsSectionData(section);
+
+		// Show modal
+		showModal();
+	}
 	//#endregion
 
 	return (
 		<Section.Header style={styles.header}>
 			<Section.Title>{section.title}</Section.Title>
 
-			<Pressable style={styles.amountContainer} hitSlop={4} onPress={handleAmountPress}>
+			<Pressable
+				style={styles.amountContainer}
+				hitSlop={4}
+				onPress={handleAmountPress}
+				onLongPress={handleAmountLongPress}
+			>
 				<Animated.View style={[styles.amount, visibleAmountStyle]}>
 					<TransactionAmount amount={section.expense} transactionType="expense" />
 				</Animated.View>
