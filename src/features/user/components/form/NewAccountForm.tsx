@@ -16,13 +16,16 @@ import { useRouter } from "expo-router";
 import { useMemo } from "react";
 import { View } from "react-native";
 import { NEW_ACCOUNT_FORM_DATA } from "../../constants/formData";
-import useCreateAdminUser from "../../hooks/useCreateAdminUser";
+import useCreateAdminPreferences from "../../hooks/useCreateAdminPreferences";
+import useCreateUser from "../../hooks/useCreateUser";
 import validateNewAccountData from "../../utils/validation/validateNewAccountData";
 
 const NewAccountForm = () => {
 	// #region Hooks
 	const { data, updateData } = useFormData(NEW_ACCOUNT_FORM_DATA);
-	const { createAdminUser, loading: loadingCreateAdmin } = useCreateAdminUser();
+	const { createUser, loading: loadingCreateUser } = useCreateUser();
+	const { createAdminPreferences, loading: loadingCreateAdminPreferences } =
+		useCreateAdminPreferences();
 	const { createIcon, loading: loadingCreateIcon } = useCreateIcon();
 	const { createAccount, loading: loadingCreateAccount } = useCreateAccount();
 	const { createTransactionCategory, loading: loadingCreateTransactionCategories } =
@@ -42,7 +45,8 @@ const NewAccountForm = () => {
 	);
 
 	const loading =
-		loadingCreateAdmin ||
+		loadingCreateUser ||
+		loadingCreateAdminPreferences ||
 		loadingCreateIcon ||
 		loadingCreateAccount ||
 		loadingCreateTransactionCategories;
@@ -58,7 +62,10 @@ const NewAccountForm = () => {
 			const { name, currency } = validateNewAccountData(data);
 
 			// Create admin user
-			await createAdminUser({ name, currency });
+			const user = await createUser({ name, admin: true });
+
+			// Create admin preferences
+			await createAdminPreferences({ userId: user.id, currency });
 
 			// Create default account
 			const icon = await createIcon(DEFAULT_ACCOUNT_DATA.icon);

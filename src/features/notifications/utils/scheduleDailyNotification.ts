@@ -1,7 +1,8 @@
 import * as Notifications from "expo-notifications";
+import cancelAllScheduledNotificationsAsync from "./cancelAllScheduledNotificationsAsync";
 
 export default async function scheduleDailyNotification() {
-	await Notifications.cancelAllScheduledNotificationsAsync();
+	await cancelAllScheduledNotificationsAsync();
 
 	await Notifications.scheduleNotificationAsync({
 		content: {
@@ -10,7 +11,7 @@ export default async function scheduleDailyNotification() {
 		},
 		trigger: {
 			type: Notifications.SchedulableTriggerInputTypes.DAILY,
-			hour: 19,
+			hour: 20,
 			minute: 0,
 		},
 	});

@@ -3,11 +3,12 @@ import { GroupSelect, GroupUserSelect } from "../../group/types/groupTypes";
 import { IconSelect } from "../../icon/types/iconTypes";
 import { TransactionSelect } from "../../transaction/types/transactionTypes";
 import { TransactionCategorySelect } from "../../transactionCategory/types/transactionCategoryTypes";
-import { UserSelect } from "../../user/types/userTypes";
+import { AdminPreferencesSelect, UserSelect } from "../../user/types/userTypes";
 
 // #region Data transfer
 export type DataTransferData = {
 	users: UserSelect[];
+	adminPreferences: AdminPreferencesSelect;
 	accounts: AccountSelect[];
 	transactions: TransactionSelect[];
 	transactionCategories: TransactionCategorySelect[];

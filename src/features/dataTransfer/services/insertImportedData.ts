@@ -4,12 +4,14 @@ import createGroupUsers from "../../group/services/createGroupUsers";
 import createIcons from "../../icon/services/createIcons";
 import createTransactions from "../../transaction/services/createTransactions";
 import createTransactionCategories from "../../transactionCategory/services/createTransactionCategories";
+import createAdminPreferences from "../../user/services/createAdminPreferences";
 import createUsers from "../../user/services/createUsers";
 import { DataTransferData } from "../types/dataTransferTypes";
 
 export default async function insertImportedData(data: DataTransferData): Promise<void> {
 	await Promise.all([
 		createUsers(data.users),
+		createAdminPreferences(data.adminPreferences),
 		createIcons(data.icons),
 		createAccounts(data.accounts),
 		createGroups(data.groups),

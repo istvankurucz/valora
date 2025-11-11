@@ -8,7 +8,7 @@ const useFormatAmount = () => {
 
 	// #region Functions
 	function formatAmountWithAdminCurrency(amount: number): string {
-		return formatAmount(amount, admin?.currency ?? "USD");
+		return formatAmount(amount, admin?.preferences.currency ?? "HUF");
 	}
 	//#endregion
 

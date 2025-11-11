@@ -4,6 +4,7 @@ import deleteGroupUsers from "../../group/services/deleteGroupUsers";
 import deleteIcons from "../../icon/services/deleteIcons";
 import deleteTransactions from "../../transaction/services/deleteTransactions";
 import deleteTransactionCategories from "../../transactionCategory/services/deleteTransactionCategories";
+import deleteAdminPreferences from "../../user/services/deleteAdminPreferences";
 import deleteUsers from "../../user/services/deleteUsers";
 
 export default async function deleteCurrentData(): Promise<void> {
@@ -14,6 +15,7 @@ export default async function deleteCurrentData(): Promise<void> {
 		deleteGroups(),
 		deleteGroupUsers(),
 		deleteUsers(),
+		deleteAdminPreferences(),
 		deleteIcons(),
 	]);
 }

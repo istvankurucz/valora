@@ -10,9 +10,15 @@ const userSchema = z.object({
 	id: z.uuid("Invalid user ID."),
 	name: z.string().trim().nonempty("Invalid user name."),
 	admin: z.boolean("Invalid admin flag."),
-	currency: z.union([z.string().length(3), z.null()]),
 	updatedAt: updatedAtSchema,
 	createdAt: createdAtSchema,
+});
+
+const adminPreferencesSchema = z.object({
+	id: z.uuid("Invalid admin preferences ID."),
+	currency: z.string().length(3, "Invalid currency code."),
+	notifications: z.boolean("Invalid notifications flag."),
+	userId: z.uuid("Invalid user ID."),
 });
 
 const accountSchema = z.object({
@@ -88,6 +94,7 @@ export const dataTransferSchema = z.object({
 	data: z.object(
 		{
 			users: z.array(userSchema, "Invalid users array."),
+			adminPreferences: adminPreferencesSchema,
 			accounts: z.array(accountSchema, "Invalid accounts array."),
 			transactions: z.array(transactionSchema, "Invalid transactions array."),
 			transactionCategories: z.array(transactionCategorySchema, "Invalid categories array."),

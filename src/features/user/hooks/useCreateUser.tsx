@@ -3,7 +3,7 @@ import { useError } from "../../error/contexts/ErrorContext";
 import createUser from "../services/createUser";
 import { UserInsert, UserSelect } from "../types/userTypes";
 
-type CreateUserVariables = Omit<UserInsert, "admin">;
+type CreateUserVariables = UserInsert;
 
 const useCreateUser = () => {
 	// #region Hooks

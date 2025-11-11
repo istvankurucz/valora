@@ -1,4 +1,3 @@
-import { CurrencyCode } from "@/src/constants/currencies";
 import { useEffect } from "react";
 import useFormData from "../../form/hooks/useFormData";
 import { EDIT_ACCOUNT_FORM_DATA } from "../constants/formData";
@@ -15,7 +14,7 @@ const useEditAccountFormData = () => {
 
 		setData({
 			name: admin.name,
-			currency: admin.currency as CurrencyCode,
+			currency: admin.preferences.currency,
 		});
 	}, [admin, setData]);
 

@@ -1,4 +1,5 @@
 import * as Account from "@/src/db/schemas/Account";
+import * as AdminPreferences from "@/src/db/schemas/AdminPreferences";
 import * as Group from "@/src/db/schemas/Group";
 import * as GroupUser from "@/src/db/schemas/GroupUser";
 import * as Icon from "@/src/db/schemas/Icon";
@@ -15,6 +16,7 @@ sqliteClient.execSync("PRAGMA foreign_keys = ON;");
 // Schema
 const schema = {
 	...User,
+	...AdminPreferences,
 	...Account,
 	...Transaction,
 	...TransactionCategory,

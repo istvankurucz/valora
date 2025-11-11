@@ -17,6 +17,7 @@ const ScreenKeyboardAwareScrollView = ({
 			keyboardShouldPersistTaps={keyboardShouldPersistTaps ?? "handled"}
 			keyboardDismissMode="on-drag"
 			bottomOffset={48}
+			showsVerticalScrollIndicator={false}
 			contentContainerStyle={[styles.container, contentContainerStyle]}
 			{...rest}
 		>

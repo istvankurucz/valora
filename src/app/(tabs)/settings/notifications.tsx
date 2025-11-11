@@ -1,11 +1,11 @@
 import Screen from "@/src/components/layout/Screen/Screen";
-import { Text } from "react-native";
+import EditNotificationsForm from "@/src/features/notifications/components/form/EditNotificationsForm";
 
 const Notifications = () => {
 	return (
 		<Screen>
 			<Screen.ScrollView>
-				<Text>Notifications</Text>
+				<EditNotificationsForm />
 			</Screen.ScrollView>
 		</Screen>
 	);

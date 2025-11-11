@@ -10,14 +10,16 @@ import { useMemo } from "react";
 import { View } from "react-native";
 import { useAdminUser } from "../../contexts/AdminUserContext";
 import useEditAccountFormData from "../../hooks/useEditAccountFormData";
-import useUpdateAdminUser from "../../hooks/useUpdateAdminUser";
+import useUpdateAdminPreferences from "../../hooks/useUpdateAdminPreferences";
+import useUpdateUser from "../../hooks/useUpdateUser";
 import validateEditAccountData from "../../utils/validation/validateEditAccountData";
 
 const EditAccountForm = () => {
 	// #region Hooks
 	const { admin } = useAdminUser();
 	const { data, updateData } = useEditAccountFormData();
-	const { updateAdminUser, loading } = useUpdateAdminUser();
+	const { updateUser, loading: loadingUser } = useUpdateUser();
+	const { updateAdminPreferences, loading: loadingAdminPreferences } = useUpdateAdminPreferences();
 	const { addError, removeErrors } = useFormValidation();
 	const { setFeedback } = useFeedback();
 	//#endregion
@@ -31,6 +33,8 @@ const EditAccountForm = () => {
 			})),
 		[]
 	);
+
+	const loading = loadingUser || loadingAdminPreferences;
 	//#endregion
 
 	// #region Functions
@@ -46,7 +50,8 @@ const EditAccountForm = () => {
 			const { name, currency } = validateEditAccountData(data);
 
 			// Create admin user
-			await updateAdminUser({ name, currency });
+			await updateUser({ id: admin.id, data: { name } });
+			await updateAdminPreferences({ currency });
 
 			// Show feedback
 			setFeedback({

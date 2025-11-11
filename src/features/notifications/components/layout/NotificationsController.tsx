@@ -1,6 +1,8 @@
 import { useError } from "@/src/features/error/contexts/ErrorContext";
+import { useAdminUser } from "@/src/features/user/contexts/AdminUserContext";
 import * as Notifications from "expo-notifications";
 import { useEffect } from "react";
+import cancelAllScheduledNotificationsAsync from "../../utils/cancelAllScheduledNotificationsAsync";
 import registerForPushNotificationsAsync from "../../utils/registerForPushNotificationsAsync";
 import scheduleDailyNotification from "../../utils/scheduleDailyNotification";
 
@@ -17,18 +19,26 @@ const NotificationsController = () => {
 	//#endregion
 
 	// #reigon Hooks
+	const { admin } = useAdminUser();
 	const { setError } = useError();
 
 	useEffect(() => {
 		(async () => {
+			if (!admin) return;
+
 			try {
+				if (!admin.preferences.notifications) {
+					await cancelAllScheduledNotificationsAsync();
+					return;
+				}
+
 				await registerForPushNotificationsAsync();
 				await scheduleDailyNotification();
 			} catch (err) {
 				setError(err);
 			}
 		})();
-	}, [setError]);
+	}, [admin, setError]);
 	//#endregion
 
 	return null;

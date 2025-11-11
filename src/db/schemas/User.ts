@@ -1,6 +1,7 @@
 import { relations } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createdAt, id, updatedAt } from "../schemaHelpers";
+import { AdminPreferencesTable } from "./AdminPreferences";
 import { GroupUserTable } from "./GroupUser";
 import { TransactionTable } from "./Transaction";
 
@@ -9,15 +10,14 @@ export const UserTable = sqliteTable("user", {
 	id,
 	name: text("name").notNull(),
 	admin: integer("admin", { mode: "boolean" }).notNull(),
-	currency: text("currency", { length: 3 }),
-	notifications: integer("notifications", { mode: "boolean" }).default(true),
 	updatedAt,
 	createdAt,
 });
 
 // Relations
-export const UserRelations = relations(UserTable, ({ many }) => {
+export const UserRelations = relations(UserTable, ({ one, many }) => {
 	return {
+		preferences: one(AdminPreferencesTable),
 		transactions: many(TransactionTable),
 		groups: many(GroupUserTable),
 	};

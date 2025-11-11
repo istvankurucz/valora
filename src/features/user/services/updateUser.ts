@@ -4,10 +4,7 @@ import { eq } from "drizzle-orm";
 import AppError from "../../error/classes/AppError";
 import { UserSelect, UserUpdate } from "../types/userTypes";
 
-export default async function updateUser(
-	id: string,
-	data: Omit<UserUpdate, "admin">
-): Promise<UserSelect> {
+export default async function updateUser(id: string, data: UserUpdate): Promise<UserSelect> {
 	// Update user
 	const [user] = await db.update(UserTable).set(data).where(eq(UserTable.id, id)).returning();
 

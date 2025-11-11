@@ -4,12 +4,14 @@ import getRawGroups from "../../group/services/getRawGroups";
 import getRawIcons from "../../icon/services/getRawIcons";
 import getRawTransactions from "../../transaction/services/getRawTransactions";
 import getRawTransactionCategories from "../../transactionCategory/services/getRawTransactionCategories";
+import getRawAdminPreferences from "../../user/services/getRawAdminPreferences";
 import getRawUsers from "../../user/services/getRawUsers";
 import { DataTransferData } from "../types/dataTransferTypes";
 
 export default async function getRawData(): Promise<DataTransferData> {
 	// Get data from various tables
 	const users = await getRawUsers();
+	const adminPreferences = await getRawAdminPreferences();
 	const accounts = await getRawAccounts();
 	const transactions = await getRawTransactions();
 	const transactionCategories = await getRawTransactionCategories();
@@ -20,6 +22,7 @@ export default async function getRawData(): Promise<DataTransferData> {
 	// Return the aggregated data
 	return {
 		users,
+		adminPreferences,
 		accounts,
 		transactions,
 		transactionCategories,

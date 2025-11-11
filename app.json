@@ -17,7 +17,7 @@
 				"foregroundImage": "./src/assets/images/valora_adaptive_icon_v2.png"
 			},
 			"notification": {
-				"icon": "./src/assets/images/valora_adaptive_icon_v2.png",
+				"icon": "./src/assets/images/valora_notification_icon.png",
 				"color": "#1d2a30"
 			},
 			"edgeToEdgeEnabled": true,

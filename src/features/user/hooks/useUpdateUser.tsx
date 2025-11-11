@@ -5,7 +5,7 @@ import { UserSelect, UserUpdate } from "../types/userTypes";
 
 type UpdateUserVariables = {
 	id: string;
-	data: Omit<UserUpdate, "admin">;
+	data: UserUpdate;
 };
 
 const useUpdateUser = () => {
