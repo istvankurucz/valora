@@ -26,11 +26,10 @@ const NotificationsController = () => {
 		(async () => {
 			try {
 				await registerForPushNotificationsAsync();
+				await cancelAllScheduledNotificationsAsync();
 
 				if (admin?.preferences.notifications) {
 					await scheduleDailyNotification();
-				} else {
-					await cancelAllScheduledNotificationsAsync();
 				}
 			} catch (err) {
 				setError(err);

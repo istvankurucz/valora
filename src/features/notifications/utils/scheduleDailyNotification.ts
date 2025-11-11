@@ -1,9 +1,6 @@
 import * as Notifications from "expo-notifications";
-import cancelAllScheduledNotificationsAsync from "./cancelAllScheduledNotificationsAsync";
 
 export default async function scheduleDailyNotification() {
-	await cancelAllScheduledNotificationsAsync();
-
 	await Notifications.scheduleNotificationAsync({
 		content: {
 			title: "Daily Reminder ⏰",
