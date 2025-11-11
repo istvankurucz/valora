@@ -24,16 +24,14 @@ const NotificationsController = () => {
 
 	useEffect(() => {
 		(async () => {
-			if (!admin) return;
-
 			try {
-				if (!admin.preferences.notifications) {
-					await cancelAllScheduledNotificationsAsync();
-					return;
-				}
-
 				await registerForPushNotificationsAsync();
-				await scheduleDailyNotification();
+
+				if (admin?.preferences.notifications) {
+					await scheduleDailyNotification();
+				} else {
+					await cancelAllScheduledNotificationsAsync();
+				}
 			} catch (err) {
 				setError(err);
 			}
