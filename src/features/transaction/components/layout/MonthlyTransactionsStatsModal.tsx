@@ -3,13 +3,14 @@ import BottomModalTitle from "@/src/components/layout/BottomModal/BottomModalTit
 import Section from "@/src/components/ui/Section/Section";
 import ThemedText from "@/src/components/ui/ThemedText";
 import ThemedView from "@/src/components/ui/ThemedView";
+import Tooltip from "@/src/components/ui/Tooltip";
 import { BORDER_RADIUS } from "@/src/constants/borderRadius";
 import useThemeColor from "@/src/hooks/useThemeColor";
 import capitalizeString from "@/src/utils/string/capitalizeString";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import React, { forwardRef } from "react";
-import { StyleSheet, View } from "react-native";
+import React, { forwardRef, useState } from "react";
+import { Pressable, StyleSheet, View } from "react-native";
 import { useMonthlyTransactionsStats } from "../../contexts/MonthlyTransactionsStatsContext";
 import getTopExpenseCategory from "../../utils/getTopExpenseCategory";
 import TransactionAmount from "../ui/TransactionAmount";
@@ -20,6 +21,11 @@ type Props = BottomModalProps;
 
 const MonthlyTransactionsStatsModal = forwardRef<BottomSheetModal, Props>(
 	({ snapPoints, ...rest }, ref) => {
+		// #region States
+		const [showBalanceTooltip, setShowBalanceTooltip] = useState(false);
+		const [showTopExpenseCategoryTooltip, setShowTopExpenseCategoryTooltip] = useState(false);
+		//#endregion
+
 		// #region Hooks
 		const { transactionsSectionData } = useMonthlyTransactionsStats();
 
@@ -36,6 +42,15 @@ const MonthlyTransactionsStatsModal = forwardRef<BottomSheetModal, Props>(
 		const netBalanceType = netBalance >= 0 ? "income" : "expense";
 		const transactionsCount = transactionsSectionData?.data.length ?? 0;
 		const topExpenseCategory = getTopExpenseCategory(transactionsSectionData?.data ?? []);
+		//#endregion
+
+		// #region Functions
+		function handleBalanceTooltipPress() {
+			setShowBalanceTooltip((show) => !show);
+		}
+		function handleTopExpenseCategoryTooltipPress() {
+			setShowTopExpenseCategoryTooltip((show) => !show);
+		}
 		//#endregion
 
 		return (
@@ -76,21 +91,27 @@ const MonthlyTransactionsStatsModal = forwardRef<BottomSheetModal, Props>(
 								</ThemedView>
 							</View>
 
-							<ThemedView
-								style={[styles.box, styles.boxBorder, { borderColor: boxBorderColor }]}
-							>
-								<Ionicons
-									name="swap-vertical-outline"
-									size={ICON_SIZE}
-									color={netBalanceType === "income" ? incomeIconColor : expenseIconColor}
-								/>
+							<Pressable onPress={handleBalanceTooltipPress}>
+								<Tooltip text="Balance" show={showBalanceTooltip} />
 
-								<TransactionAmount
-									amount={netBalance}
-									transactionType={netBalanceType}
-									style={styles.boxText}
-								/>
-							</ThemedView>
+								<ThemedView
+									style={[styles.box, styles.boxBorder, { borderColor: boxBorderColor }]}
+								>
+									<Ionicons
+										name="swap-vertical-outline"
+										size={ICON_SIZE}
+										color={
+											netBalanceType === "income" ? incomeIconColor : expenseIconColor
+										}
+									/>
+
+									<TransactionAmount
+										amount={netBalance}
+										transactionType={netBalanceType}
+										style={styles.boxText}
+									/>
+								</ThemedView>
+							</Pressable>
 						</View>
 					</View>
 
@@ -112,24 +133,35 @@ const MonthlyTransactionsStatsModal = forwardRef<BottomSheetModal, Props>(
 										{transactionsCount} transaction{transactionsCount !== 1 ? "s" : ""}
 									</ThemedText>
 								</ThemedView>
+
 								{topExpenseCategory && (
-									<ThemedView
-										style={[
-											styles.box,
-											styles.boxBorder,
-											{ borderColor: boxBorderColor },
-										]}
+									<Pressable
+										style={{ minWidth: "50%" }}
+										onPress={handleTopExpenseCategoryTooltipPress}
 									>
-										<Ionicons
-											name={topExpenseCategory.icon.name as any}
-											size={ICON_SIZE}
-											color={topExpenseCategory.icon.foregroundColor}
+										<Tooltip
+											text="Top expense category"
+											show={showTopExpenseCategoryTooltip}
 										/>
 
-										<ThemedText style={styles.boxText}>
-											{capitalizeString(topExpenseCategory.name)}
-										</ThemedText>
-									</ThemedView>
+										<ThemedView
+											style={[
+												styles.box,
+												styles.boxBorder,
+												{ borderColor: boxBorderColor },
+											]}
+										>
+											<Ionicons
+												name={topExpenseCategory.icon.name as any}
+												size={ICON_SIZE}
+												color={topExpenseCategory.icon.foregroundColor}
+											/>
+
+											<ThemedText style={styles.boxText}>
+												{capitalizeString(topExpenseCategory.name)}
+											</ThemedText>
+										</ThemedView>
+									</Pressable>
 								)}
 							</View>
 						</View>
@@ -147,6 +179,9 @@ MonthlyTransactionsStatsModal.displayName = "MonthlyTransactionsStatsModal";
 const styles = StyleSheet.create({
 	sections: {
 		gap: 32,
+	},
+	boxContainer: {
+		flex: 1,
 	},
 	box: {
 		flex: 1,

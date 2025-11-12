@@ -16,10 +16,6 @@
 				"backgroundColor": "#f6f6f6",
 				"foregroundImage": "./src/assets/images/valora_adaptive_icon_v2.png"
 			},
-			"notification": {
-				"icon": "./src/assets/images/valora_notification_icon.png",
-				"color": "#1d2a30"
-			},
 			"edgeToEdgeEnabled": true,
 			"predictiveBackGestureEnabled": false,
 			"package": "com.istvankurucz.expensetracker"
@@ -66,6 +62,13 @@
 						"node_modules/@expo-google-fonts/poppins/900Black/Poppins_900Black.ttf",
 						"node_modules/@expo-google-fonts/poppins/900Black_Italic/Poppins_900Black_Italic.ttf"
 					]
+				}
+			],
+			[
+				"expo-notifications",
+				{
+					"icon": "./src/assets/images/valora_notification_icon.png",
+					"color": "#374047"
 				}
 			]
 		],

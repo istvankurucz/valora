@@ -90,8 +90,8 @@ const Switch = ({
 };
 
 // Styles
-const TRACK_WIDTH = 48;
 const TRACK_HEIGHT = 24;
+const TRACK_WIDTH = TRACK_HEIGHT * 2;
 
 const THUMB_SIZE = 16;
 const THUMB_PADDING = (TRACK_HEIGHT - THUMB_SIZE) / 2;
@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		top: THUMB_PADDING,
 		left: THUMB_PADDING,
-		// transform: [{ translateX: "150%" }],
 	},
 });
 
