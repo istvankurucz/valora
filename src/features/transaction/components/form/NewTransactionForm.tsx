@@ -111,7 +111,11 @@ const NewTransactionForm = () => {
 					onChangeText={(label) => updateData({ label })}
 				/>
 				{latestTransactions.length > 0 && (
-					<ScrollView horizontal contentContainerStyle={styles.latestTransactionsContainer}>
+					<ScrollView
+						horizontal
+						showsHorizontalScrollIndicator={false}
+						contentContainerStyle={styles.latestTransactionsContainer}
+					>
 						{latestTransactions.map((transaction) => (
 							<LatestTransactionOption
 								key={transaction.id}

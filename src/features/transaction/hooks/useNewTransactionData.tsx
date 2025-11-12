@@ -88,7 +88,7 @@ const useNewTransactionData = () => {
 		[]
 	);
 	const latestTransactions: Transaction[] = useMemo(
-		() => getLatestTransactions(transactions, data.type, { count: 3 }),
+		() => getLatestTransactions(transactions, data.type, { count: 5 }),
 		[transactions, data.type]
 	);
 	const CATEGORY_OPTIONS: SelectOption[] = useMemo(
