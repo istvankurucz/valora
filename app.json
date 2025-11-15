@@ -67,8 +67,7 @@
 			[
 				"expo-notifications",
 				{
-					"icon": "./src/assets/images/valora_notification_icon.png",
-					"color": "#374047"
+					"icon": "./src/assets/images/valora_notification_icon.png"
 				}
 			]
 		],
