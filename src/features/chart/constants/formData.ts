@@ -16,7 +16,7 @@ export type AccountsBalanceChartFormData = typeof ACCOUNTS_BALANCE_CHART_FORM_DA
 
 // Group members balance chart options
 export const GROUP_MEMBERS_BALANCE_CHART_FORM_DATA = {
-	types: ["expense"] as TransactionType[],
+	types: ["income", "expense"] as TransactionType[],
 	relativeToMaximum: false,
 };
 export type GroupMembersBalanceChartFormData = typeof GROUP_MEMBERS_BALANCE_CHART_FORM_DATA;

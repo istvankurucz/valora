@@ -60,7 +60,7 @@ const NewGroupMember = () => {
 
 		try {
 			// Create user
-			const user = await createUser({ name: searchText });
+			const user = await createUser({ name: searchText, admin: false });
 
 			// Create group user
 			await addUsersToGroup({ groupId: group.id, userIds: [user.id] });

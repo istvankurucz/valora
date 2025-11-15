@@ -69,15 +69,21 @@ export default function getGroupMembersBalanceChartData(
 	if (relativeToMaximum) {
 		// Normalize bar values
 		groups = groups.map((group) => {
+			// Get bar values
+			const expenseBar = group.bars.find((bar) => bar.type === "expense");
+			const expenseValue = expenseBar ? expenseBar.value : 0;
+			const incomeBar = group.bars.find((bar) => bar.type === "income");
+			const incomeValue = incomeBar ? incomeBar.value : 0;
+			const value = maxExpense - incomeValue - expenseValue;
+
 			// Create new bars with normalized values
-			const newBars = group.bars.map((bar) => {
-				switch (bar.type) {
-					case "income":
-						return { ...bar, value: maxIncome - bar.value };
-					case "expense":
-						return { ...bar, value: maxExpense - bar.value };
-				}
-			});
+			const newBars: BarData[] = [
+				{
+					label: "Difference",
+					type: value < 0 ? "income" : "expense",
+					value: Math.abs(value),
+				},
+			];
 
 			// Return updated group
 			return { ...group, bars: newBars };

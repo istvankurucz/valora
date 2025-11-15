@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useError } from "../../error/contexts/ErrorContext";
-import { useAdminUser } from "../../user/contexts/AdminUserContext";
 import updateTransaction from "../services/updateTransaction";
 import { TransactionSelect, TransactionUpdate } from "../types/transactionTypes";
 
@@ -12,7 +11,6 @@ type UpdateTransactionVariables = {
 const useUpdateTransaction = () => {
 	// #region Hooks
 	const queryClient = useQueryClient();
-	const { admin } = useAdminUser();
 	const { setError } = useError();
 	//#endregion
 
@@ -34,19 +32,13 @@ const useUpdateTransaction = () => {
 			queryClient.invalidateQueries({ queryKey: ["transactionCategories"] });
 
 			// Invalidate accounts query
-			if (transaction.accountId) {
-				queryClient.invalidateQueries({ queryKey: ["accounts"] });
-			}
+			queryClient.invalidateQueries({ queryKey: ["accounts"] });
 
 			// Invalidate groups query
-			if (transaction.groupId) {
-				queryClient.invalidateQueries({ queryKey: ["groups"] });
-			}
+			queryClient.invalidateQueries({ queryKey: ["groups"] });
 
-			if (transaction.userId === admin?.id) {
-				// Invalidate admin transactions query
-				queryClient.invalidateQueries({ queryKey: ["users", "admin", "transactions"] });
-			}
+			// Invalidate admin transactions query
+			queryClient.invalidateQueries({ queryKey: ["users", "admin", "transactions"] });
 		},
 		onError: (err) => {
 			setError(err);

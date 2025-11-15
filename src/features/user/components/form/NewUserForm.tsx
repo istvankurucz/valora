@@ -29,7 +29,7 @@ const NewUserForm = () => {
 			const { name } = validateNewUserData(data);
 
 			// Create user
-			await createUser({ name });
+			await createUser({ name, admin: false });
 
 			// Navigate
 			router.dismissTo("/settings/users");

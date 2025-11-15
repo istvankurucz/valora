@@ -7,14 +7,14 @@ export const editTransactionSchema = z
 	.object({
 		type: transactionTypeSchema,
 		label: z.string().trim().nonempty("Label missing."),
-		note: z.string().trim().nonempty("Note missing.").optional(),
+		note: z.union([z.string().trim().nonempty("Note missing."), z.null()]).optional(),
 		categoryId: z.uuid("Category missing."),
 		timestamp: z.iso.datetime("Invalid timestamp"),
 		amount: z.number("Amount missing.").min(0, "Amount cannot be negative."),
 		recurring: transactionRecurringSchema,
-		accountId: z.uuid("Account missing.").optional(),
+		accountId: z.union([z.uuid("Account missing."), z.null()]).optional(),
 		userId: z.uuid("User missing."),
-		groupId: z.uuid("Group missing.").optional(),
+		groupId: z.union([z.uuid("Group missing."), z.null()]).optional(),
 	})
 	.partial()
 	.check((ctx) => {

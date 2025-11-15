@@ -51,14 +51,14 @@ const EditTransactionForm = () => {
 			const transactionData = validateEditTransactionData({
 				type: data.type,
 				label: data.label,
-				note: data.note || undefined,
+				note: data.note || null,
 				categoryId: data.categoryId,
 				timestamp: data.timestamp.toISOString(),
 				amount: parseFloat(data.amount),
 				recurring: data.recurring || null,
-				accountId: data.accountId || undefined,
+				accountId: data.accountId || null,
 				userId: data.userId,
-				groupId: data.groupId || undefined,
+				groupId: data.groupId || null,
 			});
 
 			// Create transaction
