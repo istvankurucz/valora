@@ -1,8 +1,8 @@
 import ThemedText from "@/src/components/ui/ThemedText";
 import { SegmentedControlOption, SelectOption } from "@/src/types/uiTypes";
 import capitalizeString from "@/src/utils/string/capitalizeString";
-import { useLocalSearchParams } from "expo-router";
-import React, { useEffect, useMemo, useState } from "react";
+import { useFocusEffect } from "expo-router";
+import React, { useCallback, useEffect, useMemo } from "react";
 import AccountOption from "../../account/components/ui/AccountOption";
 import useGetAccounts from "../../account/hooks/useGetAccounts";
 import useFormData from "../../form/hooks/useFormData";
@@ -17,12 +17,11 @@ import {
 	TransactionRecurring,
 } from "../constants/transactionRecurringOptions";
 import { TRANSACTION_TYPE_OPTIONS, TransactionType } from "../constants/transactionTypeOptions";
-import { Transaction } from "../types/transactionTypes";
+import { useEditTransactionStore } from "../store/editTransactionStore";
 
 const useEditTransactionData = () => {
 	// #region States
 	const { data, updateData, setData } = useFormData(EDIT_TRANSACTION_FORM_DATA);
-	const [transaction, setTransaction] = useState<Transaction | null>(null);
 	//#endregion
 
 	// #region Hooks
@@ -30,7 +29,8 @@ const useEditTransactionData = () => {
 	const { transactionCategories } = useGetTransactionCategories();
 	const { accounts } = useGetAccounts();
 	const { groups } = useGetGroups();
-	const { transactionData } = useLocalSearchParams<{ transactionData?: string }>();
+	const transaction = useEditTransactionStore((state) => state.transaction);
+	const setTransaction = useEditTransactionStore((state) => state.setTransaction);
 	//#endregion
 
 	// #region Constants
@@ -138,14 +138,19 @@ const useEditTransactionData = () => {
 	}
 	//#endregion
 
+	useFocusEffect(
+		useCallback(() => {
+			// Do nothing on focus
+
+			// Reset transaction to edit on blur
+			return () => {
+				setTransaction(null);
+			};
+		}, [setTransaction])
+	);
+
 	useEffect(() => {
-		if (!transactionData) return;
-
-		// Parse transaction
-		const transaction: Transaction = JSON.parse(transactionData);
-
-		// Update transaction state
-		setTransaction(transaction);
+		if (!transaction) return;
 
 		// Update form data
 		setData({
@@ -160,7 +165,7 @@ const useEditTransactionData = () => {
 			groupId: transaction.group?.id ?? "",
 			userId: transaction.user.id,
 		});
-	}, [transactionData, setData]);
+	}, [transaction, setData]);
 
 	return {
 		transaction,

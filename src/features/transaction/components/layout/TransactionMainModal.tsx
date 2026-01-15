@@ -9,6 +9,8 @@ import { Link } from "expo-router";
 import React, { forwardRef, RefObject } from "react";
 import { View } from "react-native";
 import { useTransaction } from "../../contexts/TransactionContext";
+import { useEditTransactionStore } from "../../store/editTransactionStore";
+import { useNewTransactionStore } from "../../store/newTransactionStore";
 
 type Props = BottomModalProps & {
 	deleteModalRef: RefObject<BottomSheetModal | null>;
@@ -18,13 +20,21 @@ const TransactionMainModal = forwardRef<BottomSheetModal, Props>(
 	({ modalRef, deleteModalRef, snapPoints, ...rest }, ref) => {
 		// #region Hooks
 		const { transaction } = useTransaction();
+		const setTransactionToAdd = useNewTransactionStore((state) => state.setTransaction);
+		const setTransactionToEdit = useEditTransactionStore((state) => state.setTransaction);
 
 		const defaultIconColor = useThemeColor({ variant: "neutral", shade: 800 });
 		const deleteIconColor = useThemeColor({ variant: "danger", shade: 500 });
 		//#endregion
 
 		// #region Functions
+		function handleAddTransactionAgainPress() {
+			setTransactionToAdd(transaction);
+			modalRef?.current?.close();
+		}
+
 		function handleEditPress() {
+			setTransactionToEdit(transaction);
 			modalRef?.current?.close();
 		}
 
@@ -40,9 +50,8 @@ const TransactionMainModal = forwardRef<BottomSheetModal, Props>(
 				<Link
 					href={{
 						pathname: "/new-transaction",
-						params: { transactionData: JSON.stringify(transaction) },
 					}}
-					onPress={handleEditPress}
+					onPress={handleAddTransactionAgainPress}
 					asChild
 				>
 					<BottomModalListItem>
@@ -54,7 +63,6 @@ const TransactionMainModal = forwardRef<BottomSheetModal, Props>(
 				<Link
 					href={{
 						pathname: "/edit-transaction",
-						params: { transactionData: JSON.stringify(transaction) },
 					}}
 					onPress={handleEditPress}
 					asChild

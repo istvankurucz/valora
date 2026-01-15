@@ -43,6 +43,7 @@ export type TransactionsSectionData = {
 	data: Transaction[];
 	income: number;
 	expense: number;
+	transactionCount: number;
 };
 //#endregion
 

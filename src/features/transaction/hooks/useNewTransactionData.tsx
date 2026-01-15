@@ -1,7 +1,7 @@
 import ThemedText from "@/src/components/ui/ThemedText";
 import { SegmentedControlOption, SelectOption } from "@/src/types/uiTypes";
 import capitalizeString from "@/src/utils/string/capitalizeString";
-import { useFocusEffect, useLocalSearchParams, usePathname } from "expo-router";
+import { useFocusEffect, usePathname } from "expo-router";
 import { useCallback, useEffect, useMemo } from "react";
 import AccountOption from "../../account/components/ui/AccountOption";
 import useGetAccounts from "../../account/hooks/useGetAccounts";
@@ -19,6 +19,7 @@ import {
 	TransactionRecurring,
 } from "../constants/transactionRecurringOptions";
 import { TRANSACTION_TYPE_OPTIONS, TransactionType } from "../constants/transactionTypeOptions";
+import { useNewTransactionStore } from "../store/newTransactionStore";
 import { Transaction } from "../types/transactionTypes";
 import getLatestTransactions from "../utils/getLatestTransactions";
 import useGetTransactionsByAdminId from "./useGetTransactionsByAdminId";
@@ -43,13 +44,12 @@ const useNewTransactionData = () => {
 	const { groups } = useGetGroups();
 	const { data, updateData, setData } = useFormData(NEW_TRANSACTION_FORM_DATA);
 	const { setFeedback } = useFeedback();
-	const { transactionData } = useLocalSearchParams<{ transactionData?: string }>();
+	const transaction = useNewTransactionStore((state) => state.transaction);
+	const setTransaction = useNewTransactionStore((state) => state.setTransaction);
+	//#endregion
 
 	useEffect(() => {
-		if (!transactionData) return;
-
-		// Parse transaction
-		const transaction: Transaction = JSON.parse(transactionData);
+		if (pathname !== "/new-transaction" || !transaction) return;
 
 		// Update form data
 		setData({
@@ -64,7 +64,7 @@ const useNewTransactionData = () => {
 			groupId: transaction.group?.id ?? "",
 			userId: transaction.user.id,
 		});
-	}, [transactionData, setData]);
+	}, [pathname, transaction, setData]);
 
 	useFocusEffect(
 		useCallback(() => {
@@ -73,10 +73,10 @@ const useNewTransactionData = () => {
 			// Reset form data on blur
 			return () => {
 				setData(NEW_TRANSACTION_FORM_DATA);
+				setTransaction(null);
 			};
-		}, [setData])
+		}, [setData, setTransaction])
 	);
-	//#endregion
 
 	// #region Constants
 	const TRANSACTION_CATEGORY_TYPE_OPTIONS: SegmentedControlOption<TransactionType>[] = useMemo(
@@ -191,20 +191,22 @@ const useNewTransactionData = () => {
 
 	// Set user ID
 	useEffect(() => {
-		if (!admin) return;
+		if (pathname !== "/new-transaction" || !admin) return;
 
 		// Update data
 		setData((data) => ({ ...data, userId: admin.id }));
-	}, [admin, setData]);
+	}, [pathname, admin, setData]);
 
 	// Set account ID
 	useEffect(() => {
+		if (pathname !== "/new-transaction") return;
+
 		const accountMatch = ACCOUNT_PATH_REGEX.exec(lastPathname);
 		if (accountMatch) {
 			// Get account ID
 			const accountId = accountMatch[1];
 
-			// Check account ID and amin
+			// Check account ID and admin
 			if (!accountId || !admin) return;
 
 			// Update data
@@ -221,6 +223,8 @@ const useNewTransactionData = () => {
 			return;
 		}
 
+		if (transaction) return;
+
 		// Get default account
 		const defaultAccount = accounts.find((account) => account.default);
 
@@ -229,7 +233,17 @@ const useNewTransactionData = () => {
 
 		// Update data
 		setData((data) => ({ ...data, accountId: defaultAccount.id }));
-	}, [data.type, lastPathname, accounts, admin, setData, setFeedback, showFeedback]);
+	}, [
+		pathname,
+		data.type,
+		lastPathname,
+		transaction,
+		accounts,
+		admin,
+		setData,
+		setFeedback,
+		showFeedback,
+	]);
 
 	// Set group ID
 	useEffect(() => {

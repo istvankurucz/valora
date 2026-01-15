@@ -5,43 +5,42 @@ import { useAccount } from "@/src/features/account/contexts/AccountContext";
 import FilterTransactionsSearch from "@/src/features/transaction/components/form/FilterTransactionsSearch";
 import TransactionsSectionHeader from "@/src/features/transaction/components/ui/TransactionsSectionHeader";
 import { useFilterTransactions } from "@/src/features/transaction/contexts/FilterTransactionsContext";
-import getTransactionsSectionData from "@/src/features/transaction/utils/getTransactionsSectionData";
+import { MonthlyTransactionsStatsProvider } from "@/src/features/transaction/contexts/MonthlyTransactionsStatsContext";
+import useTransactionsSection from "@/src/features/transaction/hooks/useTransactionsSection";
 import { Link, Stack } from "expo-router";
-import { useMemo } from "react";
 import { SectionList, StyleSheet } from "react-native";
 
 const AccountTransactions = () => {
 	// #region Hooks
 	const { account } = useAccount();
 	const { filteredTransactions } = useFilterTransactions();
-	//#endregion
-
-	// #region Constants
-	const sectionsData = useMemo(
-		() => getTransactionsSectionData(filteredTransactions),
-		[filteredTransactions]
-	);
+	const { sectionsData, handleScroll } = useTransactionsSection(filteredTransactions);
 	//#endregion
 
 	return (
-		<Screen>
-			<Stack.Screen options={{ title: `${account?.name} transactions` }} />
+		<MonthlyTransactionsStatsProvider>
+			<Screen>
+				<Stack.Screen options={{ title: `${account?.name} transactions` }} />
 
-			<SectionList
-				sections={sectionsData}
-				keyExtractor={(transaction) => transaction.id}
-				renderSectionHeader={({ section }) => <TransactionsSectionHeader section={section} />}
-				renderItem={({ item: transaction }) => (
-					<Link href={`/accounts/${account?.id}/transactions/${transaction.id}`} asChild>
-						<AccountTransactionListItem transaction={transaction} />
-					</Link>
-				)}
-				ListHeaderComponent={<FilterTransactionsSearch />}
-				ListEmptyComponent={<Section.Empty icon="card-outline" text="No transactions." />}
-				showsVerticalScrollIndicator={false}
-				contentContainerStyle={styles.container}
-			/>
-		</Screen>
+				<SectionList
+					sections={sectionsData}
+					keyExtractor={(transaction) => transaction.id}
+					renderSectionHeader={({ section }) => (
+						<TransactionsSectionHeader section={section} />
+					)}
+					renderItem={({ item: transaction }) => (
+						<Link href={`/accounts/${account?.id}/transactions/${transaction.id}`} asChild>
+							<AccountTransactionListItem transaction={transaction} />
+						</Link>
+					)}
+					ListHeaderComponent={<FilterTransactionsSearch />}
+					ListEmptyComponent={<Section.Empty icon="card-outline" text="No transactions." />}
+					showsVerticalScrollIndicator={false}
+					contentContainerStyle={styles.container}
+					onScroll={handleScroll}
+				/>
+			</Screen>
+		</MonthlyTransactionsStatsProvider>
 	);
 };
 

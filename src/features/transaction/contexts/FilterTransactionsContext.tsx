@@ -74,7 +74,7 @@ export const FilterTransactionsProvider = ({ transactions, children }: Props) =>
 			// Update filter count
 			setFilterCount(getTransactionsFilterCount(data));
 		}, 500);
-	});
+	}, [data, transactions]);
 	//#endregion
 
 	return (

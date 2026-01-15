@@ -4,22 +4,15 @@ import FilterTransactionsSearch from "@/src/features/transaction/components/form
 import TransactionsSectionHeader from "@/src/features/transaction/components/ui/TransactionsSectionHeader";
 import { useFilterTransactions } from "@/src/features/transaction/contexts/FilterTransactionsContext";
 import { MonthlyTransactionsStatsProvider } from "@/src/features/transaction/contexts/MonthlyTransactionsStatsContext";
-import getTransactionsSectionData from "@/src/features/transaction/utils/getTransactionsSectionData";
+import useTransactionsSection from "@/src/features/transaction/hooks/useTransactionsSection";
 import AdminTransactionListItem from "@/src/features/user/components/ui/AdminTransactionListItem";
 import { Link } from "expo-router";
-import { useMemo } from "react";
 import { SectionList, StyleSheet } from "react-native";
 
 const HomeTransactions = () => {
 	// #region Hooks
 	const { filteredTransactions } = useFilterTransactions();
-	//#endregion
-
-	// #region Constants
-	const sectionsData = useMemo(
-		() => getTransactionsSectionData(filteredTransactions),
-		[filteredTransactions]
-	);
+	const { sectionsData, handleScroll } = useTransactionsSection(filteredTransactions);
 	//#endregion
 
 	return (
@@ -40,6 +33,7 @@ const HomeTransactions = () => {
 					ListEmptyComponent={<Section.Empty icon="card-outline" text="No transactions." />}
 					showsVerticalScrollIndicator={false}
 					contentContainerStyle={styles.container}
+					onScroll={handleScroll}
 				/>
 			</Screen>
 		</MonthlyTransactionsStatsProvider>

@@ -27,7 +27,13 @@ const MonthlyTransactionsStatsModal = forwardRef<BottomSheetModal, Props>(
 		//#endregion
 
 		// #region Hooks
-		const { transactionsSectionData } = useMonthlyTransactionsStats();
+		const {
+			transactionsSectionData,
+			showIncome,
+			showExpense,
+			showNetBalance,
+			showTopExpenseCategory,
+		} = useMonthlyTransactionsStats();
 
 		const incomeIconColor = useThemeColor({ variant: "success", shade: 500 });
 		const expenseIconColor = useThemeColor({ variant: "danger", shade: 500 });
@@ -40,7 +46,7 @@ const MonthlyTransactionsStatsModal = forwardRef<BottomSheetModal, Props>(
 		const totalExpense = transactionsSectionData?.expense ?? 0;
 		const netBalance = totalIncome - totalExpense;
 		const netBalanceType = netBalance >= 0 ? "income" : "expense";
-		const transactionsCount = transactionsSectionData?.data.length ?? 0;
+		const transactionsCount = transactionsSectionData?.transactionCount ?? 0;
 		const topExpenseCategory = getTopExpenseCategory(transactionsSectionData?.data ?? []);
 		//#endregion
 
@@ -63,55 +69,65 @@ const MonthlyTransactionsStatsModal = forwardRef<BottomSheetModal, Props>(
 
 						<View style={styles.boxContainerV}>
 							<View style={styles.boxContainerH}>
-								<ThemedView variant="success" shade={100} style={styles.box}>
-									<Ionicons
-										name="arrow-up-circle-outline"
-										size={ICON_SIZE}
-										color={incomeIconColor}
-									/>
+								{showIncome && (
+									<ThemedView variant="success" shade={100} style={styles.box}>
+										<Ionicons
+											name="arrow-up-circle-outline"
+											size={ICON_SIZE}
+											color={incomeIconColor}
+										/>
 
-									<TransactionAmount
-										amount={totalIncome}
-										transactionType="income"
-										style={styles.boxText}
-									/>
-								</ThemedView>
-								<ThemedView variant="danger" shade={100} style={styles.box}>
-									<Ionicons
-										name="arrow-down-circle-outline"
-										size={ICON_SIZE}
-										color={expenseIconColor}
-									/>
+										<TransactionAmount
+											amount={totalIncome}
+											transactionType="income"
+											style={styles.boxText}
+										/>
+									</ThemedView>
+								)}
+								{showExpense && (
+									<ThemedView variant="danger" shade={100} style={styles.box}>
+										<Ionicons
+											name="arrow-down-circle-outline"
+											size={ICON_SIZE}
+											color={expenseIconColor}
+										/>
 
-									<TransactionAmount
-										amount={totalExpense}
-										transactionType="expense"
-										style={styles.boxText}
-									/>
-								</ThemedView>
+										<TransactionAmount
+											amount={totalExpense}
+											transactionType="expense"
+											style={styles.boxText}
+										/>
+									</ThemedView>
+								)}
 							</View>
 
-							<Pressable onPress={handleBalanceTooltipPress}>
-								<Tooltip text="Balance" show={showBalanceTooltip} />
+							{showNetBalance && (
+								<Pressable onPress={handleBalanceTooltipPress}>
+									<Tooltip text="Balance" show={showBalanceTooltip} />
 
-								<ThemedView
-									style={[styles.box, styles.boxBorder, { borderColor: boxBorderColor }]}
-								>
-									<Ionicons
-										name="swap-vertical-outline"
-										size={ICON_SIZE}
-										color={
-											netBalanceType === "income" ? incomeIconColor : expenseIconColor
-										}
-									/>
+									<ThemedView
+										style={[
+											styles.box,
+											styles.boxBorder,
+											{ borderColor: boxBorderColor },
+										]}
+									>
+										<Ionicons
+											name="swap-vertical-outline"
+											size={ICON_SIZE}
+											color={
+												netBalanceType === "income" ? incomeIconColor : expenseIconColor
+											}
+										/>
 
-									<TransactionAmount
-										amount={netBalance}
-										transactionType={netBalanceType}
-										style={styles.boxText}
-									/>
-								</ThemedView>
-							</Pressable>
+										<TransactionAmount
+											amount={Math.abs(netBalance)}
+											transactionType={netBalanceType}
+											style={styles.boxText}
+										/>
+									</ThemedView>
+								</Pressable>
+							)}
 						</View>
 					</View>
 
@@ -134,7 +150,7 @@ const MonthlyTransactionsStatsModal = forwardRef<BottomSheetModal, Props>(
 									</ThemedText>
 								</ThemedView>
 
-								{topExpenseCategory && (
+								{showTopExpenseCategory && topExpenseCategory && (
 									<Pressable
 										style={{ minWidth: "50%" }}
 										onPress={handleTopExpenseCategoryTooltipPress}

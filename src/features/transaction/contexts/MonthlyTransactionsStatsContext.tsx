@@ -2,7 +2,7 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import {
 	createContext,
 	Dispatch,
-	PropsWithChildren,
+	ReactNode,
 	SetStateAction,
 	useContext,
 	useRef,
@@ -15,20 +15,44 @@ import { TransactionsSectionData } from "../types/transactionTypes";
 type MonthlyTransactionsStatsContextType = {
 	transactionsSectionData: TransactionsSectionData | null;
 	setTransactionsSectionData: Dispatch<SetStateAction<TransactionsSectionData | null>>;
+
+	showIncome: boolean;
+	showExpense: boolean;
+	showNetBalance: boolean;
+	showTopExpenseCategory: boolean;
+
 	showModal: () => void;
 	hideModal: () => void;
 };
 const MonthlyTransactionsStatsContext = createContext<MonthlyTransactionsStatsContextType>({
 	transactionsSectionData: null,
 	setTransactionsSectionData: () => {},
+
+	showIncome: true,
+	showExpense: true,
+	showNetBalance: true,
+	showTopExpenseCategory: true,
+
 	showModal: () => {},
 	hideModal: () => {},
 });
 
 // Provider
-type Props = PropsWithChildren;
+type Props = {
+	showIncome?: boolean;
+	showExpense?: boolean;
+	showNetBalance?: boolean;
+	showTopExpenseCategory?: boolean;
+	children?: ReactNode;
+};
 
-export const MonthlyTransactionsStatsProvider = ({ children }: Props) => {
+export const MonthlyTransactionsStatsProvider = ({
+	showIncome = true,
+	showExpense = true,
+	showNetBalance = true,
+	showTopExpenseCategory = true,
+	children,
+}: Props) => {
 	// #region States
 	const [transactionsSectionData, setTransactionsSectionData] =
 		useState<TransactionsSectionData | null>(null);
@@ -52,6 +76,10 @@ export const MonthlyTransactionsStatsProvider = ({ children }: Props) => {
 			value={{
 				transactionsSectionData,
 				setTransactionsSectionData,
+				showIncome,
+				showExpense,
+				showNetBalance,
+				showTopExpenseCategory,
 				showModal,
 				hideModal,
 			}}

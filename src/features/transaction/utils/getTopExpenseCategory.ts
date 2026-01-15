@@ -30,6 +30,8 @@ export default function getTopExpenseCategory(
 		}
 	});
 
+	if (categoriesData.length === 0) return null;
+
 	// Find the category with the highest total expense
 	const topCategory = categoriesData.reduce((prev, current) => {
 		return current.totalAmount > prev.totalAmount ? current : prev;
